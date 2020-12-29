@@ -42,8 +42,11 @@ const rootReducer = (state = initialState, action) => {
                 token: '',
                 userEmail: ''
             }
+        default:
+            return {
+                ...state
+            }
     }
-    return state;
 }
 
 export default createStore(rootReducer);

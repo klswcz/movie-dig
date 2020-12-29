@@ -26,10 +26,10 @@ const rootReducer = (state = initialState, action) => {
                     messageBag: action.payload
                 }
             }
-        case 'AUTH_SUCCESS':
+        case 'SET_TOKEN':
             return {
                 ...state,
-                token: 'success'
+                token: action.payload
             }
         case 'SET_USER_EMAIL':
             return {

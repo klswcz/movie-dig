@@ -25,6 +25,7 @@ function Register() {
                 email: email,
                 password: password
             }).then(res => {
+                dispatch({type: "SHOW_ALERT", payload: [{msg: 'Sign in to your new account.'}]})
                 history.push('/login')
             }).catch(res => {
                 dispatch({type: "SHOW_ALERT", payload: res.response.data.messageBag})

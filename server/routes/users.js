@@ -15,9 +15,9 @@ router.post('/register', [
 // User log in
 router.post('/login', [
     check('email', 'Invalid email format.')
-        .exists()
+        .notEmpty()
         .isEmail(),
-    check('password', 'Password field is required.')
+    check('password', 'Invalid password.')
         .notEmpty()
         .isLength({min: 8, max: 20})
 ], usersController.login)

@@ -1,32 +1,29 @@
 import React from 'react';
 import {login as loginService} from '../../services/AuthServices'
 import { useHistory } from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux";
 
 function Login() {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     let history = useHistory();
+    let dispatch = useDispatch();
 
     const login = () => {
         const emailField = document.getElementById('email');
         const passwordField = document.getElementById('password');
-        const confirmPasswordField = document.getElementById('confirmPassword');
-        if (
-            passwordField.value === confirmPasswordField.value
-            && emailField.checkValidity()
-            && passwordField.checkValidity()
-        ) {
-            confirmPasswordField.setCustomValidity('');
+
+        if (emailField.checkValidity() && passwordField.checkValidity())
             loginService({
                 email: email,
                 password: password
             }).then(res => {
-                history.push('/')
+                dispatch({type: "SET_TOKEN", payload: res.data.token})
+                history.push('/dashboard')
+            }).catch(res => {
+                dispatch({type: "SHOW_ALERT", payload: res.response.data.messageBag})
             })
-        } else {
-            confirmPasswordField.setCustomValidity('Password must be matching.');
-        }
     };
 
     return (
@@ -50,7 +47,7 @@ function Login() {
                         </div>
                         <div>
                             <label htmlFor="password" className="sr-only">Password</label>
-                            <input id="password" name="password" type="password" autoComplete="current-password"
+                            <input id="password" name="password" type="password" autoComplete="current-password" value={password} onChange={event => setPassword(event.target.value)}
     required
     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
     placeholder="Password"/>
@@ -75,7 +72,7 @@ function Login() {
                     </div>
 
                     <div>
-                        <button type="submit"
+                        <button type="submit" onClick={login}
                                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <span className="absolute left-0 inset-y-0 flex items-center pl-3">
           </span>

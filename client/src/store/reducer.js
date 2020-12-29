@@ -3,7 +3,7 @@ import {createStore} from 'redux'
 const initialState = {
     alert: {
         isVisible: false,
-        messages: []
+        messageBag: []
     },
     token: localStorage.getItem('token') || '',
     userEmail: '',
@@ -15,7 +15,7 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 alert: {
                     isVisible: false,
-                    messages: []
+                    messageBag: []
                 }
             }
         case 'SHOW_ALERT':
@@ -23,7 +23,7 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 alert: {
                     isVisible: true,
-                    messages: action.payload
+                    messageBag: action.payload
                 }
             }
         case 'AUTH_SUCCESS':

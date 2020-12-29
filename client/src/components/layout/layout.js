@@ -5,14 +5,20 @@ import Home from "../home/home";
 import Login from "../login/login";
 import Register from "../register/Register";
 import Dashboard from "../dashboard/dashboard";
+import Alert from "../UI/alert";
+import {useSelector} from "react-redux";
 
 function Layout() {
     const location = useLocation();
+    const alert = useSelector(state => state.alert)
 
     return (
         <div id="app">
             {location.pathname !== '/' &&
             <Navbar/>
+            }
+            {alert.isVisible &&
+            <Alert />
             }
             <Switch>
                 <Route path="/login">

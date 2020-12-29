@@ -1,4 +1,34 @@
+import React from 'react';
+import {login as loginService} from '../../services/AuthServices'
+import { useHistory } from "react-router-dom";
+
 function Login() {
+
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    let history = useHistory();
+
+    const login = () => {
+        const emailField = document.getElementById('email');
+        const passwordField = document.getElementById('password');
+        const confirmPasswordField = document.getElementById('confirmPassword');
+        if (
+            passwordField.value === confirmPasswordField.value
+            && emailField.checkValidity()
+            && passwordField.checkValidity()
+        ) {
+            confirmPasswordField.setCustomValidity('');
+            loginService({
+                email: email,
+                password: password
+            }).then(res => {
+                history.push('/')
+            })
+        } else {
+            confirmPasswordField.setCustomValidity('Password must be matching.');
+        }
+    };
+
     return (
         <div className="h-screen-minus-navbar pb-14 grid grid-cols-1">
             <div className="max-w-lg place-self-center">
@@ -7,21 +37,23 @@ function Login() {
                         Sign in to your account
                     </h2>
                 </div>
-                <form className="mt-8 space-y-6" action="#" method="POST">
-                    <input type="hidden" name="remember" value="true"></input>
+                <form className="mt-8 space-y-6" action="" method="POST" onSubmit={e => e.preventDefault()}>
+                    <input type="hidden" name="remember" value="true"/>
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
-                            <label htmlFor="email-address" className="sr-only">Email address</label>
-                            <input id="email-address" name="email" type="email" autoComplete="email" required
-                                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                   placeholder="Email address"></input>
+                            <label htmlFor="email" className="sr-only">Email address</label>
+                            <input id="email" name="email" value={email} onChange={event => {
+                                setEmail(event.target.value)
+                            }} type="email" autoComplete="email" required
+    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+    placeholder="Email address"/>
                         </div>
                         <div>
                             <label htmlFor="password" className="sr-only">Password</label>
                             <input id="password" name="password" type="password" autoComplete="current-password"
-                                   required
-                                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                   placeholder="Password"></input>
+    required
+    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+    placeholder="Password"/>
                         </div>
                     </div>
 

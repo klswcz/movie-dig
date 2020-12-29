@@ -1,11 +1,15 @@
 import React from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import {register as registerService} from '../../services/AuthServices'
-
+import { useHistory } from "react-router-dom";
+import Alert from '../UI/alert'
 function Register() {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
+    const dispatch = useDispatch();
+    let history = useHistory();
 
     const register = () => {
         const emailField = document.getElementById('email');
@@ -21,6 +25,9 @@ function Register() {
                 email: email,
                 password: password
             }).then(res => {
+                history.push('/login')
+            }).catch(res => {
+                dispatch({type: "SHOW_ALERT", payload: res.response.data.messageBag})
             })
         } else {
             confirmPasswordField.setCustomValidity('Password must be matching.');

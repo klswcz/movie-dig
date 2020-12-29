@@ -40,7 +40,7 @@ exports.register = (req, res, next) => {
 
 exports.verifyToken = (req, res, next) => {
     const token = req.headers.authorization;
-    jwt.verify(token, 'L,T?DpKQXu4%p4To6i4a', (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.status(401).send();
         }
@@ -63,7 +63,7 @@ exports.login = (req, res, next) => {
 
                     let token = jwt.sign(
                         {id: user._id, username: user.email},
-                        'L,T?DpKQXu4%p4To6i4a',
+                        process.env.JWT_SECRET,
                         {expiresIn: 129600});
 
                     return res.status(200).json({
@@ -93,7 +93,7 @@ exports.accountSettings = (req, res, next) => {
     let errors = validator.getValidationErrors(req, res);
 
     if (errors.isEmpty()) {
-        jwt.verify(req.headers.authorization.substring(7), 'L,T?DpKQXu4%p4To6i4a', (err, user) => {
+        jwt.verify(req.headers.authorization.substring(7), process.env.JWT_SECRET, (err, user) => {
             if (err) {
                 return res.status(400).json({
                     messageBag: [{msg: 'User not found.'}]

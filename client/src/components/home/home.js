@@ -22,7 +22,7 @@ function Home() {
                     <Link to="/login"
                           className="font-bold">Log in</Link>
                     <span> or </span>
-                    <Link to="/register"
+                    <Link to="/Register"
                           className="bg-gray-900 px-3 py-2 rounded-md">Register</Link>
                     </span>
                 </div>

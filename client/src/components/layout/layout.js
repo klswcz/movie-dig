@@ -3,7 +3,8 @@ import Footer from "../footer/footer";
 import {Route, Switch, useLocation, withRouter} from "react-router-dom";
 import Home from "../home/home";
 import Login from "../login/login";
-import Register from "../register/register";
+import Register from "../register/Register";
+import Dashboard from "../dashboard/dashboard";
 
 function Layout() {
     const location = useLocation();
@@ -19,6 +20,9 @@ function Layout() {
                 </Route>
                 <Route path="/register">
                     <Register/>
+                </Route>
+                <Route path="/dashboard">
+                    <Dashboard/>
                 </Route>
                 <Route path="/">
                     <Home/>

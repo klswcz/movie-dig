@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const User = require('../models/User');
 const jwt = require('jsonwebtoken')
 const validator = require('../src/validator')
+const {generateToken} = require("../src/generateToken");
 
 exports.register = (req, res, next) => {
     let errors = validator.getValidationErrors(req, res);
@@ -61,10 +62,7 @@ exports.login = (req, res, next) => {
             return bcrypt.compare(req.body.password, user.password).then(isPasswordValid => {
                 if (isPasswordValid) {
 
-                    let token = jwt.sign(
-                        {id: user._id, username: user.email},
-                        process.env.JWT_SECRET,
-                        {expiresIn: 129600});
+                    let token = generateToken(user)
 
                     return res.status(200).json({
                         messageBag: [{msg: 'Logged in.'}],

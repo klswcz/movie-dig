@@ -6,7 +6,7 @@ const api = axios.create({
 })
 
 api.interceptors.request.use(request => {
-    api.defaults.headers.common['Authorization'] = 'Bearer ' + store.getState().token
+    api.defaults.headers.common['Authorization'] = 'Bearer ' + store.getState().token || ''
     return request;
 })
 // TODO: Authorization token is not being set for requests that are made when page is initially loading

@@ -14,9 +14,9 @@ function Alert() {
             <div className="max-w-7xl mx-auto py-1 px-3 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between flex-wrap">
                     <div className="w-0 flex-1 flex items-center flex-col">
-                        { alert.messageBag.map(message => {
+                        { alert.messageBag.map((message, index) => {
                             return (
-                                <p className="ml-3 font-medium text-white truncate w-full">
+                                <p key={index} className="ml-3 font-medium text-white truncate w-full">
                                     {message.msg}
                                 </p>
                             )

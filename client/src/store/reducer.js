@@ -5,6 +5,7 @@ const initialState = {
         isVisible: false,
         messageBag: []
     },
+    token: localStorage.getItem('token') || '',
     userEmail: '',
 }
 const rootReducer = (state = initialState, action) => {
@@ -30,9 +31,15 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 userEmail: 'damian@test.com'
             }
+        case 'SET_TOKEN':
+            return {
+                ...state,
+                token: action.payload
+            }
         case 'LOGOUT':
             return {
                 ...state,
+                token: '',
                 userEmail: ''
             }
         default:
@@ -42,4 +49,4 @@ const rootReducer = (state = initialState, action) => {
     }
 }
 
-export default createStore(rootReducer);
+export default createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

@@ -9,14 +9,15 @@ const dotenv = require('dotenv').config()
 
 const app = express()
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_APP_URL);
     res.setHeader('Access-Control-Allow-Headers', 'Content-type,Authorization');
     next();
 });
 app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors())
+app.use(cors({
+    origin: process.env.FRONTEND_APP_URL
+}))
 
 const jwtMiddleware = expressJwt({
     secret: process.env.JWT_SECRET, algorithms: ['RS256']

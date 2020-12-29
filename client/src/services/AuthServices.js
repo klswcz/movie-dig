@@ -1,21 +1,23 @@
-import { api } from './Api'
+import {api} from './Api'
 
 const login = params => {
-    return api.post('/login', params)
+    return api.post('/login', params, {})
 }
 
 const register = params => {
     return api.post('/register', params)
 }
 
-const account = params => {
-    return api.get('/account/settings', {
-        params: params
-    })
+const account = () => {
+    return api.get('/account')
+}
+
+const updateAccount = params => {
+    return api.post('/account/update', params)
 }
 
 const verifyToken = params => {
     return api.post('/account/token/verify', params)
 }
 
-export { login, register, account, verifyToken }
+export {login, register, account, verifyToken}

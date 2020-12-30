@@ -5,7 +5,6 @@ const initialState = {
         isVisible: false,
         messageBag: []
     },
-    token: localStorage.getItem('token') || '',
     userEmail: '',
 }
 const rootReducer = (state = initialState, action) => {
@@ -31,15 +30,9 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 userEmail: 'damian@test.com'
             }
-        case 'SET_TOKEN':
-            return {
-                ...state,
-                token: action.payload
-            }
         case 'LOGOUT':
             return {
                 ...state,
-                token: '',
                 userEmail: ''
             }
         default:

@@ -21,7 +21,6 @@ function Login(props) {
                 email: email,
                 password: password
             }).then(res => {
-                dispatch({type: "SET_TOKEN", payload: res.data.token})
                 localStorage.setItem('token', res.data.token)
                 history.push('/dashboard')
             }).catch(res => {

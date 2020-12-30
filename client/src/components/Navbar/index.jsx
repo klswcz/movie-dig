@@ -1,19 +1,36 @@
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 function Navbar() {
+    let state = useSelector(state => state)
+    let dispatch = useDispatch()
+    let history = useHistory()
+
+    const logout = () => {
+        dispatch({type: 'LOGOUT'})
+        localStorage.setItem('token', null)
+        history.push('/')
+    }
+
     return (
         <nav className="bg-gray-800">
             <div className=" mx-auto px-4 sm:pr-6 lg:pr-8">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
-                            <span className="text-white">MovieDig</span>
+                            <Link to="/" className="text-white">MovieDig</Link>
                         </div>
                         <div className="hidden md:block">
+                            {localStorage.getItem('token') !== "null" &&
                             <div className="ml-10 flex items-baseline space-x-4">
-                                <Link to="/"
-                                   className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
+                                <Link to="/dashboard"
+                                      className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
+                                <button onClick={logout}
+                                        className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Log
+                                    out
+                                </button>
                             </div>
+                            }
                         </div>
                     </div>
                     <div className="-mr-2 flex md:hidden">

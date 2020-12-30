@@ -20,7 +20,7 @@ function Dashboard() {
     return (
         <div className="h-screen-minus-navbar pb-14 px-4">
             <h1 className="text-4xl">Trending today</h1>
-            <div className="grid grid-cols-6">
+            <div className="grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
                 {trendingMovies.map(movie => {
                     return (
                         <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average} posterPath={movie.poster_path} key={movie.id}/>

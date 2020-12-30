@@ -5,7 +5,6 @@ import store from './store/reducer'
 import './index.css';
 import App from './components/App';
 
-
 render(
     <Provider store={store}>
         <App/>

@@ -1,6 +1,6 @@
 import Navbar from "../Navbar";
 import Footer from "../Footer";
-import {Route, Switch, useLocation, withRouter} from "react-router-dom";
+import {Redirect, Route, Switch, useLocation, withRouter} from "react-router-dom";
 import Home from "../Home";
 import Login from "../Login";
 import Register from "../Register";
@@ -12,13 +12,32 @@ function Layout() {
     const location = useLocation();
     const alert = useSelector(state => state.alert)
 
+    function PrivateRoute({children, ...rest}) {
+        return (
+            <Route
+                {...rest}
+                render={({location}) =>
+                    localStorage.getItem('token') !== 'null' ? (
+                        children
+                    ) : (
+                        <Redirect
+                            to={{
+                                pathname: "/login",
+                            }}
+                        />
+                    )
+                }
+            />
+        );
+    }
+
     return (
         <div id="app">
             {location.pathname !== '/' &&
             <Navbar/>
             }
             {alert.isVisible &&
-            <Alert />
+            <Alert/>
             }
             <Switch>
                 <Route path="/login">
@@ -27,9 +46,9 @@ function Layout() {
                 <Route path="/register">
                     <Register/>
                 </Route>
-                <Route path="/dashboard">
+                <PrivateRoute path="/dashboard">
                     <Dashboard/>
-                </Route>
+                </PrivateRoute>
                 <Route path="/">
                     <Home/>
                 </Route>

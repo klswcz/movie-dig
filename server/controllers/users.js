@@ -87,7 +87,7 @@ exports.login = (req, res, next) => {
     }
 }
 
-exports.accountSettings = (req, res, next) => {
+exports.account = (req, res, next) => {
     let errors = validator.getValidationErrors(req, res);
 
     if (errors.isEmpty()) {

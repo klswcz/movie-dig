@@ -23,7 +23,7 @@ router.post('/login', [
 ], usersController.login)
 
 // Display current user's credentials
-router.get('/account/settings', usersController.accountSettings)
+router.get('/account', usersController.account)
 
 // Verify token
 router.post('/account/token/verify', usersController.verifyToken)

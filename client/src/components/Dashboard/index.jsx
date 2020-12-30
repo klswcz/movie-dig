@@ -1,7 +1,7 @@
 import {account as accountService} from "../../services/AuthServices";
 import {useDispatch} from "react-redux";
 
-function Dashboard() {
+function Index() {
     let dispatch = useDispatch();
 
     const getAccountData = () => {
@@ -21,4 +21,4 @@ function Dashboard() {
     )
 }
 
-export default Dashboard;
+export default Index;

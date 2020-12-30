@@ -12,9 +12,6 @@ function Login() {
     let test = useSelector(state => state.token);
 
     const login = () => {
-        const emailField = document.getElementById('email');
-        const passwordField = document.getElementById('password');
-
         loginService({
             email: email,
             password: password

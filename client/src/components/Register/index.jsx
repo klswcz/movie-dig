@@ -1,8 +1,8 @@
 import React from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {register as registerService} from '../../services/AuthServices'
 import { useHistory } from "react-router-dom";
-import Alert from '../UI/alert'
+
 function Register() {
 
     const [email, setEmail] = React.useState('');

@@ -1,11 +1,11 @@
-import Navbar from "../navbar/navbar";
-import Footer from "../footer/footer";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 import {Route, Switch, useLocation, withRouter} from "react-router-dom";
-import Home from "../home/home";
-import Login from "../login/login";
-import Register from "../register/Register";
-import Dashboard from "../dashboard/dashboard";
-import Alert from "../UI/alert";
+import Home from "../Home";
+import Login from "../Login";
+import Register from "../Register";
+import Dashboard from "../Dashboard";
+import Alert from "../UI/Alert";
 import {useSelector} from "react-redux";
 
 function Layout() {

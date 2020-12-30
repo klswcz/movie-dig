@@ -1,8 +1,8 @@
-import Layout from "../layout/layout";
+import Layout from "../Layout";
 import {BrowserRouter as Router} from "react-router-dom";
 
 
-function App() {
+function Index() {
     return (
         <Router>
             <Layout/>
@@ -10,4 +10,4 @@ function App() {
     );
 }
 
-export default App;
+export default Index;

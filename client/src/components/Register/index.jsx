@@ -1,7 +1,9 @@
 import React from 'react';
-import { useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 import {register as registerService} from '../../services/AuthServices'
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
+import Input from "../UI/Form/Input";
+import Button from "../UI/Form/Button";
 
 function Register() {
 
@@ -46,41 +48,15 @@ function Register() {
                 <form className="mt-8 space-y-6" action="" method="POST" onSubmit={e => e.preventDefault()}>
                     <input type="hidden" name="remember" value="true"/>
                     <div className="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <label htmlFor="email" className="sr-only">Email address</label>
-                            <input value={email} onChange={event => {
-                                setEmail(event.target.value)
-                            }} id="email" name="email" type="email" autoComplete="email" required
-                                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                   placeholder="Email address"/>
-                        </div>
-                        <div>
-                            <label htmlFor="password" className="sr-only">Password</label>
-                            <input value={password} onChange={event => {
-                                setPassword(event.target.value)
-                            }} id="password" name="password" type="password" autoComplete="current-password"
-                                   required
-                                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                   placeholder="Password"/>
-                        </div>
-                        <div>
-                            <label htmlFor="confirmPassword" className="sr-only">Confirm password</label>
-                            <input value={confirmPassword} onChange={event => {
-                                setConfirmPassword(event.target.value)
-                            }} id="confirmPassword" name="confirmPassword" type="password"
-                                   autoComplete="current-confirm-password"
-                                   required
-                                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                   placeholder="Confirm password"/>
-                        </div>
+                        <Input name={'email'} type={'email'} value={email} placeholder={'Email address'}
+                               required={true} onChange={event => setEmail(event.target.value)}/>
+                        <Input name={'password'} type={'password'} value={password} placeholder={'Password'}
+                               required={true} onChange={event => setPassword(event.target.value)}/>
+                        <Input name={'confirmPassword'} type={'password'} value={confirmPassword} placeholder={'Confirm password'}
+                               required={true} onChange={event => setConfirmPassword(event.target.value)}/>
                     </div>
                     <div>
-                        <button type="submit" onClick={register}
-                                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-          </span>
-                            Sign up
-                        </button>
+                        <Button onClick={register} label={'Sign up'} />
                     </div>
                 </form>
             </div>

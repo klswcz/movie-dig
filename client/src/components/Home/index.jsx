@@ -1,4 +1,3 @@
-import {Link} from "react-router-dom";
 import dashboard from '../../images/dashboard.png';
 import movieInfoPage from '../../images/movie-info-page.png';
 import FeatureShowcase from "./FeatureShowcase";

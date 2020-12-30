@@ -1,22 +1,32 @@
-import {account as accountService} from "../../services/AuthServices";
-import {useDispatch} from "react-redux";
+import {trending as trendingService} from "../../services/MovieServices";
+import React, {useEffect, useState} from 'react';
+import MovieCard from "./MovieCard";
 
 function Dashboard() {
-    let dispatch = useDispatch();
+    const [trendingMovies, setTrendingMovies] = useState([])
 
-    const getAccountData = () => {
-        accountService().then(res => {
-            console.log(res.data);
+    useEffect(() => {
+        getTrendingMovies()
+    }, []);
+
+    const getTrendingMovies = () => {
+        trendingService().then(res => {
+            console.log(res.data.movies);
+            setTrendingMovies(res.data.movies)
         }).catch(res => {
-            dispatch({type: "SHOW_ALERT", payload: res.response.data.messageBag})
         })
     };
 
     return (
-        <div className="h-screen-minus-navbar pb-14">
-            <h1>Dashboard</h1>
-            <p className="pt-3">Hello, <span className="italic">username</span></p>
-            <button onClick={getAccountData}>get account info</button>
+        <div className="h-screen-minus-navbar pb-14 px-4">
+            <h1 className="text-4xl">Trending today</h1>
+            <div className="grid grid-cols-6">
+                {trendingMovies.map(movie => {
+                    return (
+                        <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average} posterPath={movie.poster_path} key={movie.id}/>
+                    )
+                })}
+            </div>
         </div>
     )
 }

@@ -1,8 +1,7 @@
 import {Link, useHistory} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 function Navbar() {
-    let state = useSelector(state => state)
     let dispatch = useDispatch()
     let history = useHistory()
 

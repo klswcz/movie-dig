@@ -4,8 +4,10 @@ const morgan = require('morgan')
 const expressJwt = require('express-jwt')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
-const usersRoutes = require('../routes/users')
+const usersRoutes = require('./routes/users')
+const moviesRoutes = require('./routes/movies')
 const dotenv = require('dotenv').config()
+const passport = require('passport');
 
 const app = express()
 app.use((req, res, next) => {
@@ -25,6 +27,6 @@ const jwtMiddleware = expressJwt({
 
 mongoose.connect(process.env.DB_HOST, {useNewUrlParser: true, useUnifiedTopology: true});
 
-app.use(usersRoutes)
+app.use(usersRoutes, moviesRoutes)
 
 app.listen(process.env.APP_PORT)

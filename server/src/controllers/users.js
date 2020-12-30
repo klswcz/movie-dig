@@ -1,8 +1,8 @@
 const bcrypt = require("bcryptjs");
 const User = require('../models/User');
 const jwt = require('jsonwebtoken')
-const validator = require('../src/validator')
-const {generateToken} = require("../src/generateToken");
+const validator = require('../validator')
+const {generateToken} = require("../generateToken");
 
 exports.register = (req, res, next) => {
     let errors = validator.getValidationErrors(req, res);
@@ -36,18 +36,6 @@ exports.register = (req, res, next) => {
             messageBag: errors.array()
         });
     }
-}
-
-
-exports.verifyToken = (req, res, next) => {
-    const token = req.headers.authorization;
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).send();
-        }
-
-        return res.status(200).send();
-    })
 }
 
 exports.login = (req, res, next) => {

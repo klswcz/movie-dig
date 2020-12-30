@@ -25,7 +25,4 @@ router.post('/login', [
 // Display current user's credentials
 router.get('/account', usersController.account)
 
-// Verify token
-router.post('/account/token/verify', usersController.verifyToken)
-
 module.exports = router;

@@ -6,9 +6,9 @@ import {faUser} from "@fortawesome/free-solid-svg-icons";
 function MovieCard(props) {
 
     return (
-        <div className="relative bg-white border-2 border-black shadow overflow-hidden sm:rounded-lg mx-3 my-6 h-72"
+        <div className="relative bg-white border-2 border-black shadow overflow-hidden sm:rounded-md mx-2 my-3 h-72"
              style={{
-                 backgroundImage: 'url(https://image.tmdb.org/t/p/original' + props.posterPath + ')',
+                 backgroundImage: 'url(https://image.tmdb.org/t/p/w300' + props.posterPath + ')',
                  backgroundPosition: "center",
                  backgroundSize: "cover"
              }}>

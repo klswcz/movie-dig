@@ -4,4 +4,8 @@ const trending = params => {
     return api.get('/movies/trending')
 }
 
-export {trending}
+const movieInfo = params => {
+    return api.get(`/movies/${params.movieId}`)
+}
+
+export {trending, movieInfo}

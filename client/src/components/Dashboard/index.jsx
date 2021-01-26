@@ -11,7 +11,6 @@ function Dashboard() {
 
     const getTrendingMovies = () => {
         trendingService().then(res => {
-            console.log(res.data.movies);
             setTrendingMovies(res.data.movies)
         }).catch(res => {
         })
@@ -23,7 +22,7 @@ function Dashboard() {
             <div className="grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
                 {trendingMovies.map(movie => {
                     return (
-                        <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average} posterPath={movie.poster_path} key={movie.id}/>
+                        <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average} posterPath={movie.poster_path} key={movie.id} movieId={movie.id}/>
                     )
                 })}
             </div>

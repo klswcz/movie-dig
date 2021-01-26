@@ -5,6 +5,7 @@ import Home from "../Home";
 import Login from "../Login";
 import Register from "../Register";
 import Dashboard from "../Dashboard";
+import Movie from "../Movie";
 import Alert from "../UI/Alert";
 import {useSelector} from "react-redux";
 
@@ -16,7 +17,7 @@ function Layout() {
         return (
             <Route
                 {...rest}
-                render={({location}) =>
+                component={({location}) =>
                     localStorage.getItem('token') !== 'null' ? (
                         children
                     ) : (
@@ -48,6 +49,9 @@ function Layout() {
                 </Route>
                 <PrivateRoute path="/dashboard">
                     <Dashboard/>
+                </PrivateRoute>
+                <PrivateRoute path="/movie">
+                    <Movie />
                 </PrivateRoute>
                 <Route path="/">
                     <Home/>

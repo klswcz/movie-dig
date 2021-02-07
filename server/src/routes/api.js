@@ -1,9 +1,15 @@
 const express = require('express')
 const router = express.Router();
 const {check} = require('express-validator')
+const moviesController = require('../controllers/movies');
 const usersController = require('../controllers/users');
+const wishlistItemsController = require('../controllers/wishlistItems')
+// MOVIES
+router.get('/movies/trending', moviesController.trending)
+router.get('/movies/recommended', moviesController.recommendations)
+router.get('/movies/*', moviesController.getMovie)
 
-// Register new user
+// USER
 router.post('/register', [
     check('email', 'Invalid email format.')
         .exists()
@@ -11,8 +17,6 @@ router.post('/register', [
     check('password', 'Password needs to be between 8 and 20 characters long.')
         .isLength({min: 8, max: 20})
 ], usersController.register)
-
-// User log in
 router.post('/login', [
     check('email', 'Invalid email format.')
         .notEmpty()
@@ -21,8 +25,9 @@ router.post('/login', [
         .notEmpty()
         .isLength({min: 8, max: 20})
 ], usersController.login)
-
-// Display current user's credentials
 router.get('/account', usersController.account)
+
+// WISHLIST
+router.post('/wishlist/add', [check('movieId').notEmpty()], wishlistItemsController.create)
 
 module.exports = router;

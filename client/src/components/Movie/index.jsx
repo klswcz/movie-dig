@@ -1,4 +1,5 @@
 import {movieInfo as movieInfoService} from "../../services/MovieServices";
+import {create as createService} from "../../services/WishlistItemServices";
 import React, {useEffect, useState} from 'react';
 
 function Dashboard() {
@@ -16,6 +17,15 @@ function Dashboard() {
         })
     };
 
+    const addWishlistItem = () => {
+        let movieId = window.location.search.replace("?id=", ''); // get movie id from url parameter
+        createService({movieId: movieId}).then(res => {
+            console.log(res.data);
+            // setMovieInfo(res.data.movie)
+        }).catch(res => {
+        })
+    }
+
     return (
         <div className="h-screen-minus-navbar pb-14 px-4">
             <h1 className="text-4xl mt-5">{movieInfo.title}</h1>
@@ -25,7 +35,7 @@ function Dashboard() {
                     <img src={'https://image.tmdb.org/t/p/w300' + movieInfo.poster_path} alt="" className="rounded-md"/>
                     <p className="my-2">your rating: 10/10</p>
                     <p className="my-2">average score: {movieInfo.vote_average}/10</p>
-                    <button className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
+                    <button onClick={addWishlistItem} className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">
                         Add to wish list
                     </button>
                 </div>

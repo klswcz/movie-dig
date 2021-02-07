@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const LinkSchema = new Schema({
     movieId: {
         type: String,
-        required: true,
     },
     imdbId: {
         type: String,

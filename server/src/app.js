@@ -4,8 +4,7 @@ const morgan = require('morgan')
 const expressJwt = require('express-jwt')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
-const usersRoutes = require('./routes/users')
-const moviesRoutes = require('./routes/movies')
+const apiRoutes = require('./routes/api')
 const dotenv = require('dotenv').config()
 const passport = require('passport');
 
@@ -27,6 +26,6 @@ const jwtMiddleware = expressJwt({
 
 mongoose.connect(process.env.DB_HOST, {useNewUrlParser: true, useUnifiedTopology: true});
 
-app.use(usersRoutes, moviesRoutes)
+app.use(apiRoutes)
 
 app.listen(process.env.APP_PORT)

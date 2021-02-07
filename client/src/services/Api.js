@@ -1,5 +1,4 @@
 import axios from 'axios'
-import store from '../store/reducer'
 
 const api = axios.create({
     baseURL: `http://localhost:8081`

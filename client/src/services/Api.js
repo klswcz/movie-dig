@@ -1,13 +1,12 @@
 import axios from 'axios'
+import store from '../store/reducer'
+
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
 const api = axios.create({
     baseURL: `http://localhost:8081`
 })
 
-api.interceptors.request.use(request => {
-    api.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-    return request;
-})
 // TODO: Authorization token is not being set for requests that are made when page is initially loading
 // api.interceptors.response.use(response => {
 //     store.dispatch({type: 'HIDE_ALERT'});

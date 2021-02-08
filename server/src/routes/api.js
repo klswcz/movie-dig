@@ -29,5 +29,6 @@ router.get('/account', usersController.account)
 
 // WISHLIST
 router.post('/wishlist/add', [check('movieId').notEmpty()], wishlistItemsController.create)
+router.post('/wishlist/delete', [check('movieId').notEmpty()], wishlistItemsController.destroy)
 
 module.exports = router;

@@ -30,6 +30,7 @@ exports.update = (req, res, next) => {
                     }).then(rating => {
                         if (rating) {
                             rating.rating = req.body.rating
+                            rating.timestamp = Date.now()
                             rating.save(error => {
                                 if (error) {
                                     return res.status(500).json({
@@ -47,6 +48,7 @@ exports.update = (req, res, next) => {
                                 userId: user.id,
                                 movieId: movie.id,
                                 rating: req.body.rating,
+                                timestamp: Date.now()
                             })
 
                             ratingModel.save(error => {

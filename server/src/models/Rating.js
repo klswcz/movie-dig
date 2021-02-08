@@ -16,7 +16,7 @@ const RatingSchema = new Schema({
     },
     timestamp: {
         type: String,
-        required: false
+        required: true
     }
 });
 

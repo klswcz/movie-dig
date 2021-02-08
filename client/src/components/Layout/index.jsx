@@ -32,6 +32,25 @@ function Layout() {
         );
     }
 
+    function PublicRoute({children, ...rest}) {
+        return (
+            <Route
+                {...rest}
+                component={({location}) =>
+                    localStorage.getItem('token') === 'null' ? (
+                        children
+                    ) : (
+                        <Redirect
+                            to={{
+                                pathname: "/dashboard",
+                            }}
+                        />
+                    )
+                }
+            />
+        );
+    }
+
     return (
         <div id="app">
             {location.pathname !== '/' &&
@@ -41,21 +60,21 @@ function Layout() {
             <Alert/>
             }
             <Switch>
-                <Route path="/login">
+                <PublicRoute path="/login">
                     <Login/>
-                </Route>
-                <Route path="/register">
+                </PublicRoute>
+                <PublicRoute path="/register">
                     <Register/>
-                </Route>
+                </PublicRoute>
                 <PrivateRoute path="/dashboard">
                     <Dashboard/>
                 </PrivateRoute>
                 <PrivateRoute path="/movie">
-                    <Movie />
+                    <Movie/>
                 </PrivateRoute>
-                <Route path="/">
+                <PublicRoute path="/">
                     <Home/>
-                </Route>
+                </PublicRoute>
             </Switch>
             <Footer/>
         </div>

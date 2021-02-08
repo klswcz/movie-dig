@@ -5,6 +5,8 @@ const moviesController = require('../controllers/movies');
 const usersController = require('../controllers/users');
 const wishlistItemsController = require('../controllers/wishlistItems')
 const ratingsController = require('../controllers/ratings')
+
+
 // MOVIES
 router.get('/movies/trending', moviesController.trending)
 router.get('/movies/recommended', moviesController.recommendations)

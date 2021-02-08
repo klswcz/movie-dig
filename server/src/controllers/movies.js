@@ -38,7 +38,6 @@ exports.getMovie = (req, res, next) => {
         })
     })
 
-
     tmdb.api.get(`/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}`).then(movieRes => {
         tmdb.api.get(`/movie/${movieId}/credits?api_key=${process.env.TMDB_API_KEY}`).then(creditsRes => {
             movieRes.data.credits = creditsRes.data

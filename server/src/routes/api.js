@@ -4,6 +4,7 @@ const {check} = require('express-validator')
 const moviesController = require('../controllers/movies');
 const usersController = require('../controllers/users');
 const wishlistItemsController = require('../controllers/wishlistItems')
+const ratingsController = require('../controllers/ratings')
 // MOVIES
 router.get('/movies/trending', moviesController.trending)
 router.get('/movies/recommended', moviesController.recommendations)
@@ -30,5 +31,12 @@ router.get('/account', usersController.account)
 // WISHLIST
 router.post('/wishlist/add', [check('movieId').notEmpty()], wishlistItemsController.create)
 router.post('/wishlist/delete', [check('movieId').notEmpty()], wishlistItemsController.destroy)
+
+// MOVIE RATING
+router.get('/rating/user/*', ratingsController.getRating)
+router.post('/rating/user/update',
+    [check('rating').notEmpty().isFloat({min: 0.5, max: 5})],
+    ratingsController.update
+    )
 
 module.exports = router;

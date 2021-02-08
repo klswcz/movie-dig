@@ -1,14 +1,19 @@
 import {movieInfo as movieInfoService} from "../../services/MovieServices";
 import {create as createService, destroy as destroyService} from "../../services/WishlistItemServices";
+import {set as setRatingService, get as getRatingService} from "../../services/RatingServices";
 import React, {useEffect, useState} from 'react';
+import ReactStars from 'react-stars'
 
 function Dashboard() {
     let movieId = window.location.search.replace("?id=", ''); // get movie id from url parameter
     const [movieInfo, setMovieInfo] = useState([])
     const [isWishlistItem, setIsWishlistItem] = useState(false)
     const [isWishlistRequestProcessed, setIsWishlistRequestProcessed] = useState(false)
+    const [userRating, setUserRating] = useState(0)
+
     useEffect(() => {
         getMovieInfo()
+        getRating()
     }, []);
 
     const getMovieInfo = () => {
@@ -36,6 +41,18 @@ function Dashboard() {
         })
     }
 
+    const getRating = (newRating) => {
+        getRatingService({movieId: movieId}).then(res => {
+            setUserRating(res.data.rating)
+        })
+    }
+
+    const setRating = (newRating) => {
+        setRatingService({movieId: movieId, rating: newRating}).then(res => {
+            setUserRating(res.data.rating)
+        })
+    }
+
     return (
         <div className="h-screen-minus-navbar pb-14 px-4">
             <h1 className="text-4xl mt-5">{movieInfo.title}</h1>
@@ -43,8 +60,23 @@ function Dashboard() {
             <div className="flex flex-wrap">
                 <div className="w-full md:w-1/4">
                     <img src={'https://image.tmdb.org/t/p/w300' + movieInfo.poster_path} alt="" className="rounded-md"/>
-                    <p className="my-2">your rating: 10/10</p>
-                    <p className="my-2">average score: {movieInfo.vote_average}/10</p>
+                    <p className="my-2">
+                        your rating
+                        <ReactStars
+                            count={5}
+                            value={userRating}
+                            onChange={setRating}
+                            size={24}
+                            color2={'#ffd700'}/>
+                    </p>
+                    <p className="my-2">general rating
+                        <ReactStars
+                            count={5}
+                            value={movieInfo.vote_average / 2}
+                            size={24}
+                            edit={false}
+                            color2={'#ffd700'}/>
+                    </p>
                     <button onClick={isWishlistItem ? deleteWishlistItem : addWishlistItem}
                             className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                             disabled={isWishlistRequestProcessed}>

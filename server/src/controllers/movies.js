@@ -1,6 +1,6 @@
 const tmdb = require('../services/TmdbApi')
 const User = require("../models/User");
-const Link = require("../models/Link");
+const Movie = require("../models/Movie");
 const WishlistItem = require("../models/WishlistItem");
 const jwt = require('jsonwebtoken')
 
@@ -26,7 +26,7 @@ exports.getMovie = (req, res, next) => {
 
     jwt.verify(req.headers.authorization.substring(7), process.env.JWT_SECRET, (err, token) => {
         User.findOne({email: token.username}).then(user => {
-            Link.findOne({tmdbId: movieId}).then(movie => {
+            Movie.findOne({tmdbId: movieId}).then(movie => {
 
                 WishlistItem.findOne({
                     movie: {imdbId: movie.imdbId, tmdbId: movie.tmdbId},

@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const LinkSchema = new Schema({
-    movieId: {
-        type: String,
-    },
+const MovieSchema = new Schema({
     imdbId: {
         type: String,
     },
@@ -14,5 +11,5 @@ const LinkSchema = new Schema({
     }
 });
 
-const Link = mongoose.model("Link", LinkSchema);
-module.exports = Link;
+const Movie = mongoose.model("Movie", MovieSchema);
+module.exports = Movie;

@@ -1,7 +1,7 @@
 const Rating = require('../models/Rating');
 const validator = require('../validator')
 const jwt = require('jsonwebtoken')
-const Link = require("../models/Link");
+const Movie = require("../models/Movie");
 const User = require("../models/User");
 
 
@@ -11,16 +11,16 @@ exports.update = (req, res, next) => {
     if (errors.isEmpty()) {
         jwt.verify(req.headers.authorization.substring(7), process.env.JWT_SECRET, (err, token) => {
             User.findOne({email: token.username}).then(user => {
-                Link.findOne({tmdbId: req.body.movieId}).then(movie => {
+                Movie.findOne({tmdbId: req.body.movieId}).then(movie => {
 
                     if (movie === null) {
-                        let linkModel = new Link({
+                        let movieModel = new Movie({
                             imdbId: null,
                             tmdbId: req.body.movieId
                         })
 
-                        linkModel.save().then(error => {
-                            movie = linkModel;
+                        movieModel.save().then(error => {
+                            movie = movieModel;
                         })
                     }
 
@@ -78,7 +78,7 @@ exports.getRating = (req, res, next) => {
     console.log(movieId);
     jwt.verify(req.headers.authorization.substring(7), process.env.JWT_SECRET, (err, token) => {
         User.findOne({email: token.username}).then(user => {
-            Link.findOne({tmdbId: movieId}).then(movie => {
+            Movie.findOne({tmdbId: movieId}).then(movie => {
 
                 Rating.findOne({
                     userId: user.id,
@@ -101,7 +101,7 @@ exports.destroy = (req, res, next) => {
     if (errors.isEmpty()) {
         jwt.verify(req.headers.authorization.substring(7), process.env.JWT_SECRET, (err, token) => {
             User.findOne({email: token.username}).then(user => {
-                Link.findOne({tmdbId: req.body.movieId}).then(movie => {
+                Movie.findOne({tmdbId: req.body.movieId}).then(movie => {
 
                     Rating.deleteOne({
                         userId: user.id,

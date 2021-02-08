@@ -5,7 +5,7 @@ const Movie = require("../models/Movie");
 const User = require("../models/User");
 
 
-exports.create = (req, res, next) => {
+exports.create = (req, res) => {
     let errors = validator.getValidationErrors(req, res);
     if (!errors.isEmpty()) {
         res.status(400).json({messageBag: errors.array()});
@@ -21,7 +21,7 @@ exports.create = (req, res, next) => {
                         tmdbId: req.body.movieId
                     })
 
-                    movieModel.save().then(error => {
+                    movieModel.save().then(() => {
                         movie = movieModel;
                     })
 
@@ -66,7 +66,7 @@ exports.create = (req, res, next) => {
     })
 }
 
-exports.destroy = (req, res, next) => {
+exports.destroy = (req, res) => {
     let errors = validator.getValidationErrors(req, res);
     if (!errors.isEmpty()) {
         res.status(400).json({messageBag: errors.array()});
@@ -79,7 +79,7 @@ exports.destroy = (req, res, next) => {
                 WishlistItem.deleteOne({
                     movie: {imdbId: movie.imdbId, tmdbId: movie.tmdbId},
                     user: {id: user.id}
-                }).then(item => {
+                }).then(() => {
                     return res.send({
                         messageBag: [{msg: 'Movie has been removed from wish list.'}],
                         isWishlistItem: false,

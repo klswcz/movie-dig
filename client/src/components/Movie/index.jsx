@@ -1,8 +1,17 @@
 import {movieInfo as movieInfoService} from "../../services/MovieServices";
-import {create as createService, destroy as destroyService} from "../../services/WishlistItemServices";
-import {set as setRatingService, get as getRatingService} from "../../services/RatingServices";
+import {
+    create as createWishlistItemService,
+    destroy as destroyWishlistItemService
+} from "../../services/WishlistItemServices";
+import {
+    destroy as destroyRatingService,
+    get as getRatingService,
+    set as setRatingService
+} from "../../services/RatingServices";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import React, {useEffect, useState} from 'react';
 import ReactStars from 'react-stars'
+import {faTimes} from "@fortawesome/free-solid-svg-icons";
 
 function Dashboard() {
     let movieId = window.location.search.replace("?id=", ''); // get movie id from url parameter
@@ -27,7 +36,7 @@ function Dashboard() {
 
     const addWishlistItem = () => {
         setIsWishlistRequestProcessed(true)
-        createService({movieId: movieId}).then(res => {
+        createWishlistItemService({movieId: movieId}).then(res => {
             setIsWishlistItem(true)
             setIsWishlistRequestProcessed(false)
         })
@@ -35,13 +44,13 @@ function Dashboard() {
 
     const deleteWishlistItem = () => {
         setIsWishlistRequestProcessed(true)
-        destroyService({movieId: movieId}).then(res => {
+        destroyWishlistItemService({movieId: movieId}).then(res => {
             setIsWishlistItem(false)
             setIsWishlistRequestProcessed(false)
         })
     }
 
-    const getRating = (newRating) => {
+    const getRating = () => {
         getRatingService({movieId: movieId}).then(res => {
             setUserRating(res.data.rating)
         })
@@ -49,6 +58,12 @@ function Dashboard() {
 
     const setRating = (newRating) => {
         setRatingService({movieId: movieId, rating: newRating}).then(res => {
+            setUserRating(res.data.rating)
+        })
+    }
+
+    const deleteRating = () => {
+        destroyRatingService({movieId: movieId}).then(res => {
             setUserRating(res.data.rating)
         })
     }
@@ -68,6 +83,11 @@ function Dashboard() {
                             onChange={setRating}
                             size={24}
                             color2={'#ffd700'}/>
+                        {userRating !== 0 &&
+                        <button onClick={deleteRating}>
+                            <FontAwesomeIcon icon={faTimes}/>
+                        </button>
+                        }
                     </p>
                     <p className="my-2">general rating
                         <ReactStars

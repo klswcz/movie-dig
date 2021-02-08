@@ -8,4 +8,8 @@ const set = params => {
     return api.post('/rating/user/update', params)
 }
 
-export {get, set}
+const destroy = params => {
+    return api.post('/rating/user/delete', params)
+}
+
+export {get, set, destroy}

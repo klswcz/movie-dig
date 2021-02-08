@@ -94,3 +94,31 @@ exports.getRating = (req, res, next) => {
     })
 
 }
+
+exports.destroy = (req, res, next) => {
+    let errors = validator.getValidationErrors(req, res);
+
+    if (errors.isEmpty()) {
+        jwt.verify(req.headers.authorization.substring(7), process.env.JWT_SECRET, (err, token) => {
+            User.findOne({email: token.username}).then(user => {
+                Link.findOne({tmdbId: req.body.movieId}).then(movie => {
+
+                    Rating.deleteOne({
+                        userId: user.id,
+                        movieId: movie.id
+                    }).then(item => {
+                        return res.send({
+                            messageBag: [{msg: 'Rating has been deleted.'}],
+                            rating: 0,
+                        });
+
+                    })
+                })
+            })
+        })
+    } else {
+        res.status(422).json({
+            messageBag: errors.array()
+        });
+    }
+}

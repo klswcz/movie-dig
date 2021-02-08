@@ -37,6 +37,9 @@ router.get('/rating/user/*', ratingsController.getRating)
 router.post('/rating/user/update',
     [check('rating').notEmpty().isFloat({min: 0.5, max: 5})],
     ratingsController.update
-    )
-
+)
+router.post('/rating/user/delete',
+    [check('movieId').notEmpty()],
+    ratingsController.destroy
+)
 module.exports = router;

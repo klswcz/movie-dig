@@ -11,7 +11,7 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import React, {useEffect, useState} from 'react';
 import ReactStars from 'react-stars'
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
 
 function Dashboard() {
     let movieId = window.location.search.replace("?id=", ''); // get movie id from url parameter
@@ -68,29 +68,33 @@ function Dashboard() {
             <p className="mb-5 text-gray-500">{movieInfo.tagline}</p>
             <div className="flex flex-wrap">
                 <div className="w-full md:w-1/4">
-                    <img src={'https://image.tmdb.org/t/p/w300' + movieInfo.poster_path} alt="" className="rounded-md"/>
+                    { movieInfo.poster_path &&
+                        <img src={'https://image.tmdb.org/t/p/w300' + movieInfo.poster_path} alt="" className="rounded-md"/>
+                    }
                     <p className="my-2">
                         your rating
+                    </p>
+                    <div className="inline-flex">
                         <ReactStars
+                            className={'inline-block'}
                             count={5}
-                            value={userRating}
+                            value={parseInt(userRating)}
                             onChange={setRating}
                             size={24}
                             color2={'#ffd700'}/>
                         {userRating !== null &&
-                        <button onClick={deleteRating}>
-                            <FontAwesomeIcon icon={faTimes}/>
+                        <button onClick={deleteRating} className='inline-block ml-4'>
+                            <FontAwesomeIcon icon={faTrash}/>
                         </button>
                         }
-                    </p>
-                    <p className="my-2">general rating
-                        <ReactStars
-                            count={5}
-                            value={movieInfo.vote_average / 2}
-                            size={24}
-                            edit={false}
-                            color2={'#ffd700'}/>
-                    </p>
+                    </div>
+                    <p className="my-2">general rating</p>
+                    <ReactStars
+                        count={5}
+                        value={movieInfo.vote_average / 2}
+                        size={24}
+                        edit={false}
+                        color2={'#ffd700'}/>
                     <button onClick={isWishlistItem ? deleteWishlistItem : addWishlistItem}
                             className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                             disabled={isWishlistRequestProcessed}>
@@ -99,9 +103,9 @@ function Dashboard() {
                 </div>
                 <div className="w-full md:w-3/4">
                     {movieInfo.genres &&
-                    movieInfo.genres.map(genre => {
+                    movieInfo.genres.map((genre, index) => {
                         return (
-                            <p className="inline-block pr-4">{genre.name}</p>
+                            <p className="inline-block pr-4" key={index}>{genre.name}</p>
                         )
                     })
                     }
@@ -110,11 +114,13 @@ function Dashboard() {
                     <h2 className="text-2xl mt-5">Cast</h2>
                     <div className="grid grid-cols-8">
                         {movieInfo.credits &&
-                        movieInfo.credits.cast.slice(0, 8).map(actor => {
+                        movieInfo.credits.cast.slice(0, 8).map((actor, index) => {
                             return (
-                                <div className="text-center flex items-center flex-col mr-10">
+                                <div className="text-center flex items-center flex-col mr-10" key={index}>
+                                    {actor.profile_path &&
                                     <img src={'https://image.tmdb.org/t/p/w300' + actor.profile_path} alt=""
                                          className="rounded-lg w-full"/>
+                                    }
                                     <span className="font-bold block">{actor.name}</span>
                                     <span className="block">as</span>
                                     <span className="font-bold block">{actor.character}</span>

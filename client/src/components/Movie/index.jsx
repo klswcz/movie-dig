@@ -78,7 +78,7 @@ function Dashboard() {
                         <ReactStars
                             className={'inline-block'}
                             count={5}
-                            value={parseInt(userRating)}
+                            value={parseFloat(userRating)}
                             onChange={setRating}
                             size={24}
                             color2={'#ffd700'}/>

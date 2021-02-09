@@ -3,11 +3,30 @@ const User = require("../models/User");
 const Movie = require("../models/Movie");
 const WishlistItem = require("../models/WishlistItem");
 const jwt = require('jsonwebtoken')
+const Rating = require("../models/Rating");
 
 exports.trending = (req, res, next) => {
+    let movieResponse = []
+
     tmdb.api.get('/trending/movie/week?api_key=' + process.env.TMDB_API_KEY).then(apiRes => {
-        return res.status(200).json({
-            movies: apiRes.data.results
+        jwt.verify(req.headers.authorization.substring(7), process.env.JWT_SECRET, (err, token) => {
+            User.findOne({email: token.username}).then(user => {
+                apiRes.data.results.forEach((movie, index) => {
+                    Movie.findOne({tmdbId: movie.id}).then(movieModel => {
+                        Rating.findOne({userId: user.id, movieId: movieModel ? movieModel.id : null}).then(rating => {
+                            if (rating !== null) {
+                                apiRes.data.results[index].user_rating = rating.rating
+                            }
+                            movieResponse.push(apiRes.data.results[index])
+                            if (movieResponse.length === apiRes.data.results.length) {
+                                return res.status(200).json({
+                                    movies: movieResponse
+                                })
+                            }
+                        })
+                    })
+                })
+            })
         })
     })
 }

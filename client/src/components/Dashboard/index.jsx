@@ -12,8 +12,7 @@ function Dashboard() {
     const getTrendingMovies = () => {
         trendingService().then(res => {
             setTrendingMovies(res.data.movies)
-            console.log(trendingMovies);
-        }).catch(res => {
+        }).catch(() => {
         })
     };
 

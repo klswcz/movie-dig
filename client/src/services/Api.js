@@ -1,5 +1,5 @@
 import axios from 'axios'
-import store from '../store/reducer'
+// import store from '../store/reducer'
 
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 

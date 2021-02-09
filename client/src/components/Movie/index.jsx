@@ -21,18 +21,18 @@ function Dashboard() {
     const [userRating, setUserRating] = useState(null)
 
     useEffect(() => {
-        getMovieInfo()
-        getRating()
-    }, []);
-
-    const getMovieInfo = () => {
         setIsWishlistRequestProcessed(true)
         movieInfoService({movieId: movieId}).then(res => {
             setMovieInfo(res.data.movie)
             setIsWishlistItem(res.data.isWishlistItem)
             setIsWishlistRequestProcessed(false)
+
+            getRatingService({movieId: movieId}).then(res => {
+                setUserRating(res.data.rating)
+            })
         })
-    };
+    }, [movieId]);
+
 
     const addWishlistItem = () => {
         setIsWishlistRequestProcessed(true)
@@ -47,12 +47,6 @@ function Dashboard() {
         destroyWishlistItemService({movieId: movieId}).then(res => {
             setIsWishlistItem(false)
             setIsWishlistRequestProcessed(false)
-        })
-    }
-
-    const getRating = () => {
-        getRatingService({movieId: movieId}).then(res => {
-            setUserRating(res.data.rating)
         })
     }
 

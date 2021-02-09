@@ -18,7 +18,7 @@ function Dashboard() {
     const [movieInfo, setMovieInfo] = useState([])
     const [isWishlistItem, setIsWishlistItem] = useState(false)
     const [isWishlistRequestProcessed, setIsWishlistRequestProcessed] = useState(false)
-    const [userRating, setUserRating] = useState(0)
+    const [userRating, setUserRating] = useState(null)
 
     useEffect(() => {
         getMovieInfo()
@@ -83,7 +83,7 @@ function Dashboard() {
                             onChange={setRating}
                             size={24}
                             color2={'#ffd700'}/>
-                        {userRating !== 0 &&
+                        {userRating !== null &&
                         <button onClick={deleteRating}>
                             <FontAwesomeIcon icon={faTimes}/>
                         </button>

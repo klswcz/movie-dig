@@ -5,13 +5,13 @@ import {Link} from "react-router-dom";
 
 function MovieCard(props) {
     return (
-        <div className="relative bg-white border border-black shadow overflow-hidden sm:rounded-md mx-2 my-3 h-72"
-             style={{
-                 backgroundImage: 'url(https://image.tmdb.org/t/p/w300' + props.posterPath + ')',
-                 backgroundPosition: "center",
-                 backgroundSize: "cover"
-             }}>
-            <Link to={`movie?id=${props.movieId}`}>
+        <Link to={`movie?id=${props.movieId}`} className="mx-2 my-3">
+            <div className="relative bg-white border border-black shadow overflow-hidden sm:rounded-md  h-72"
+                 style={{
+                     backgroundImage: 'url(https://image.tmdb.org/t/p/w300' + props.posterPath + ')',
+                     backgroundPosition: "center",
+                     backgroundSize: "cover"
+                 }}>
                 <div className="px-2 bg-white inset-x-0 bottom-0 absolute">
                     <p className="text-center text-md font-medium">{props.title}</p>
                     <div className="grid grid-cols-2 text-center mb-2">
@@ -29,8 +29,8 @@ function MovieCard(props) {
                         </div>
                     </div>
                 </div>
-            </Link>
-        </div>
+            </div>
+        </Link>
     )
 }
 

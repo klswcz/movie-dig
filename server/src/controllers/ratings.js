@@ -78,16 +78,21 @@ exports.getRating = (req, res, next) => {
     jwt.verify(req.headers.authorization.substring(7), process.env.JWT_SECRET, (err, token) => {
         User.findOne({email: token.username}).then(user => {
             Movie.findOne({tmdbId: movieId}).then(movie => {
+                if (movie) {
+                    Rating.findOne({
+                        userId: user.id,
+                        movieId: movie.id
+                    }).then(ratingModel => {
+                        return res.status(200).json({
+                            rating: ratingModel ? ratingModel.rating : null
+                        })
 
-                Rating.findOne({
-                    userId: user.id,
-                    movieId: movie.id
-                }).then(ratingModel => {
-                    return res.status(200).json({
-                        rating: ratingModel.rating
                     })
-
-                })
+                } else {
+                    return res.status(200).json({
+                        rating: null
+                    })
+                }
             })
         })
     })
@@ -110,7 +115,7 @@ exports.destroy = (req, res, next) => {
                 }).then(item => {
                     return res.send({
                         messageBag: [{msg: 'Rating has been deleted.'}],
-                        rating: 0,
+                        rating: null,
                     });
 
                 })

@@ -47,12 +47,23 @@ exports.getMovie = (req, res, next) => {
         User.findOne({email: token.username}).then(user => {
             Movie.findOne({tmdbId: movieId}).then(movie => {
 
-                WishlistItem.findOne({
-                    movie: {imdbId: movie.imdbId, tmdbId: movie.tmdbId},
-                    user: {id: user.id}
-                }).then(item => {
-                    isWishlistItem = item !== null
-                })
+                if (movie === null) {
+                    let movieModel = new Movie({
+                        imdbId: null,
+                        tmdbId: movieId
+                    })
+
+                    movieModel.save().then(error => {
+                        movie = movieModel;
+                    })
+                } else {
+                    WishlistItem.findOne({
+                        movie: {imdbId: movie.imdbId, tmdbId: movie.tmdbId},
+                        user: {id: user.id}
+                    }).then(item => {
+                        isWishlistItem = item !== null
+                    })
+                }
             })
         })
     })

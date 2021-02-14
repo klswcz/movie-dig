@@ -7,6 +7,10 @@
         min-height: 50vh;
     }
 
+    .text-center-webkit {
+        text-align: -webkit-center;
+    }
+
     /* Screen height minus navbar and footer */
     .h-screen-minus-navbar {
         min-height: calc(100vh - 4rem - 3.5rem);

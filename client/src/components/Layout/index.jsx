@@ -1,17 +1,26 @@
+import { useEffect } from 'react'
 import Navbar from "../Navbar";
 import Footer from "../Footer";
-import {Redirect, Route, Switch, useLocation, withRouter} from "react-router-dom";
+import {Redirect, Route, Switch, useLocation, withRouter, useHistory} from "react-router-dom";
 import Home from "../Home";
 import Login from "../Login";
 import Register from "../Register";
 import Dashboard from "../Dashboard";
 import Movie from "../Movie";
 import Alert from "../UI/Alert";
+import store from '../../store/reducer'
 import {useSelector} from "react-redux";
 
 function Layout() {
     const location = useLocation();
     const alert = useSelector(state => state.alert)
+    const history = useHistory()
+
+    useEffect(() => {
+        return history.listen((location) => {
+            store.dispatch({type: 'HIDE_ALERT'});
+        })
+    },[history])
 
     function PrivateRoute({children, ...rest}) {
         return (

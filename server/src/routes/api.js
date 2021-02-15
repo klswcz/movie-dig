@@ -5,12 +5,12 @@ const moviesController = require('../controllers/movies');
 const usersController = require('../controllers/users');
 const wishlistItemsController = require('../controllers/wishlistItems')
 const ratingsController = require('../controllers/ratings')
-
+const jwtAuth = require('../middlewares/jwtAuth')
 
 // MOVIES
-router.get('/movies/trending', moviesController.trending)
-router.get('/movies/recommended', moviesController.recommendations)
-router.get('/movies/*', moviesController.getMovie)
+router.get('/movies/trending', jwtAuth, moviesController.trending)
+router.get('/movies/recommended', jwtAuth, moviesController.recommendations)
+router.get('/movies/*', jwtAuth, moviesController.getMovie)
 
 // USER
 router.post('/register', [
@@ -28,20 +28,20 @@ router.post('/login', [
         .notEmpty()
         .isLength({min: 8, max: 20})
 ], usersController.login)
-router.get('/account', usersController.account)
+router.get('/account', jwtAuth, usersController.account)
 
 // WISHLIST
-router.post('/wishlist/add', [check('movieId').notEmpty()], wishlistItemsController.create)
-router.post('/wishlist/delete', [check('movieId').notEmpty()], wishlistItemsController.destroy)
+router.post('/wishlist/add', [jwtAuth, check('movieId').notEmpty()], wishlistItemsController.create)
+router.post('/wishlist/delete', [jwtAuth, check('movieId').notEmpty()], wishlistItemsController.destroy)
 
 // MOVIE RATING
-router.get('/rating/user/*', ratingsController.getRating)
+router.get('/rating/user/*', jwtAuth, ratingsController.getRating)
 router.post('/rating/user/update',
-    [check('rating').notEmpty().isFloat({min: 0.5, max: 5})],
+    [jwtAuth, check('rating').notEmpty().isFloat({min: 0.5, max: 5})],
     ratingsController.update
 )
 router.post('/rating/user/delete',
-    [check('movieId').notEmpty()],
+    [jwtAuth, check('movieId').notEmpty()],
     ratingsController.destroy
 )
 module.exports = router;

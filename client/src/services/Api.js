@@ -8,21 +8,33 @@ const api = axios.create({
 })
 
 // TODO: Authorization token is not being set for requests that are made when page is initially loading
-// api.interceptors.response.use(response => {
-//     store.dispatch({type: 'HIDE_ALERT'});
-//     return response
-// }, res => {
-//     let errors = []
-//
-//     if (res.response.data.errors) {
-//         res.response.data.errors.forEach(e => errors.push(e.msg))
-//     } else if (res.response.data.message) {
-//         errors = [res.response.data.message]
-//     } else {
-//         errors = [res.response.statusText]
-//     }
-//     store.dispatch({type: 'SHOW_ALERT', payload: errors})
-//     return Promise.reject(res)
-// })
+api.interceptors.response.use(response => {
+
+    if (response.config.url === '/login') { // update Authorization header after successful login
+        api.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
+    }
+
+    // store.dispatch({type: 'HIDE_ALERT'});
+
+    return response
+}, error => {
+    if (error.response.status === 401) {
+        localStorage.setItem('token', null)
+        window.location.reload()
+    }
+
+    // let errors = []
+    //
+    // if (err.response.data.errors) {
+    //     err.response.data.errors.forEach(e => errors.push(e.msg))
+    // } else if (err.response.data.message) {
+    //     errors = [err.response.data.message]
+    // } else {
+    //     errors = [err.response.statusText]
+    // }
+    // store.dispatch({type: 'SHOW_ALERT', payload: errors})
+
+    return Promise.reject(error)
+})
 
 export {api}

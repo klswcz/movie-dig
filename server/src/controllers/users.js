@@ -77,16 +77,9 @@ exports.account = (req, res, next) => {
         res.status(400).json({messageBag: errors.array()});
     }
 
-    jwt.verify(req.headers.authorization.substring(7), process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.status(400).json({
-                messageBag: [{msg: 'User not found.'}]
-            });
-        }
-        User.findOne({email: user.username}, (err, model) => {
-            return res.status(200).json({
-                email: model.email
-            })
-        });
-    })
+    User.findOne({email: req.params.token.username}, (err, model) => {
+        return res.status(200).json({
+            email: model.email
+        })
+    });
 }

@@ -1,15 +1,9 @@
 const WishlistItem = require('../models/WishlistItem');
-const validator = require('../validator')
 const Movie = require("../models/Movie");
 const User = require("../models/User");
 
 
 exports.create = (req, res) => {
-    let errors = validator.getValidationErrors(req, res);
-    if (!errors.isEmpty()) {
-        res.status(400).json({messageBag: errors.array()});
-    }
-
     User.findOne({email: req.params.token.username}).then(user => {
         Movie.findOne({tmdbId: req.body.movieId}).then(movie => {
 
@@ -64,11 +58,6 @@ exports.create = (req, res) => {
 }
 
 exports.destroy = (req, res) => {
-    let errors = validator.getValidationErrors(req, res);
-    if (!errors.isEmpty()) {
-        res.status(400).json({messageBag: errors.array()});
-    }
-
     User.findOne({email: req.params.token.username}).then(user => {
         Movie.findOne({tmdbId: req.body.movieId}).then(movie => {
 

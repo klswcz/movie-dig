@@ -5,11 +5,6 @@ const validator = require('../validator')
 const {generateToken} = require("../generateToken");
 
 exports.register = (req, res, next) => {
-    let errors = validator.getValidationErrors(req, res);
-    if (!errors.isEmpty()) {
-        res.status(400).json({messageBag: errors.array()});
-    }
-
     User.findOne({email: req.body.email}).then(user => {
         if (user) {
             return res.status(400).json({
@@ -37,11 +32,6 @@ exports.register = (req, res, next) => {
 }
 
 exports.login = (req, res, next) => {
-    let errors = validator.getValidationErrors(req, res);
-    if (!errors.isEmpty()) {
-        res.status(400).json({messageBag: errors.array()});
-    }
-
     User.findOne({email: req.body.email}).then(user => {
         if (!user) {
             return res.status(400).json({
@@ -72,11 +62,6 @@ exports.login = (req, res, next) => {
 }
 
 exports.account = (req, res, next) => {
-    let errors = validator.getValidationErrors(req, res);
-    if (!errors.isEmpty()) {
-        res.status(400).json({messageBag: errors.array()});
-    }
-
     User.findOne({email: req.params.token.username}, (err, model) => {
         return res.status(200).json({
             email: model.email

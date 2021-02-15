@@ -5,11 +5,6 @@ const User = require("../models/User");
 
 
 exports.update = (req, res, next) => {
-    let errors = validator.getValidationErrors(req, res);
-    if (!errors.isEmpty()) {
-        res.status(400).json({messageBag: errors.array()});
-    }
-
     User.findOne({email: req.params.token.username}).then(user => {
         Movie.findOne({tmdbId: req.body.movieId}).then(movie => {
 
@@ -94,11 +89,6 @@ exports.getRating = (req, res, next) => {
 }
 
 exports.destroy = (req, res, next) => {
-    let errors = validator.getValidationErrors(req, res);
-    if (!errors.isEmpty()) {
-        res.status(400).json({messageBag: errors.array()});
-    }
-
     User.findOne({email: req.params.token.username}).then(user => {
         Movie.findOne({tmdbId: req.body.movieId}).then(movie => {
 

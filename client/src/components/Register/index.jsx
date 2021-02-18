@@ -17,7 +17,7 @@ function Register() {
         if (localStorage.getItem('token') !== 'null') {
             history.push({pathname: "/dashboard",});
         }
-    }, []);
+    }, [history]);
 
     const register = () => {
         const emailField = document.getElementById('email');

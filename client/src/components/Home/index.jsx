@@ -12,7 +12,7 @@ function Home() {
         if (localStorage.getItem('token') !== 'null') {
             history.push({pathname: "/dashboard",});
         }
-    }, []);
+    }, [history]);
 
     return (
         <div className="h-screen-minus-navbar pb-14">

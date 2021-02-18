@@ -14,7 +14,7 @@ function Dashboard() {
         } else {
             getTrendingMovies()
         }
-    }, []);
+    }, [history]);
 
     const getTrendingMovies = () => {
         trendingService().then(res => {

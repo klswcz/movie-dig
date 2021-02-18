@@ -15,7 +15,7 @@ function Login(props) {
         if (localStorage.getItem('token') !== 'null') {
             history.push({pathname: "/dashboard",});
         }
-    }, []);
+    }, [history]);
 
     const login = () => {
         const emailField = document.getElementById('email');

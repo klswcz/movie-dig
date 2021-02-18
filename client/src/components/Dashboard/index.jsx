@@ -1,13 +1,19 @@
 import {trending as trendingService} from "../../services/MovieServices";
 import React, {useEffect, useState} from 'react';
+import {useHistory} from "react-router-dom";
 import MovieCard from "./MovieCard";
 
 function Dashboard() {
     const [trendingMovies, setTrendingMovies] = useState([])
     const [loadingFinished, setLoadingFinished] = useState(false)
+    const history = useHistory();
 
     useEffect(() => {
-        getTrendingMovies()
+        if (localStorage.getItem('token') === 'null') {
+            history.push({pathname: "/login",});
+        } else {
+            getTrendingMovies()
+        }
     }, []);
 
     const getTrendingMovies = () => {

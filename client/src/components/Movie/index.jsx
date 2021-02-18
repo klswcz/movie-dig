@@ -12,6 +12,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import React, {useEffect, useState} from 'react';
 import ReactStars from 'react-stars'
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {useHistory} from "react-router-dom";
 
 function Dashboard() {
     let movieId = window.location.search.replace("?id=", ''); // get movie id from url parameter
@@ -20,18 +21,23 @@ function Dashboard() {
     const [isWishlistRequestProcessed, setIsWishlistRequestProcessed] = useState(false)
     const [userRating, setUserRating] = useState(null)
     const [loadingFinished, setLoadingFinished] = useState(false)
+    let history = useHistory();
 
     useEffect(() => {
-        setIsWishlistRequestProcessed(true)
-        getRatingService({movieId: movieId}).then(res => {
-            setUserRating(res.data.rating)
-            movieInfoService({movieId: movieId}).then(res => {
-                setMovieInfo(res.data.movie)
-                setIsWishlistItem(res.data.isWishlistItem)
-                setIsWishlistRequestProcessed(false)
-                setLoadingFinished(true)
+        if (localStorage.getItem('token') === 'null') {
+            history.push({pathname: "/login",});
+        } else {
+            setIsWishlistRequestProcessed(true)
+            getRatingService({movieId: movieId}).then(res => {
+                setUserRating(res.data.rating)
+                movieInfoService({movieId: movieId}).then(res => {
+                    setMovieInfo(res.data.movie)
+                    setIsWishlistItem(res.data.isWishlistItem)
+                    setIsWishlistRequestProcessed(false)
+                    setLoadingFinished(true)
+                })
             })
-        })
+        }
     }, [movieId]);
 
 

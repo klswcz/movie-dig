@@ -33,7 +33,7 @@ exports.update = (req, res, next) => {
                             })
                         } else {
                             return res.send({
-                                messageBag: [{msg: 'Rating has been added updated.'}],
+                                messageBag: [{msg: 'Rating has been updated.'}],
                                 rating: rating.rating
                             });
                         }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch} from "react-redux";
 import {register as registerService} from '../../services/AuthServices'
 import {useHistory} from "react-router-dom";
@@ -12,6 +12,12 @@ function Register() {
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const dispatch = useDispatch();
     let history = useHistory();
+
+    useEffect(() => {
+        if (localStorage.getItem('token') !== 'null') {
+            history.push({pathname: "/dashboard",});
+        }
+    }, []);
 
     const register = () => {
         const emailField = document.getElementById('email');

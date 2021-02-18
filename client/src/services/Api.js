@@ -1,5 +1,5 @@
 import axios from 'axios'
-// import store from '../store/reducer'
+import store from '../store/reducer'
 
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
@@ -14,7 +14,9 @@ api.interceptors.response.use(response => {
         api.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
     }
 
-    // store.dispatch({type: 'HIDE_ALERT'});
+    if (response.data.messageBag) {
+        store.dispatch({type: 'SHOW_ALERT', payload: response.data.messageBag})
+    }
 
     return response
 }, error => {
@@ -25,13 +27,14 @@ api.interceptors.response.use(response => {
 
     // let errors = []
     //
-    // if (err.response.data.errors) {
-    //     err.response.data.errors.forEach(e => errors.push(e.msg))
-    // } else if (err.response.data.message) {
-    //     errors = [err.response.data.message]
+    // if (error.response.data.errors) {
+    //     error.response.data.errors.forEach(e => errors.push(e.msg))
+    // } else if (error.response.data.message) {
+    //     errors = [error.response.data.message]
     // } else {
-    //     errors = [err.response.statusText]
+    //     errors = [error.response.statusText]
     // }
+    //
     // store.dispatch({type: 'SHOW_ALERT', payload: errors})
 
     return Promise.reject(error)

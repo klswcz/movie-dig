@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
+import {useEffect} from 'react'
 import Navbar from "../Navbar";
 import Footer from "../Footer";
-import {Redirect, Route, Switch, useLocation, withRouter, useHistory} from "react-router-dom";
+import {Route, Switch, useHistory, useLocation, withRouter} from "react-router-dom";
 import Home from "../Home";
 import Login from "../Login";
 import Register from "../Register";
@@ -20,45 +20,7 @@ function Layout() {
         return history.listen((location) => {
             store.dispatch({type: 'HIDE_ALERT'});
         })
-    },[history])
-
-    function PrivateRoute({children, ...rest}) {
-        return (
-            <Route
-                {...rest}
-                component={({location}) =>
-                    localStorage.getItem('token') !== 'null' ? (
-                        children
-                    ) : (
-                        <Redirect
-                            to={{
-                                pathname: "/login",
-                            }}
-                        />
-                    )
-                }
-            />
-        );
-    }
-
-    function PublicRoute({children, ...rest}) {
-        return (
-            <Route
-                {...rest}
-                component={({location}) =>
-                    localStorage.getItem('token') === 'null' ? (
-                        children
-                    ) : (
-                        <Redirect
-                            to={{
-                                pathname: "/dashboard",
-                            }}
-                        />
-                    )
-                }
-            />
-        );
-    }
+    }, [history])
 
     return (
         <div id="app">
@@ -69,21 +31,11 @@ function Layout() {
             <Alert/>
             }
             <Switch>
-                <PublicRoute path="/login">
-                    <Login/>
-                </PublicRoute>
-                <PublicRoute path="/register">
-                    <Register/>
-                </PublicRoute>
-                <PrivateRoute path="/dashboard">
-                    <Dashboard/>
-                </PrivateRoute>
-                <PrivateRoute path="/movie">
-                    <Movie/>
-                </PrivateRoute>
-                <PublicRoute path="/">
-                    <Home/>
-                </PublicRoute>
+                <Route path="/login" exact component={Login}/>
+                <Route path="/register" exact component={Register}/>
+                <Route path="/dashboard" exact component={Dashboard}/>
+                <Route path="/movie" component={Movie}/>
+                <Route path="/" component={Home}/>
             </Switch>
             <Footer/>
         </div>

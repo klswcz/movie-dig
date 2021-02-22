@@ -1,5 +1,5 @@
 import React from 'react';
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 function Alert() {
     const dispatch = useDispatch();
@@ -10,24 +10,23 @@ function Alert() {
     }
 
     return (
-        <div className="bg-indigo-600">
-            <div className="max-w-7xl mx-auto py-1 px-3 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between flex-wrap">
-                    <div className="w-0 flex-1 flex items-center flex-col">
-                        { alert.messageBag.map((message, index) => {
-                            return (
-                                <p key={index} className="ml-3 font-medium text-white truncate w-full">
-                                    {message.msg}
-                                </p>
-                            )
-                        })}
-                    </div>
-                    <div className="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
-                        <button type="button" onClick={hideAlert}
-                                className="text-white -mr-1 flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
-                            Dismiss
-                        </button>
-                    </div>
+        <div
+            className="py-2 px-5 left-2 right-2 bg-indigo-600 text-sm rounded-md fixed mr-auto ml-auto text-center md:w-1/2 mt-2 z-50">
+            <div className="flex items-center justify-between flex-wrap">
+                <div className="w-0 flex-1 flex items-center flex-col">
+                    {alert.messageBag.map((message, index) => {
+                        return (
+                            <p key={index} className="ml-3 font-medium text-white truncate w-full">
+                                {message.msg}
+                            </p>
+                        )
+                    })}
+                </div>
+                <div className="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
+                    <button type="button" onClick={hideAlert}
+                            className="text-white -mr-1 flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
+                        Dismiss
+                    </button>
                 </div>
             </div>
         </div>

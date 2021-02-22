@@ -10,15 +10,18 @@ import Movie from "../Movie";
 import Alert from "../UI/Alert";
 import store from '../../store/reducer'
 import {useSelector} from "react-redux";
+import FlashMessage from "../UI/FlashMessage";
 
 function Layout() {
     const location = useLocation();
     const alert = useSelector(state => state.alert)
+    const flashMessage = useSelector(state => state.flashMessage)
     const history = useHistory()
 
     useEffect(() => {
         return history.listen((location) => {
             store.dispatch({type: 'HIDE_ALERT'});
+            store.dispatch({type: 'HIDE_FLASH_MESSAGE'});
         })
     }, [history])
 
@@ -29,6 +32,9 @@ function Layout() {
             }
             {alert.isVisible &&
             <Alert/>
+            }
+            {flashMessage.isVisible &&
+            <FlashMessage/>
             }
             <Switch>
                 <Route path="/login" exact component={Login}/>

@@ -19,11 +19,11 @@ exports.register = (req, res, next) => {
             userModel.save(error => {
                 if (error) {
                     return res.status(500).json({
-                        messageBag: [{msg: 'Internal error.'}]
+                        flashMessageBag: [{msg: 'Internal error.'}]
                     })
                 } else {
                     return res.send({
-                        messageBag: [{msg: 'User has been registered.'}]
+                        flashMessageBag: [{msg: 'User has been registered.'}]
                     });
                 }
             })
@@ -44,7 +44,7 @@ exports.login = (req, res, next) => {
                 let token = generateToken(user)
 
                 return res.status(200).json({
-                    messageBag: [{msg: 'Logged in.'}],
+                    flashMessageBag: [{msg: 'Logged in.'}],
                     token,
                     cart: user.cart
                 })
@@ -55,7 +55,7 @@ exports.login = (req, res, next) => {
             }
         }).catch(error => {
             return res.status(500).json({
-                messageBag: [{msg: 'Internal error.'}]
+                flashMessageBag: [{msg: 'Internal error.'}]
             });
         })
     })

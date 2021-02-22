@@ -29,11 +29,11 @@ exports.update = (req, res, next) => {
                     rating.save(error => {
                         if (error) {
                             return res.status(500).json({
-                                messageBag: [{msg: error}]
+                                flashMessageBag: [{msg: error}]
                             })
                         } else {
                             return res.send({
-                                messageBag: [{msg: 'Rating has been updated.'}],
+                                flashMessageBag: [{msg: 'Rating has been updated.'}],
                                 rating: rating.rating
                             });
                         }
@@ -49,11 +49,11 @@ exports.update = (req, res, next) => {
                     ratingModel.save(error => {
                         if (error) {
                             return res.status(500).json({
-                                messageBag: [{msg: error}]
+                                flashMessageBag: [{msg: error}]
                             })
                         } else {
                             return res.send({
-                                messageBag: [{msg: 'Rating has been added saved.'}],
+                                flashMessageBag: [{msg: 'Rating has been added saved.'}],
                                 rating: ratingModel.rating
                             });
                         }
@@ -97,7 +97,7 @@ exports.destroy = (req, res, next) => {
                 movieId: movie.id
             }).then(item => {
                 return res.send({
-                    messageBag: [{msg: 'Rating has been deleted.'}],
+                    flashMessageBag: [{msg: 'Rating has been deleted.'}],
                     rating: null,
                 });
 

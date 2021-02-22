@@ -38,7 +38,7 @@ function Dashboard() {
                 })
             })
         }
-    }, [history]);
+    }, [history, movieId]);
 
 
     const addWishlistItem = () => {

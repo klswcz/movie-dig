@@ -25,7 +25,7 @@ exports.create = (req, res) => {
             }).then(item => {
                 if (item) {
                     return res.send({
-                        messageBag: [{msg: 'Movie already added to the wishlist.'}],
+                        flashMessageBag: [{msg: 'Movie already added to the wishlist.'}],
                         isWishlistItem: true
                     });
                 } else {
@@ -42,11 +42,11 @@ exports.create = (req, res) => {
                     wishlistItemModel.save(error => {
                         if (error) {
                             return res.status(500).json({
-                                messageBag: [{msg: error}]
+                                flashMessageBag: [{msg: error}]
                             })
                         } else {
                             return res.send({
-                                messageBag: [{msg: 'Movie has been added to wish list.'}],
+                                flashMessageBag: [{msg: 'Movie has been added to wish list.'}],
                                 isWishlistItem: true,
                             });
                         }
@@ -66,7 +66,7 @@ exports.destroy = (req, res) => {
                 user: {id: user.id}
             }).then(() => {
                 return res.send({
-                    messageBag: [{msg: 'Movie has been removed from wish list.'}],
+                    flashMessageBag: [{msg: 'Movie has been removed from wish list.'}],
                     isWishlistItem: false,
                 });
 

@@ -7,7 +7,6 @@ const api = axios.create({
     baseURL: `http://localhost:8081`
 })
 
-// TODO: Authorization token is not being set for requests that are made when page is initially loading
 api.interceptors.response.use(response => {
 
     if (response.config.url === '/login') { // update Authorization header after successful login
@@ -16,6 +15,8 @@ api.interceptors.response.use(response => {
 
     if (response.data.messageBag) {
         store.dispatch({type: 'SHOW_ALERT', payload: response.data.messageBag})
+    } else if (response.data.flashMessageBag) {
+        store.dispatch({type: 'SHOW_FLASH_MESSAGE', payload: response.data.flashMessageBag})
     }
 
     return response

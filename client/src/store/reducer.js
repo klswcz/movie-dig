@@ -5,6 +5,10 @@ const initialState = {
         isVisible: false,
         messageBag: []
     },
+    flashMessage: {
+        isVisible: false,
+        messageBag: []
+    },
     userEmail: '',
 }
 const rootReducer = (state = initialState, action) => {
@@ -21,6 +25,22 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 alert: {
+                    isVisible: true,
+                    messageBag: action.payload
+                }
+            }
+        case 'HIDE_FLASH_MESSAGE':
+            return {
+                ...state,
+                flashMessage: {
+                    isVisible: false,
+                    messageBag: []
+                }
+            }
+        case 'SHOW_FLASH_MESSAGE':
+            return {
+                ...state,
+                flashMessage: {
                     isVisible: true,
                     messageBag: action.payload
                 }

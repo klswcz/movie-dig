@@ -7,7 +7,6 @@ function FlashMessage() {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            console.log('test');
             dispatch({type: 'HIDE_FLASH_MESSAGE'})
         }, 3000)
 

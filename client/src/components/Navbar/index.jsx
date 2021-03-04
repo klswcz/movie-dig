@@ -14,19 +14,20 @@ function Navbar() {
     return (
         <nav className="bg-gray-800">
             <div className=" mx-auto px-4 sm:pr-6 lg:pr-8">
-                <div className="flex items-center justify-between h-16">
+                <div className="flex items-center h-16">
                     <div className="flex items-center w-full">
                         <div className="flex-shrink-0">
                             <Link to="/" className="text-white">MovieDig</Link>
                         </div>
                         <div className="hidden md:block w-full">
                             {localStorage.getItem('token') !== "null" &&
-                            <div className="ml-10 flex items-baseline justify-between space-x-4">
+                            <div className="ml-10 flex items-baseline">
                                 <Link to="/dashboard"
                                       className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
+                                <Link to="/account"
+                                      className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Settings</Link>
                                 <button onClick={logout}
-                                        className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Log
-                                    out
+                                        className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Log out
                                 </button>
                             </div>
                             }

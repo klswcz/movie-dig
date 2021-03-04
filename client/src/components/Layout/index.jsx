@@ -1,16 +1,17 @@
 import {useEffect} from 'react'
-import Navbar from "../Navbar";
-import Footer from "../Footer";
-import {Route, Switch, useHistory, useLocation, withRouter} from "react-router-dom";
-import Home from "../Home";
-import Login from "../Login";
-import Register from "../Register";
-import Dashboard from "../Dashboard";
-import Movie from "../Movie";
-import Alert from "../UI/Alert";
+import Navbar from "../Navbar"
+import Footer from "../Footer"
+import {Route, Switch, useHistory, useLocation, withRouter} from "react-router-dom"
+import Home from "../Home"
+import Login from "../Login"
+import Register from "../Register"
+import Dashboard from "../Dashboard"
+import Movie from "../Movie"
+import Alert from "../UI/Alert"
+import Account from '../Account'
 import store from '../../store/reducer'
-import {useSelector} from "react-redux";
-import FlashMessage from "../UI/FlashMessage";
+import {useSelector} from "react-redux"
+import FlashMessage from "../UI/FlashMessage"
 
 function Layout() {
     const location = useLocation();
@@ -41,6 +42,7 @@ function Layout() {
                 <Route path="/register" exact component={Register}/>
                 <Route path="/dashboard" exact component={Dashboard}/>
                 <Route path="/movie" component={Movie}/>
+                <Route path="/account" component={Account}/>
                 <Route path="/" component={Home}/>
             </Switch>
             <Footer/>

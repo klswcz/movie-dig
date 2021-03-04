@@ -64,7 +64,9 @@ exports.login = (req, res, next) => {
 exports.account = (req, res, next) => {
     User.findOne({email: req.params.token.username}, (err, model) => {
         return res.status(200).json({
-            email: model.email
+            email: model.email,
+            first_name: model.first_name,
+            last_name: model.last_name
         })
     });
 }

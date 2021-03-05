@@ -3,6 +3,7 @@ const User = require("../models/User");
 const Movie = require("../models/Movie");
 const WishlistItem = require("../models/WishlistItem");
 const Rating = require("../models/Rating");
+const {spawn} = require('child_process');
 
 exports.trending = (req, res, next) => {
     let movieResponse = []
@@ -29,11 +30,35 @@ exports.trending = (req, res, next) => {
 }
 
 exports.recommendations = (req, res, next) => {
-    tmdb.api.get('/trending/movies/week?api_key=' + process.env.TMDB_API_KEY).then(apiRes => {
-        return res.status(200).json({
-            movies: apiRes.data.results
-        })
-    })
+
+    runRecommendationScript().then(
+        recommendations => {
+            let promises = []
+            let tmdbApiResponses = []
+
+            recommendations = recommendations.split(",")
+            recommendations = recommendations.slice(0, recommendations.length - 1)
+
+            recommendations.forEach(tmdbId => {
+                promises.push(
+                    tmdb.api.get(`/movie/${tmdbId}?api_key=${process.env.TMDB_API_KEY}`).then(apiRes => {
+                        tmdbApiResponses.push(apiRes.data)
+                    })
+                )
+            })
+
+            Promise.all(promises).then(() => {
+                return res.status(200).json({
+                    movies: tmdbApiResponses
+                })
+            })
+        },
+        err => {
+            return res.status(400).json({
+                messageBag: [{msg: 'An error occurred while generating the recommendations.'}]
+            });
+        }
+    );
 }
 
 exports.getMovie = (req, res, next) => {
@@ -73,4 +98,25 @@ exports.getMovie = (req, res, next) => {
 
         })
     })
+}
+
+const runRecommendationScript = async () => {
+    const child = spawn('python3', ["src/scripts/recommendation.py"]);
+
+    let data = "";
+    for await (const chunk of child.stdout) {
+        data += chunk;
+    }
+    let error = "";
+    for await (const chunk of child.stderr) {
+        error += chunk;
+    }
+    const exitCode = await new Promise((resolve, reject) => {
+        child.on('close', resolve);
+    });
+
+    if (exitCode) {
+        throw new Error(`subprocess error exit ${exitCode}, ${error}`);
+    }
+    return data;
 }

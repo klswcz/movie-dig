@@ -32,7 +32,7 @@ function Dashboard() {
     };
 
     return (
-        <div className="h-screen-minus-navbar pb-14 px-4">
+        <div className="h-screen-minus-navbar pb-14 px-4 mt-16">
             {loadingFinished ?
                 (<>
                     <div className="mt-5 mb-3">

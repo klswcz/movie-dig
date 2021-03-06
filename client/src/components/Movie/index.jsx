@@ -70,7 +70,7 @@ function Dashboard() {
     }
 
     return (
-        <div className="h-screen-minus-navbar pb-14 px-4">
+        <div className="h-screen-minus-navbar pb-14 px-4 mt-16">
             {loadingFinished ?
                 (<>
                     <h1 className="text-4xl mt-5 sm:mb-3">{movieInfo.title}</h1>

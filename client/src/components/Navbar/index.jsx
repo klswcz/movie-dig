@@ -26,7 +26,7 @@ function Navbar() {
     }, []);
 
     return (
-        <nav className="bg-gray-800">
+        <nav className="bg-gray-800 fixed w-full z-50 top-0">
             <div className=" mx-auto px-4 sm:pr-6 lg:pr-8">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center w-full">

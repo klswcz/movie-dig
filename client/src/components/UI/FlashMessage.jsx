@@ -15,7 +15,7 @@ function FlashMessage() {
 
     return (
         <div
-            className="py-3 px-5 bg-indigo-600 text-blue-900 text-sm rounded-md fixed mr-auto ml-auto text-center left-0 right-0 top-2 w-max"
+            className="py-3 px-5 bg-indigo-600 text-blue-900 text-sm rounded-md fixed mr-auto ml-auto text-center left-0 right-0 top-2 w-max z-50"
             role="alert">
             <p className="font-medium text-white truncate w-full">
                 {flashMessage.messageBag.map((message, index) => {

@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 @layer utilities {
-    .h-half-screen {
-        min-height: 50vh;
+    @variants responsive {
+        .min-h-1\/2-screen {
+            min-height: 50vh;
+        }
+        .min-h-1\/4-screen {
+            min-height: 25vh;
+        }
     }
 
     .text-center-webkit {

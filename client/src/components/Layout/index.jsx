@@ -27,24 +27,26 @@ function Layout() {
     }, [history])
 
     return (
-        <div id="app">
-            {location.pathname !== '/' &&
-            <Navbar/>
-            }
-            {alert.isVisible &&
-            <Alert/>
-            }
-            {flashMessage.isVisible &&
-            <FlashMessage/>
-            }
-            <Switch>
-                <Route path="/login" exact component={Login}/>
-                <Route path="/register" exact component={Register}/>
-                <Route path="/dashboard" exact component={Dashboard}/>
-                <Route path="/movie" component={Movie}/>
-                <Route path="/account" component={Account}/>
-                <Route path="/" component={Home}/>
-            </Switch>
+        <div id="app" className="relative min-h-screen">
+            <div id="content-wrap" className="pb-14">
+                {location.pathname !== '/' &&
+                <Navbar/>
+                }
+                {alert.isVisible &&
+                <Alert/>
+                }
+                {flashMessage.isVisible &&
+                <FlashMessage/>
+                }
+                <Switch>
+                    <Route path="/login" exact component={Login}/>
+                    <Route path="/register" exact component={Register}/>
+                    <Route path="/dashboard" exact component={Dashboard}/>
+                    <Route path="/movie" component={Movie}/>
+                    <Route path="/account" component={Account}/>
+                    <Route path="/" component={Home}/>
+                </Switch>
+            </div>
             <Footer/>
         </div>
     )

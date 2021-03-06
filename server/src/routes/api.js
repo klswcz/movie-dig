@@ -10,7 +10,7 @@ const returnValidationErrors = require('../middlewares/returnValidationErrors')
 
 // MOVIES
 router.get('/movies/trending', jwtAuth, moviesController.trending)
-router.get('/movies/recommended', jwtAuth, moviesController.recommendations)
+router.get('/movies/recommendation', jwtAuth, moviesController.recommendations)
 router.get('/movies/*', jwtAuth, moviesController.getMovie)
 
 // USER

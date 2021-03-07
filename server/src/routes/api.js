@@ -25,6 +25,18 @@ router.post('/login', [
     returnValidationErrors
 ], usersController.login)
 router.get('/account', jwtAuth, usersController.account)
+router.post('/account', [
+    jwtAuth,
+    check('email', 'Invalid email format.').exists().isEmail(),
+    check('first_name', 'Invalid first name.').exists().isString(),
+    check('last_name', 'Invalid last name.').exists().isString(),
+    returnValidationErrors
+], usersController.update)
+router.post('/account/password', [
+    jwtAuth,
+    check('password', 'Password needs to be between 8 and 20 characters long.').isLength({min: 8, max: 20}),
+    returnValidationErrors
+], usersController.updatePassword)
 
 // WISHLIST
 router.post('/wishlist/add', [
@@ -41,15 +53,15 @@ router.post('/wishlist/delete', [
 // MOVIE RATING
 router.get('/rating/user/*', jwtAuth, ratingsController.getRating)
 router.post('/rating/user/update', [
-    jwtAuth,
-    check('rating').notEmpty().isFloat({min: 0.5, max: 5}),
-    returnValidationErrors
-], ratingsController.update
+        jwtAuth,
+        check('rating').notEmpty().isFloat({min: 0.5, max: 5}),
+        returnValidationErrors
+    ], ratingsController.update
 )
 router.post('/rating/user/delete', [
-    jwtAuth,
-    check('movieId').notEmpty(),
-    returnValidationErrors
-], ratingsController.destroy
+        jwtAuth,
+        check('movieId').notEmpty(),
+        returnValidationErrors
+    ], ratingsController.destroy
 )
 module.exports = router;

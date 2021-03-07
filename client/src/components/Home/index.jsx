@@ -15,7 +15,7 @@ function Home() {
     }, [history]);
 
     return (
-        <div className="h-screen-minus-navbar pb-14">
+        <div className=" pb-14">
             <HeroSection/>
             <FeatureShowcase image={movieInfoPage}
                              description={"Winners raffle description. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}/>

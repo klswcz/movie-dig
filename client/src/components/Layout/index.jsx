@@ -27,7 +27,7 @@ function Layout() {
     }, [history])
 
     return (
-        <div id="app" className="relative min-h-screen">
+        <div id="app" className="relative h-screen-minus-navbar">
             <div id="content-wrap" className="pb-14">
                 {location.pathname !== '/' &&
                 <Navbar/>

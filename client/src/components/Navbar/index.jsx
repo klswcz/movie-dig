@@ -23,7 +23,7 @@ function Navbar() {
         history.listen((location) => {
             mobileMenu.classList.add('hidden');
         })
-    }, []);
+    }, [history]);
 
     return (
         <nav className="bg-gray-800 fixed w-full z-40 top-0">
@@ -72,6 +72,8 @@ function Navbar() {
                 <div>
                     <Link to="/dashboard"
                           className="block text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
+                    <Link to="/account"
+                          className="block text-white px-3 py-2 rounded-md text-sm font-medium">Account</Link>
                     <hr/>
                     <button onClick={logout}
                             className="block text-white px-3 py-2 rounded-md text-sm font-medium">Log out

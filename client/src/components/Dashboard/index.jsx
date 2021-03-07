@@ -32,10 +32,10 @@ function Dashboard() {
     };
 
     return (
-        <div className="h-screen-minus-navbar pb-14 px-4 mt-16">
+        <div className=" pb-14 px-4 mt-16">
             {loadingFinished ?
                 (<>
-                    <div className="mt-5 mb-3">
+                    <div className="pt-5 mb-3">
                         <h1 className="text-4xl">Trending today</h1>
                         <div className="grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
                             {trendingMovies.map((movie, index) => {

@@ -18,6 +18,6 @@
 
     /* Screen height minus navbar and footer */
     .h-screen-minus-navbar {
-        min-height: calc(100vh - 4rem - 3.5rem);
+        min-height: calc(100vh - 4rem);
     }
 }

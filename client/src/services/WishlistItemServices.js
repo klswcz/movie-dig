@@ -8,4 +8,8 @@ const destroy = params => {
     return api.post('/wishlist/delete', params)
 }
 
-export {create, destroy}
+const get = params => {
+    return api.get('/wishlist')
+}
+
+export {create, destroy, get}

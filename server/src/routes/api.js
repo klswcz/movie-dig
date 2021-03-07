@@ -50,6 +50,7 @@ router.post('/wishlist/delete', [
     check('movieId').notEmpty(),
     returnValidationErrors
 ], wishlistItemsController.destroy)
+router.get('/wishlist', jwtAuth, wishlistItemsController.get)
 
 // MOVIE RATING
 router.get('/rating/user/*', jwtAuth, ratingsController.getRating)

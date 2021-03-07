@@ -40,6 +40,8 @@ function Navbar() {
                                       className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
                                 <Link to="/account"
                                       className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Settings</Link>
+                                <Link to="/wishlist"
+                                      className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Wish list</Link>
                                 <button onClick={logout}
                                         className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Log out
                                 </button>
@@ -73,7 +75,9 @@ function Navbar() {
                     <Link to="/dashboard"
                           className="block text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
                     <Link to="/account"
-                          className="block text-white px-3 py-2 rounded-md text-sm font-medium">Account</Link>
+                          className="block text-white px-3 py-2 rounded-md text-sm font-medium">Settings</Link>
+                    <Link to="/wishlist"
+                          className="block text-white px-3 py-2 rounded-md text-sm font-medium">Wish list</Link>
                     <hr/>
                     <button onClick={logout}
                             className="block text-white px-3 py-2 rounded-md text-sm font-medium">Log out

@@ -1,7 +1,7 @@
 const WishlistItem = require('../models/WishlistItem');
 const Movie = require("../models/Movie");
 const User = require("../models/User");
-
+const tmdb = require('../services/TmdbApi')
 
 exports.create = (req, res) => {
     User.findOne({email: req.params.token.username}).then(user => {
@@ -69,7 +69,31 @@ exports.destroy = (req, res) => {
                     flashMessageBag: [{msg: 'Movie has been removed from wish list.'}],
                     isWishlistItem: false,
                 });
+            })
+        })
+    })
+}
 
+exports.get = (req, res) => {
+    User.findOne({email: req.params.token.username}).then(user => {
+        WishlistItem.find({user: {id: user.id}}).then(wishlistItems => {
+
+            let promises = []
+            let apiMovies = []
+
+            wishlistItems.forEach(item => {
+                promises.push(
+                    tmdb.api.get(`/movie/${item.movie.tmdbId}?api_key=` + process.env.TMDB_API_KEY).then(apiRes => {
+                        // console.log(apiRes.data);
+                        apiMovies.push(apiRes.data)
+                    })
+                )
+            })
+
+            Promise.all(promises).then(() => {
+                return res.status(200).send({
+                    wishlistItems: apiMovies
+                })
             })
         })
     })

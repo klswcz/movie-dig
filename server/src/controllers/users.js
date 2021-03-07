@@ -89,11 +89,13 @@ exports.update = (req, res, next) => {
                     flashMessageBag: [{msg: 'Internal error.'}]
                 })
             } else {
+                let token = generateToken(user)
                 return res.status(200).send({
                     flashMessageBag: [{msg: 'Account has been updated.'}],
                     email: user.email,
                     first_name: user.first_name,
-                    last_name: user.last_name
+                    last_name: user.last_name,
+                    token: token
                 });
             }
         })
@@ -107,7 +109,6 @@ exports.updatePassword = (req, res, next) => {
                 messageBag: [{msg: 'User not found.'}]
             });
         }
-
 
         return bcrypt.compare(req.body.oldPassword, user.password).then(isPasswordValid => {
             if (isPasswordValid) {

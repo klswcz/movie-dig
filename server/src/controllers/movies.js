@@ -61,7 +61,7 @@ exports.recommendations = (req, res, next) => {
     );
 }
 
-exports.getMovie = (req, res, next) => {
+exports.get = (req, res, next) => {
     const movieId = req.params[0];
     let isWishlistItem = false;
 

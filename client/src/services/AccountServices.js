@@ -5,7 +5,7 @@ const get = () => {
 }
 
 const update = params => {
-    return api.post('/account', params)
+    return api.patch('/account', params)
 }
 
 const updatePassword = params => {
@@ -13,7 +13,7 @@ const updatePassword = params => {
 }
 
 const destroy = () => {
-    return api.post('/account/delete')
+    return api.delete('/account')
 }
 
 export {get, update, updatePassword, destroy}

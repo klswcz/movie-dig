@@ -1,15 +1,15 @@
 import {api} from './Api'
 
 const get = params => {
-    return api.get(`/rating/user/${params.movieId}`, params)
+    return api.get(`/rating/${params.movieId}`, params)
 }
 
 const set = params => {
-    return api.post('/rating/user/update', params)
+    return api.patch('/rating/', params)
 }
 
 const destroy = params => {
-    return api.post('/rating/user/delete', params)
+    return api.delete('/rating', params)
 }
 
 export {get, set, destroy}

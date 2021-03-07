@@ -64,7 +64,7 @@ exports.update = (req, res, next) => {
     })
 }
 
-exports.getRating = (req, res, next) => {
+exports.get = (req, res, next) => {
     const movieId = req.params[0];
 
     User.findOne({email: req.params.token.username}).then(user => {

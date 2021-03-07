@@ -1,11 +1,11 @@
 import {api} from './Api'
 
 const create = params => {
-    return api.post('/wishlist/add', params)
+    return api.post('/wishlist', params)
 }
 
 const destroy = params => {
-    return api.post('/wishlist/delete', params)
+    return api.delete('/wishlist', params)
 }
 
 const get = params => {

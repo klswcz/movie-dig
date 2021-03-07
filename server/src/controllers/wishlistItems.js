@@ -3,7 +3,7 @@ const Movie = require("../models/Movie");
 const User = require("../models/User");
 const tmdb = require('../services/TmdbApi')
 
-exports.create = (req, res) => {
+exports.store = (req, res) => {
     User.findOne({email: req.params.token.username}).then(user => {
         Movie.findOne({tmdbId: req.body.movieId}).then(movie => {
 

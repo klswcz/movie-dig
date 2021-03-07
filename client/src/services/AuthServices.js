@@ -1,11 +1,11 @@
 import {api} from './Api'
 
 const login = params => {
-    return api.post('/login', params, {})
+    return api.post('/account/login', params)
 }
 
 const register = params => {
-    return api.post('/register', params)
+    return api.post('/account', params)
 }
 
 const account = () => {

@@ -1,4 +1,4 @@
-import {movieInfo as movieInfoService} from "../../services/MovieServices";
+import {get as getMovieService} from "../../services/MovieServices";
 import {
     create as createWishlistItemService,
     destroy as destroyWishlistItemService
@@ -6,7 +6,7 @@ import {
 import {
     destroy as destroyRatingService,
     get as getRatingService,
-    set as setRatingService
+    update as setRatingService
 } from "../../services/RatingServices";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import React, {useEffect, useState} from 'react';
@@ -16,7 +16,7 @@ import {useHistory} from "react-router-dom";
 
 function Dashboard() {
     let movieId = window.location.search.replace("?id=", ''); // get movie id from url parameter
-    const [movieInfo, setMovieInfo] = useState([])
+    const [movie, setMovie] = useState([])
     const [isWishlistItem, setIsWishlistItem] = useState(false)
     const [isWishlistRequestProcessed, setIsWishlistRequestProcessed] = useState(false)
     const [userRating, setUserRating] = useState(null)
@@ -30,8 +30,8 @@ function Dashboard() {
             setIsWishlistRequestProcessed(true)
             getRatingService({movieId: movieId}).then(res => {
                 setUserRating(res.data.rating)
-                movieInfoService({movieId: movieId}).then(res => {
-                    setMovieInfo(res.data.movie)
+                getMovieService({movieId: movieId}).then(res => {
+                    setMovie(res.data.movie)
                     setIsWishlistItem(res.data.isWishlistItem)
                     setIsWishlistRequestProcessed(false)
                     setLoadingFinished(true)
@@ -73,13 +73,13 @@ function Dashboard() {
         <div className="h-screen-minus-navbar pb-14 px-4 mt-16">
             {loadingFinished ?
                 (<>
-                    <h1 className="text-4xl pt-5 sm:mb-3">{movieInfo.title}</h1>
-                    {movieInfo.tagline &&
-                    <p className="mb-5 text-gray-500">{movieInfo.tagline}</p>
+                    <h1 className="text-4xl pt-5 sm:mb-3">{movie.title}</h1>
+                    {movie.tagline &&
+                    <p className="mb-5 text-gray-500">{movie.tagline}</p>
                     }
                     <div className="inline-block sm:hidden mb-3">
-                        {movieInfo.genres &&
-                        movieInfo.genres.map((genre, index) => {
+                        {movie.genres &&
+                        movie.genres.map((genre, index) => {
                             return (
                                 <p className="inline-block pr-4" key={index}>{genre.name}</p>
                             )
@@ -88,13 +88,13 @@ function Dashboard() {
                     </div>
                     <div className="flex flex-wrap">
                         <div className="w-full sm:w-1/4">
-                            {movieInfo.poster_path &&
-                            <img src={'https://image.tmdb.org/t/p/w300' + movieInfo.poster_path} alt=""
+                            {movie.poster_path &&
+                            <img src={'https://image.tmdb.org/t/p/w300' + movie.poster_path} alt=""
                                  className="rounded-md w-1/3 align-top sm:align-middle sm:w-auto inline-block sm:block"/>
                             }
                             <div className="w-2/3 pl-3 inline-block sm:hidden align-top">
                                 <h2 className="text-2xl">Description</h2>
-                                <p>{movieInfo.overview}</p>
+                                <p>{movie.overview}</p>
                             </div>
                             <div className="">
                                 <p className="my-2">
@@ -120,7 +120,7 @@ function Dashboard() {
                                 <div className="inline-flex">
                                     <ReactStars
                                         count={5}
-                                        value={movieInfo.vote_average / 2}
+                                        value={movie.vote_average / 2}
                                         size={24}
                                         edit={false}
                                         color2={'#ffd700'}/>
@@ -135,8 +135,8 @@ function Dashboard() {
                         </div>
                         <div className="w-full sm:w-3/4 sm:pl-7">
                             <div className="hidden sm:inline-block">
-                                {movieInfo.genres &&
-                                movieInfo.genres.map((genre, index) => {
+                                {movie.genres &&
+                                movie.genres.map((genre, index) => {
                                     return (
                                         <p className="inline-block pr-4" key={index}>{genre.name}</p>
                                     )
@@ -144,12 +144,12 @@ function Dashboard() {
                                 }
                             </div>
                             <h2 className="text-2xl mt-5 hidden sm:block">Description</h2>
-                            <p className="hidden sm:block">{movieInfo.overview}</p>
+                            <p className="hidden sm:block">{movie.overview}</p>
                             <h2 className="text-2xl mt-5">Cast</h2>
                             <div
                                 className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8">
-                                {movieInfo.credits &&
-                                movieInfo.credits.cast.slice(0, 8).map((actor, index) => {
+                                {movie.credits &&
+                                movie.credits.cast.slice(0, 8).map((actor, index) => {
                                     return (
                                         <div className="text-center flex items-center flex-col mr-10" key={index}>
                                             {actor.profile_path &&

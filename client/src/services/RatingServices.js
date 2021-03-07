@@ -4,7 +4,7 @@ const get = params => {
     return api.get(`/rating/${params.movieId}`, params)
 }
 
-const set = params => {
+const update = params => {
     return api.patch('/rating/', params)
 }
 
@@ -12,4 +12,4 @@ const destroy = params => {
     return api.delete('/rating', params)
 }
 
-export {get, set, destroy}
+export {get, update, destroy}

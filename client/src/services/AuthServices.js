@@ -8,8 +8,4 @@ const register = params => {
     return api.post('/account', params)
 }
 
-const account = () => {
-    return api.get('/account')
-}
-
-export {login, register, account}
+export {login, register}

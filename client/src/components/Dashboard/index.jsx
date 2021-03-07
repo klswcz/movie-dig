@@ -21,13 +21,13 @@ function Dashboard() {
     const getTrendingMovies = () => {
         trendingService().then(res => {
             setTrendingMovies(res.data.movies)
+            setLoadingFinished(true)
         })
     };
 
     const getRecommendations = () => {
         recommendationService().then(res => {
             setRecommendedMovies(res.data.movies)
-            setLoadingFinished(true)
         })
     };
 

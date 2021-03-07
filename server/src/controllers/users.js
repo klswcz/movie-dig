@@ -2,6 +2,8 @@ const bcrypt = require("bcryptjs");
 const User = require('../models/User');
 const jwt = require('jsonwebtoken')
 const validator = require('../validator')
+const WishlistItem = require('../models/WishlistItem');
+const Rating = require('../models/Rating');
 const {generateToken} = require("../generateToken");
 
 exports.register = (req, res, next) => {
@@ -138,6 +140,20 @@ exports.updatePassword = (req, res, next) => {
             return res.status(500).json({
                 flashMessageBag: [{msg: 'Internal error.'}]
             });
+        })
+    })
+}
+
+exports.destroy = (req, res, next) => {
+    let promises = []
+
+    User.findOne({email: req.params.token.username}, (err, user) => {
+        promises.push(WishlistItem.deleteMany({user: {id: user.id}}))
+        promises.push(Rating.deleteMany({userId: user.id,}))
+        promises.push(user.remove())
+
+        Promise.all(promises).then(() => {
+            return res.status(200)
         })
     })
 }

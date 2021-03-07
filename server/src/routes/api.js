@@ -37,6 +37,7 @@ router.post('/account/password', [
     check('password', 'Password needs to be between 8 and 20 characters long.').isLength({min: 8, max: 20}),
     returnValidationErrors
 ], usersController.updatePassword)
+router.post('/account/delete', jwtAuth, usersController.destroy)
 
 // WISHLIST
 router.post('/wishlist/add', [

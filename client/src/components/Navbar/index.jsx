@@ -1,15 +1,34 @@
 import {Link, useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
+import {search as searchMovieService} from "../../services/MovieServices";
 
 function Navbar() {
     let dispatch = useDispatch()
     let history = useHistory()
+    const [searchResults, setSearchResults] = useState([])
+
+    useEffect(() => {
+        return history.listen((location) => {
+            setSearchResults([])
+            document.getElementById('movie_search').value = '';
+        })
+    }, [history])
 
     const logout = () => {
         dispatch({type: 'LOGOUT'})
         localStorage.setItem('token', null)
         history.push('/')
+    }
+
+    const movieSearch = (query) => {
+        if (query.length > 0) {
+            searchMovieService({query: query}).then(res => {
+                setSearchResults(res.data.results)
+            })
+        } else {
+            setSearchResults([])
+        }
     }
 
     useEffect(() => {
@@ -38,12 +57,32 @@ function Navbar() {
                             <div className="ml-10 flex items-baseline">
                                 <Link to="/dashboard"
                                       className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
+                                <div className="w-1/3 md:w-1/2 absolute pl-2 left-0 right-0 ml-auto mr-auto">
+                                    <input id="movie_search" name="movie_search" type="text"
+                                           onChange={event => movieSearch(event.target.value)}
+                                           className="appearance-none rounded-md relative block w-full py-2 px-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                           placeholder="Search movies by title..."/>
+                                    { searchResults.length > 0 &&
+                                        <div className="bg-white rounded-md border border-gray-300 py-2">
+                                            {searchResults.map( (result, index) => {
+                                                return (
+                                                    <Link to={{pathname: '/movie', search: `?id=${result.id}`}}
+                                                          className="py-2 px-3 block hover:bg-purple-300" key={index}>
+                                                        {result.title}
+                                                    </Link>
+                                                )
+                                            })}
+                                        </div>
+                                    }
+                                </div>
                                 <Link to="/account"
                                       className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Settings</Link>
                                 <Link to="/wishlist"
-                                      className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Wish list</Link>
+                                      className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Wish
+                                    list</Link>
                                 <button onClick={logout}
-                                        className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Log out
+                                        className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Log
+                                    out
                                 </button>
                             </div>
                             }

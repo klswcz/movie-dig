@@ -74,8 +74,10 @@ function Dashboard() {
             {loadingFinished ?
                 (<>
                     <h1 className="text-4xl pt-5 sm:mb-3">{movie.title}</h1>
-                    {movie.tagline &&
-                    <p className="mb-5 text-gray-500">{movie.tagline}</p>
+                    {movie.tagline ?
+                        <p className="mb-5 text-gray-500">{movie.tagline}</p>
+                        :
+                        <p className="mb-5 text-gray-500">&nbsp;</p>
                     }
                     <div className="inline-block sm:hidden mb-3">
                         {movie.genres &&

@@ -8,7 +8,7 @@ const api = axios.create({
 })
 
 api.interceptors.response.use(response => {
-    if (response.config.url === '/login' || (response.config.url === '/account' && response.config.method === 'post')) { // update Authorization header after successful login
+    if (response.config.url === '/account/login' || (response.config.url === '/account' && response.config.method === 'post')) { // update Authorization header after successful login
         api.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
     }
 

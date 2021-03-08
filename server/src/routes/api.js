@@ -9,6 +9,7 @@ const jwtAuth = require('../middlewares/jwtAuth')
 const returnValidationErrors = require('../middlewares/returnValidationErrors')
 
 // MOVIES
+router.get('/movies/search', jwtAuth, moviesController.search)
 router.get('/movies/trending', jwtAuth, moviesController.trending)
 router.get('/movies/recommendation', jwtAuth, moviesController.recommendations)
 router.get('/movies/*', jwtAuth, moviesController.get)

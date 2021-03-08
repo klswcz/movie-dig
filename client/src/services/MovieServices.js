@@ -12,4 +12,10 @@ const recommendation = params => {
     return api.get('movies/recommendation')
 }
 
-export {trending, get, recommendation}
+const search = params => {
+    return api.get('movies/search', {
+        params: params
+    })
+}
+
+export {trending, get, recommendation, search}

@@ -100,6 +100,21 @@ exports.get = (req, res, next) => {
     })
 }
 
+exports.search = (req, res, next) => {
+
+    User.findOne({email: req.params.token.username}).then(user => {
+        tmdb.api.get(`/search/movie?query=${req.query.query}&api_key=` + process.env.TMDB_API_KEY).then(apiRes => {
+            return res.status(200).json({
+                results: apiRes.data.results
+            })
+        }).catch(err => {
+            return res.status(400).json({
+                results: err
+            })
+        })
+    })
+}
+
 const runRecommendationScript = async () => {
     const child = spawn('python3', ["src/scripts/recommendation.py"]);
 

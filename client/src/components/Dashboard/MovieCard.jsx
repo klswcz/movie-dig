@@ -8,7 +8,7 @@ function MovieCard(props) {
         <Link to={{ pathname: '/movie', search: `?id=${props.movieId}`}} className="mx-2 my-3">
             <div className="relative bg-white border border-black shadow overflow-hidden sm:rounded-md  h-72"
                  style={{
-                     backgroundImage: 'url(https://image.tmdb.org/t/p/w300' + props.posterPath + ')',
+                     backgroundImage: props.posterPath ? 'url(https://image.tmdb.org/t/p/w300' + props.posterPath + ')' : 'url(https://dummyimage.com/300x450/cccccc/ffffff&text=No+poster)',
                      backgroundPosition: "center",
                      backgroundSize: "cover"
                  }}>

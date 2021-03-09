@@ -2,8 +2,6 @@ import {Link, useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import React, {useEffect, useState} from 'react';
 import {search as searchMovieService} from "../../services/MovieServices";
-import {faTrash} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function Navbar() {
     let dispatch = useDispatch()
@@ -74,12 +72,22 @@ function Navbar() {
                                            className="appearance-none rounded-md relative block w-full py-2 px-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                            placeholder="Search movies by title..."/>
                                     {searchResults.length > 0 &&
-                                    <div className="bg-white rounded-md border border-gray-300 py-2">
-                                        {searchResults.map((result, index) => {
+                                    <div className="bg-white rounded-md border border-gray-300 pt-2">
+                                        {searchResults.splice(0, 7).map((movie, index) => {
                                             return (
-                                                <Link to={{pathname: '/movie', search: `?id=${result.id}`}}
-                                                      className="py-2 px-3 block hover:bg-purple-300" key={index}>
-                                                    {result.title}
+                                                <Link to={{pathname: '/movie', search: `?id=${movie.id}`}}
+                                                      className="py-2 px-3 block hover:bg-purple-500 hover:text-white border-b"
+                                                      key={index}>
+                                                    {movie.poster_path ?
+                                                        <img src={'https://image.tmdb.org/t/p/w45' + movie.poster_path}
+                                                             alt=""
+                                                             className="rounded-md align-top sm:align-middle inline-block mr-3"/>
+                                                        :
+                                                        <img src={'https://dummyimage.com/45x68/cccccc/ffffff&text=No+poster'}
+                                                             alt=""
+                                                             className="rounded-md align-top sm:align-middle inline-block mr-3"/>
+                                                    }
+                                                    {movie.title}
                                                 </Link>
                                             )
                                         })}

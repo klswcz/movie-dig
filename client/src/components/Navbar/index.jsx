@@ -31,6 +31,12 @@ function Navbar() {
         }
     }
 
+    const resetSearchField = () => {
+        setTimeout(() => {
+            setSearchResults([])
+        }, 100)
+    }
+
     useEffect(() => {
         let menuToggle = document.getElementById('menu-toggle');
         let mobileMenu = document.getElementById('mobile-menu');
@@ -59,20 +65,23 @@ function Navbar() {
                                       className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
                                 <div className="w-1/3 md:w-1/2 absolute pl-2 left-0 right-0 ml-auto mr-auto">
                                     <input id="movie_search" name="movie_search" type="text"
+                                           autoComplete="off"
                                            onChange={event => movieSearch(event.target.value)}
+                                           onFocus={event => movieSearch(event.target.value)}
+                                           onBlur={() => resetSearchField()}
                                            className="appearance-none rounded-md relative block w-full py-2 px-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                            placeholder="Search movies by title..."/>
-                                    { searchResults.length > 0 &&
-                                        <div className="bg-white rounded-md border border-gray-300 py-2">
-                                            {searchResults.map( (result, index) => {
-                                                return (
-                                                    <Link to={{pathname: '/movie', search: `?id=${result.id}`}}
-                                                          className="py-2 px-3 block hover:bg-purple-300" key={index}>
-                                                        {result.title}
-                                                    </Link>
-                                                )
-                                            })}
-                                        </div>
+                                    {searchResults.length > 0 &&
+                                    <div className="bg-white rounded-md border border-gray-300 py-2">
+                                        {searchResults.map((result, index) => {
+                                            return (
+                                                <Link to={{pathname: '/movie', search: `?id=${result.id}`}}
+                                                      className="py-2 px-3 block hover:bg-purple-300" key={index}>
+                                                    {result.title}
+                                                </Link>
+                                            )
+                                        })}
+                                    </div>
                                     }
                                 </div>
                                 <Link to="/account"

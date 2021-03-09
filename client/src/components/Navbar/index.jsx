@@ -52,62 +52,64 @@ function Navbar() {
 
     return (
         <nav className="bg-gray-800 fixed w-full z-40 top-0">
-            <div className=" mx-auto px-4 sm:pr-6 lg:pr-8">
+            <div className="mx-auto md:px-4 sm:pr-6 lg:pr-8">
                 <div className="flex items-center h-16">
-                    <div className="flex items-center w-full">
-                        <div className="flex-shrink-0">
-                            <Link to="/" className="text-white">MovieDig</Link>
-                        </div>
-                        <div className="hidden sm:block w-full">
-                            {localStorage.getItem('token') !== "null" &&
-                            <div className="ml-10 flex items-baseline">
-                                <Link to="/dashboard"
-                                      className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
-                                <div className="w-1/3 md:w-1/2 absolute pl-2 left-0 right-0 ml-auto mr-auto">
-                                    <input id="movie_search" name="movie_search" type="text"
-                                           autoComplete="off"
-                                           onChange={event => movieSearch(event.target.value)}
-                                           onFocus={event => movieSearch(event.target.value)}
-                                           onBlur={() => hideSearchResults()}
-                                           className="appearance-none rounded-md relative block w-full py-2 px-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                           placeholder="Search movies by title..."/>
-                                    {searchResults.length > 0 &&
-                                    <div className="bg-white rounded-md border border-gray-300 pt-2">
-                                        {searchResults.splice(0, 7).map((movie, index) => {
-                                            return (
-                                                <Link to={{pathname: '/movie', search: `?id=${movie.id}`}}
-                                                      className="py-2 px-3 block hover:bg-purple-500 hover:text-white border-b truncate"
-                                                      key={index}>
-                                                    {movie.poster_path ?
-                                                        <img src={'https://image.tmdb.org/t/p/w45' + movie.poster_path}
-                                                             alt=""
-                                                             className="rounded-md align-top sm:align-middle inline-block mr-3"/>
-                                                        :
-                                                        <img src={'https://dummyimage.com/45x68/cccccc/ffffff&text=No+poster'}
-                                                             alt=""
-                                                             className="rounded-md align-top sm:align-middle inline-block mr-3"/>
-                                                    }
-                                                    {movie.title}
-                                                </Link>
-                                            )
-                                        })}
-                                    </div>
-                                    }
+                    <div className="flex items-start lg:items-center w-full">
+                        <Link to="/"
+                              className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">MovieDig</Link>
+                        {localStorage.getItem('token') !== "null" &&
+                        <div className="w-full">
+                            <div className="w-1/2 md:w-2/3 lg:w-1/3 xl:w-1/2 absolute left-0 right-0 ml-auto mr-auto">
+
+                                <input id="movie_search" name="movie_search" type="text"
+                                       autoComplete="off"
+                                       onChange={event => movieSearch(event.target.value)}
+                                       onFocus={event => movieSearch(event.target.value)}
+                                       onBlur={() => hideSearchResults()}
+                                       className="appearance-none relative block w-full py-2 px-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-sm"
+                                       placeholder="Search movies by title..."/>
+                                {searchResults.length > 0 &&
+                                <div
+                                    className="fixed left-0 w-screen md:w-full md:relative bg-white border border-gray-300 pt-2">
+                                    {searchResults.splice(0, 7).map((movie, index) => {
+                                        return (
+                                            <Link to={{pathname: '/movie', search: `?id=${movie.id}`}}
+                                                  className="py-2 px-3 block hover:bg-purple-500 hover:text-white border-b truncate"
+                                                  key={index}>
+                                                {movie.poster_path ?
+                                                    <img src={'https://image.tmdb.org/t/p/w45' + movie.poster_path}
+                                                         alt=""
+                                                         className="rounded-md align-top sm:align-middle inline-block mr-3"/>
+                                                    :
+                                                    <img
+                                                        src={'https://dummyimage.com/45x68/cccccc/ffffff&text=No+poster'}
+                                                        alt=""
+                                                        className="rounded-md align-top sm:align-middle inline-block mr-3"/>
+                                                }
+                                                {movie.title}
+                                            </Link>
+                                        )
+                                    })}
                                 </div>
-                                <Link to="/account"
-                                      className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Settings</Link>
-                                <Link to="/wishlist"
-                                      className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Wish
-                                    list</Link>
-                                <button onClick={logout}
-                                        className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Log
-                                    out
-                                </button>
+                                }
                             </div>
-                            }
+                            <div className="hidden lg:block">
+                                <div className="ml-10 flex items-baseline">
+                                    <Link to="/account"
+                                          className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Settings</Link>
+                                    <Link to="/wishlist"
+                                          className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Wish
+                                        list</Link>
+                                    <button onClick={logout}
+                                            className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Log
+                                        out
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                        }
                     </div>
-                    <div className="mr-2 flex sm:hidden">
+                    <div className="mr-2 flex lg:hidden">
                         <button
                             className="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 focus:outline-none"
                             aria-controls="mobile-menu" aria-expanded="false" id="menu-toggle">
@@ -127,7 +129,7 @@ function Navbar() {
                 </div>
             </div>
 
-            <div className="sm:hidden hidden px-2 pt-2 pb-3 space-y-1" id="mobile-menu">
+            <div className="lg:hidden hidden px-2 pt-2 pb-3 space-y-1" id="mobile-menu">
                 {localStorage.getItem('token') !== "null" &&
                 <div>
                     <Link to="/dashboard"

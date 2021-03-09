@@ -76,7 +76,7 @@ function Navbar() {
                                         {searchResults.splice(0, 7).map((movie, index) => {
                                             return (
                                                 <Link to={{pathname: '/movie', search: `?id=${movie.id}`}}
-                                                      className="py-2 px-3 block hover:bg-purple-500 hover:text-white border-b"
+                                                      className="py-2 px-3 block hover:bg-purple-500 hover:text-white border-b truncate"
                                                       key={index}>
                                                     {movie.poster_path ?
                                                         <img src={'https://image.tmdb.org/t/p/w45' + movie.poster_path}

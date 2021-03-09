@@ -1,7 +1,9 @@
 import {Link, useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {search as searchMovieService} from "../../services/MovieServices";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function Navbar() {
     let dispatch = useDispatch()
@@ -31,7 +33,7 @@ function Navbar() {
         }
     }
 
-    const resetSearchField = () => {
+    const hideSearchResults = () => {
         setTimeout(() => {
             setSearchResults([])
         }, 100)
@@ -68,7 +70,7 @@ function Navbar() {
                                            autoComplete="off"
                                            onChange={event => movieSearch(event.target.value)}
                                            onFocus={event => movieSearch(event.target.value)}
-                                           onBlur={() => resetSearchField()}
+                                           onBlur={() => hideSearchResults()}
                                            className="appearance-none rounded-md relative block w-full py-2 px-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                            placeholder="Search movies by title..."/>
                                     {searchResults.length > 0 &&

@@ -4,6 +4,8 @@ const Movie = require("../models/Movie");
 const WishlistItem = require("../models/WishlistItem");
 const Rating = require("../models/Rating");
 const {spawn} = require('child_process');
+const mongoose = require("mongoose");
+const Types = mongoose.Types;
 
 exports.trending = (req, res, next) => {
     let movieResponse = []
@@ -70,6 +72,7 @@ exports.get = (req, res, next) => {
 
             if (movie === null) {
                 let movieModel = new Movie({
+                    movieId: (new Types.ObjectId).toString(),
                     imdbId: null,
                     tmdbId: movieId
                 })
@@ -79,7 +82,7 @@ exports.get = (req, res, next) => {
                 })
             } else {
                 WishlistItem.findOne({
-                    movie: {imdbId: movie.imdbId, tmdbId: movie.tmdbId},
+                    movie: {movieId: movie.movieId, imdbId: movie.imdbId, tmdbId: movie.tmdbId},
                     user: {id: user.id}
                 }).then(item => {
                     isWishlistItem = item !== null

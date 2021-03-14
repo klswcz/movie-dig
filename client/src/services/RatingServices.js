@@ -9,7 +9,9 @@ const update = params => {
 }
 
 const destroy = params => {
-    return api.delete('/rating', params)
+    return api.delete('/rating', {
+        params: params
+    })
 }
 
 export {get, update, destroy}

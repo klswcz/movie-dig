@@ -2,13 +2,15 @@ const WishlistItem = require('../models/WishlistItem');
 const Movie = require("../models/Movie");
 const User = require("../models/User");
 const tmdb = require('../services/TmdbApi')
+const mongoose = require("mongoose");
+const Types = mongoose.Types;
 
 exports.store = (req, res) => {
     User.findOne({email: req.params.token.username}).then(user => {
         Movie.findOne({tmdbId: req.body.movieId}).then(movie => {
-
             if (movie === null) {
                 let movieModel = new Movie({
+                    movieId: (new Types.ObjectId).toString(),
                     imdbId: null,
                     tmdbId: req.body.movieId
                 })
@@ -31,7 +33,8 @@ exports.store = (req, res) => {
                 } else {
                     let wishlistItemModel = new WishlistItem({
                         movie: {
-                            imdbId: null,
+                            movieId: movie.movieId,
+                            imdbId: movie.imdbId,
                             tmdbId: movie.tmdbId
                         },
                         user: {
@@ -59,10 +62,9 @@ exports.store = (req, res) => {
 
 exports.destroy = (req, res) => {
     User.findOne({email: req.params.token.username}).then(user => {
-        Movie.findOne({tmdbId: req.body.movieId}).then(movie => {
-
+        Movie.findOne({tmdbId: req.query.movieId}).then(movie => {
             WishlistItem.deleteOne({
-                movie: {imdbId: movie.imdbId, tmdbId: movie.tmdbId},
+                movie: {movieId: movie.movieId, imdbId: movie.imdbId, tmdbId: movie.tmdbId},
                 user: {id: user.id}
             }).then(() => {
                 return res.send({
@@ -84,7 +86,6 @@ exports.get = (req, res) => {
             wishlistItems.forEach(item => {
                 promises.push(
                     tmdb.api.get(`/movie/${item.movie.tmdbId}?api_key=` + process.env.TMDB_API_KEY).then(apiRes => {
-                        // console.log(apiRes.data);
                         apiMovies.push(apiRes.data)
                     })
                 )

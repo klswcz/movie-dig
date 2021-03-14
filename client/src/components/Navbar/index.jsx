@@ -11,7 +11,9 @@ function Navbar() {
     useEffect(() => {
         return history.listen((location) => {
             setSearchResults([])
-            document.getElementById('movie_search').value = '';
+            if (document.getElementById('movie_search')) {
+                document.getElementById('movie_search').value = '';
+            }
         })
     }, [history])
 

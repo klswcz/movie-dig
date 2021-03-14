@@ -9,7 +9,9 @@ const create = params => {
 }
 
 const destroy = params => {
-    return api.delete('/wishlist', params)
+    return api.delete('/wishlist', {
+        params: params
+    })
 }
 
 export {create, destroy, get}

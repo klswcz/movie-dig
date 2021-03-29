@@ -1,6 +1,7 @@
 const WishlistItem = require('../models/WishlistItem');
 const Movie = require("../models/Movie");
 const User = require("../models/User");
+const Rating = require("../models/Rating");
 const tmdb = require('../services/TmdbApi')
 const mongoose = require("mongoose");
 const Types = mongoose.Types;
@@ -86,7 +87,12 @@ exports.get = (req, res) => {
             wishlistItems.forEach(item => {
                 promises.push(
                     tmdb.api.get(`/movie/${item.movie.tmdbId}?api_key=` + process.env.TMDB_API_KEY).then(apiRes => {
-                        apiMovies.push(apiRes.data)
+                        return Rating.findOne({userId: user.id, movieId: item.movie.movieId}).then(rating => {
+                            if (rating !== null) {
+                                apiRes.data.user_rating = rating.rating
+                            }
+                            apiMovies.push(apiRes.data)
+                        })
                     })
                 )
             })

@@ -45,8 +45,6 @@ function Account(props) {
             setEmail(res.data.email)
             setFirstName(res.data.first_name)
             setLastName(res.data.last_name)
-        }).catch(err => {
-            dispatch({type: "SHOW_ALERT", payload: err.response.data.messageBag})
         })
     }
 

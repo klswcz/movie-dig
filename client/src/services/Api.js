@@ -15,11 +15,7 @@ api.interceptors.response.use(response => {
         api.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
     }
 
-    if (response.data.messageBag) {
-        store.dispatch({type: 'SHOW_ALERT', payload: response.data.messageBag})
-    } else if (response.data.flashMessageBag) {
-        store.dispatch({type: 'SHOW_FLASH_MESSAGE', payload: response.data.flashMessageBag})
-    }
+    showResponseMessages(response)
 
     return response
 }, error => {
@@ -31,7 +27,7 @@ api.interceptors.response.use(response => {
                 break
             case 400:
             case 500:
-                store.dispatch({type: "SHOW_ALERT", payload: error.response.data.messageBag})
+                showResponseMessages(error.response)
                 break
             default:
                 localStorage.setItem('token', null)
@@ -43,5 +39,13 @@ api.interceptors.response.use(response => {
 
     return Promise.reject(error)
 })
+
+const showResponseMessages = (response) => {
+    if (response.data.messageBag) {
+        store.dispatch({type: 'SHOW_ALERT', payload: response.data.messageBag})
+    } else if (response.data.flashMessageBag) {
+        store.dispatch({type: 'SHOW_FLASH_MESSAGE', payload: response.data.flashMessageBag})
+    }
+}
 
 export {api}

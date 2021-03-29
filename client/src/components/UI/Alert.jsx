@@ -11,7 +11,7 @@ function Alert() {
 
     return (
         <div
-            className="py-2 px-5 left-2 right-2 bg-indigo-600 text-sm rounded-md fixed mr-auto ml-auto text-center md:w-1/2 mt-2 z-50">
+            className="py-1 px-5 bg-indigo-600 left-2 right-2 text-sm rounded-md fixed mr-auto ml-auto top-1 text-center md:w-1/2 mt-2 z-50">
             <div className="flex items-center justify-between flex-wrap">
                 <div className="w-0 flex-1 flex items-center flex-col">
                     {alert.messageBag.map((message, index) => {

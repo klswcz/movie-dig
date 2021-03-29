@@ -56,8 +56,8 @@ function Account(props) {
 
         if (
             passwordField.value === confirmPasswordField.value
-            && passwordField.checkValidity()
         ) {
+            confirmPasswordField.setCustomValidity('');
             updatePasswordService({
                 oldPassword: oldPassword,
                 password: password,
@@ -101,10 +101,10 @@ function Account(props) {
                 </div>
                 <form className="mt-8 space-y-6" action="" method="POST" onSubmit={e => e.preventDefault()}>
                     <Input name={'email'} type={'text'} value={email} onChange={event => setEmail(event.target.value)}/>
-                    <Input name={'first_name'} vtype={'text'} value={firstName}
-                           onChange={event => setFirstName(event.target.value)}/>
+                    <Input name={'first_name'} type={'text'} value={firstName}
+                           required={true} onChange={event => setFirstName(event.target.value)}/>
                     <Input name={'last_name'} type={'text'} value={lastName}
-                           onChange={event => setLastName(event.target.value)}/>
+                           required={true} onChange={event => setLastName(event.target.value)}/>
                     <Button onClick={updateAccount} label={'Update'}/>
                 </form>
                 <form className="mt-8 space-y-6" action="" method="POST" onSubmit={e => e.preventDefault()}>

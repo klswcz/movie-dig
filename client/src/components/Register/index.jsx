@@ -10,6 +10,8 @@ function Register() {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
     const dispatch = useDispatch();
     let history = useHistory();
 
@@ -20,17 +22,16 @@ function Register() {
     }, [history]);
 
     const register = () => {
-        const emailField = document.getElementById('email');
         const passwordField = document.getElementById('password');
         const confirmPasswordField = document.getElementById('confirmPassword');
         if (
             passwordField.value === confirmPasswordField.value
-            && emailField.checkValidity()
-            && passwordField.checkValidity()
         ) {
             confirmPasswordField.setCustomValidity('');
             registerService({
                 email: email,
+                first_name: firstName,
+                last_name: lastName,
                 password: password
             }).then(res => {
                 dispatch({type: "SHOW_ALERT", payload: [{msg: 'Sign in to your new account.'}]})
@@ -54,15 +55,19 @@ function Register() {
                 <form className="mt-8 space-y-6" action="" method="POST" onSubmit={e => e.preventDefault()}>
                     <input type="hidden" name="remember" value="true"/>
                     <div className="rounded-md shadow-sm -space-y-px">
-                        <Input name={'email'} type={'email'} value={email} placeholder={'Email address'}
+                        <Input name={'email'} type={'email'} value={email}
                                required={true} onChange={event => setEmail(event.target.value)}/>
-                        <Input name={'password'} type={'password'} value={password} placeholder={'Password'}
+                        <Input name={'first_name'} type={'text'} value={firstName}
+                               required={true} onChange={event => setFirstName(event.target.value)}/>
+                        <Input name={'last_name'} type={'text'} value={lastName}
+                               required={true} onChange={event => setLastName(event.target.value)}/>
+                        <Input name={'password'} type={'password'} value={password}
                                required={true} onChange={event => setPassword(event.target.value)}/>
-                        <Input name={'confirmPassword'} type={'password'} value={confirmPassword} placeholder={'Confirm password'}
+                        <Input name={'confirmPassword'} type={'password'} value={confirmPassword}
                                required={true} onChange={event => setConfirmPassword(event.target.value)}/>
                     </div>
                     <div>
-                        <Button onClick={register} label={'Sign up'} />
+                        <Button onClick={register} label={'Sign up'}/>
                     </div>
                 </form>
             </div>

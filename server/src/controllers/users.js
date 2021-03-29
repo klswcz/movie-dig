@@ -26,6 +26,8 @@ exports.store = (req, res, next) => {
         return bcrypt.hash(req.body.password, 12).then(hashedPassword => {
             let userModel = new User({
                 email: req.body.email,
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
                 password: hashedPassword
             })
             userModel.save(error => {

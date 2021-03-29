@@ -18,14 +18,16 @@ router.get('/movies/*', jwtAuth, moviesController.get)
 router.get('/account', jwtAuth, usersController.get)
 router.post('/account', [
     check('email', 'Invalid email format.').exists().isEmail(),
+    check('first_name', 'Invalid first name.').exists().isString().isLength({min: 1, max: 255}),
+    check('last_name', 'Invalid last name.').exists().isString().isLength({min: 1, max: 255}),
     check('password', 'Password needs to be between 8 and 20 characters long.').isLength({min: 8, max: 20}),
     returnValidationErrors
 ], usersController.store)
 router.patch('/account', [
     jwtAuth,
     check('email', 'Invalid email format.').exists().isEmail(),
-    check('first_name', 'Invalid first name.').exists().isString(),
-    check('last_name', 'Invalid last name.').exists().isString(),
+    check('first_name', 'Invalid first name.').exists().isString().isLength({min: 1, max: 255}),
+    check('last_name', 'Invalid last name.').exists().isString().isLength({min: 1, max: 255}),
     returnValidationErrors
 ], usersController.update)
 router.delete('/account', jwtAuth, usersController.destroy)

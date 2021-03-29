@@ -20,9 +20,18 @@ api.interceptors.response.use(response => {
 
     return response
 }, error => {
-    if (error.response.status === 401) {
-        localStorage.setItem('token', null)
-        window.location.reload()
+    if (error.response) {
+        switch (error.response.status) {
+            case 401:
+                localStorage.setItem('token', null)
+                window.location.reload()
+                break
+            default:
+                localStorage.setItem('token', null)
+                window.location.reload()
+        }
+    } else {
+        store.dispatch({type: 'SHOW_ALERT', payload: [{msg: "MovieDig server is not accessible, please reload the page."}]})
     }
 
     // let errors = []

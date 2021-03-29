@@ -52,26 +52,33 @@ exports.update = (req, res, next) => {
                 messageBag: [{msg: 'User not found.'}]
             });
         }
-
-        user.email = req.body.email
-        user.first_name = req.body.first_name
-        user.last_name = req.body.last_name
-
-        user.save(error => {
-            if (error) {
-                return res.status(500).json({
-                    flashMessageBag: [{msg: 'Internal error.'}]
-                })
-            } else {
-                let token = generateToken(user)
-                return res.status(200).send({
-                    flashMessageBag: [{msg: 'Account has been updated.'}],
-                    email: user.email,
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    token: token
+        User.findOne({email: req.body.email}, (err, sameEmailUser) => {
+            if (req.params.token.username !== req.body.email && sameEmailUser) {
+                return res.status(400).json({
+                    flashMessageBag: [{msg: 'User with this email already exists.'}]
                 });
             }
+
+            user.email = req.body.email
+            user.first_name = req.body.first_name
+            user.last_name = req.body.last_name
+
+            user.save(error => {
+                if (error) {
+                    return res.status(500).json({
+                        flashMessageBag: [{msg: 'Internal error.'}]
+                    })
+                } else {
+                    let token = generateToken(user)
+                    return res.status(200).send({
+                        flashMessageBag: [{msg: 'Account has been updated.'}],
+                        email: user.email,
+                        first_name: user.first_name,
+                        last_name: user.last_name,
+                        token: token
+                    });
+                }
+            })
         })
     })
 }

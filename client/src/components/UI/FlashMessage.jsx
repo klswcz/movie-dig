@@ -20,7 +20,7 @@ function FlashMessage() {
             <p className="font-medium text-white truncate w-full">
                 {flashMessage.messageBag.map((message, index) => {
                     return (
-                        <span key={index}>
+                        <span key={index} className="ml-3 font-medium text-white py-2 w-full">
                             {message.msg}
                         </span>
                     )

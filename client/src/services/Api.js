@@ -8,6 +8,9 @@ const api = axios.create({
 })
 
 api.interceptors.response.use(response => {
+    store.dispatch({type: 'HIDE_ALERT'});
+    store.dispatch({type: 'HIDE_FLASH_MESSAGE'});
+
     if (response.config.url === '/account/login' || (response.config.url === '/account' && response.config.method === 'post')) { // update Authorization header after successful login
         api.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
     }
@@ -26,25 +29,17 @@ api.interceptors.response.use(response => {
                 localStorage.setItem('token', null)
                 window.location.reload()
                 break
+            case 400:
+            case 500:
+                store.dispatch({type: "SHOW_ALERT", payload: error.response.data.messageBag})
+                break
             default:
                 localStorage.setItem('token', null)
                 window.location.reload()
         }
     } else {
-        store.dispatch({type: 'SHOW_ALERT', payload: [{msg: "MovieDig is currently down, please try again later."}]})
+        store.dispatch({type: 'SHOW_ALERT', payload: [{msg: "There was an error while processing you request, please try again later."}]})
     }
-
-    // let errors = []
-    //
-    // if (error.response.data.errors) {
-    //     error.response.data.errors.forEach(e => errors.push(e.msg))
-    // } else if (error.response.data.message) {
-    //     errors = [error.response.data.message]
-    // } else {
-    //     errors = [error.response.statusText]
-    // }
-    //
-    // store.dispatch({type: 'SHOW_ALERT', payload: errors})
 
     return Promise.reject(error)
 })

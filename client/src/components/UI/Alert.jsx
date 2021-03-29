@@ -16,7 +16,7 @@ function Alert() {
                 <div className="w-0 flex-1 flex items-center flex-col">
                     {alert.messageBag.map((message, index) => {
                         return (
-                            <p key={index} className="ml-3 font-medium text-white truncate w-full">
+                            <p key={index} className="ml-3 font-medium text-white py-2 w-full">
                                 {message.msg}
                             </p>
                         )

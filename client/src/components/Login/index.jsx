@@ -28,8 +28,6 @@ function Login(props) {
             }).then(res => {
                 localStorage.setItem('token', res.data.token)
                 history.push('/dashboard')
-            }).catch(res => {
-                dispatch({type: "SHOW_ALERT", payload: res.response.data.messageBag})
             })
         }
     };

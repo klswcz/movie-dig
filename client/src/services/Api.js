@@ -31,7 +31,7 @@ api.interceptors.response.use(response => {
                 window.location.reload()
         }
     } else {
-        store.dispatch({type: 'SHOW_ALERT', payload: [{msg: "MovieDig server is not accessible, please reload the page."}]})
+        store.dispatch({type: 'SHOW_ALERT', payload: [{msg: "MovieDig is currently down, please try again later."}]})
     }
 
     // let errors = []

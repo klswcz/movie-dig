@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import Button from "../UI/Form/Button";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 import {
     destroy as destroyAccountService,
     get as getAccountService,
@@ -19,6 +22,7 @@ function Account(props) {
     const [oldPassword, setOldPassword] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const MySwal = withReactContent(Swal)
 
     useEffect(() => {
         if (localStorage.getItem('token') === 'null') {
@@ -70,10 +74,20 @@ function Account(props) {
     }
 
     const destroy = () => {
-        destroyAccountService().then(res => {
-            dispatch({type: 'LOGOUT'})
-            localStorage.setItem('token', null)
-            history.push('/')
+        MySwal.fire({
+            title: 'Are you sure?',
+            text: 'This action cannot be reversed',
+            icon: 'warning',
+            confirmButtonText: 'Yes',
+            showCancelButton: true,
+        }).then(result => {
+            if (result.isConfirmed) {
+                destroyAccountService().then(res => {
+                    dispatch({type: 'LOGOUT'})
+                    localStorage.setItem('token', null)
+                    history.push('/')
+                })
+            }
         })
     }
 

@@ -1,7 +1,7 @@
 import {api} from './Api'
 
 const get = params => {
-    return api.get(`/movies/${params.movieId}`)
+    return api.get(`/movies/${params.movie_id}`)
 }
 
 const trending = params => {

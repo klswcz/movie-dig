@@ -58,7 +58,7 @@ function Account(props) {
         ) {
             confirmPasswordField.setCustomValidity('');
             updatePasswordService({
-                oldPassword: oldPassword,
+                old_password: oldPassword,
                 password: password,
             }).then(res => {
                 setOldPassword('')

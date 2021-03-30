@@ -46,12 +46,12 @@ router.post('/account/password', [
 router.get('/wishlist', jwtAuth, wishlistItemsController.get)
 router.post('/wishlist', [
     jwtAuth,
-    check('movieId').notEmpty(),
+    check('movie_id').notEmpty(),
     returnValidationErrors
 ], wishlistItemsController.store)
 router.delete('/wishlist', [
     jwtAuth,
-    check('movieId').notEmpty(),
+    check('movie_id').notEmpty(),
     returnValidationErrors
 ], wishlistItemsController.destroy)
 
@@ -63,7 +63,7 @@ router.patch('/rating', [
 ], ratingsController.update)
 router.delete('/rating', [
     jwtAuth,
-    check('movieId').notEmpty(),
+    check('movie_id').notEmpty(),
     returnValidationErrors
 ], ratingsController.destroy)
 router.get('/rating/*', jwtAuth, ratingsController.get)

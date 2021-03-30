@@ -8,7 +8,7 @@ const Types = mongoose.Types;
 
 exports.update = (req, res, next) => {
     User.findOne({email: req.params.token.username}).then(user => {
-        Movie.findOne({tmdbId: req.body.movieId}).then(movie => {
+        Movie.findOne({tmdbId: req.body.movie_id}).then(movie => {
             if (movie === null) {
                 let movieModel = new Movie({
                     movieId: (new Types.ObjectId).toString(),
@@ -91,7 +91,7 @@ exports.get = (req, res, next) => {
 
 exports.destroy = (req, res, next) => {
     User.findOne({email: req.params.token.username}).then(user => {
-        Movie.findOne({tmdbId: req.query.movieId}).then(movie => {
+        Movie.findOne({tmdbId: req.query.movie_id}).then(movie => {
             Rating.deleteOne({
                 userId: user.id,
                 movieId: movie.movieId

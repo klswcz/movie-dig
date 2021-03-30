@@ -28,9 +28,9 @@ function Dashboard() {
             history.push({pathname: "/login",});
         } else {
             setIsWishlistRequestProcessed(true)
-            getRatingService({movieId: movieId}).then(res => {
+            getRatingService({movie_id: movieId}).then(res => {
                 setUserRating(res.data.rating)
-                getMovieService({movieId: movieId}).then(res => {
+                getMovieService({movie_id: movieId}).then(res => {
                     setMovie(res.data.movie)
                     setIsWishlistItem(res.data.isWishlistItem)
                     setIsWishlistRequestProcessed(false)
@@ -43,7 +43,7 @@ function Dashboard() {
 
     const addWishlistItem = () => {
         setIsWishlistRequestProcessed(true)
-        createWishlistItemService({movieId: movieId}).then(res => {
+        createWishlistItemService({movie_id: movieId}).then(res => {
             setIsWishlistItem(true)
             setIsWishlistRequestProcessed(false)
         })
@@ -51,20 +51,20 @@ function Dashboard() {
 
     const deleteWishlistItem = () => {
         setIsWishlistRequestProcessed(true)
-        destroyWishlistItemService({movieId: movieId}).then(res => {
+        destroyWishlistItemService({movie_id: movieId}).then(res => {
             setIsWishlistItem(false)
             setIsWishlistRequestProcessed(false)
         })
     }
 
     const setRating = (newRating) => {
-        setRatingService({movieId: movieId, rating: newRating}).then(res => {
+        setRatingService({movie_id: movieId, rating: newRating}).then(res => {
             setUserRating(res.data.rating)
         })
     }
 
     const deleteRating = () => {
-        destroyRatingService({movieId: movieId}).then(res => {
+        destroyRatingService({movie_id: movieId}).then(res => {
             setUserRating(res.data.rating)
         })
     }

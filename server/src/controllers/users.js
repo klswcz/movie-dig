@@ -124,7 +124,7 @@ exports.updatePassword = (req, res, next) => {
             });
         }
 
-        return bcrypt.compare(req.body.oldPassword, user.password).then(isPasswordValid => {
+        return bcrypt.compare(req.body.old_password, user.password).then(isPasswordValid => {
             if (isPasswordValid) {
 
                 bcrypt.hash(req.body.password, 12).then(hashedPassword => {

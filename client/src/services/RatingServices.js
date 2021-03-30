@@ -1,7 +1,7 @@
 import {api} from './Api'
 
 const get = params => {
-    return api.get(`/rating/${params.movieId}`, params)
+    return api.get(`/rating/${params.movie_id}`, params)
 }
 
 const update = params => {

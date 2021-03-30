@@ -14,7 +14,7 @@ exports.trending = (req, res, next) => {
         User.findOne({email: req.params.token.username}).then(user => {
             apiRes.data.results.forEach((movie, index) => {
                 Movie.findOne({tmdbId: movie.id}).then(movieModel => {
-                    Rating.findOne({userId: user.id, movieId: movieModel ? movieModel.id : null}).then(rating => {
+                    Rating.findOne({userId: user.id, movie_id: movieModel ? movieModel.id : null}).then(rating => {
                         if (rating !== null) {
                             apiRes.data.results[index].user_rating = rating.rating
                         }

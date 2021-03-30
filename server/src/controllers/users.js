@@ -76,7 +76,7 @@ exports.destroy = (req, res, next) => {
 
     User.findOne({email: req.params.token.username}, (err, user) => {
         promises.push(WishlistItem.deleteMany({user: {id: user.id}}))
-        promises.push(Rating.deleteMany({userId: user.id,}))
+        promises.push(Rating.deleteMany({user_id: user.id,}))
 
         Promise.all(promises).then(() => {
             user.remove().then(() => {

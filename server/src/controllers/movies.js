@@ -13,8 +13,8 @@ exports.trending = (req, res, next) => {
     tmdb.api.get('/trending/movie/week?api_key=' + process.env.TMDB_API_KEY).then(apiRes => {
         User.findOne({email: req.params.token.username}).then(user => {
             apiRes.data.results.forEach((movie, index) => {
-                Movie.findOne({tmdbId: movie.id}).then(movieModel => {
-                    Rating.findOne({userId: user.id, movie_id: movieModel ? movieModel.id : null}).then(rating => {
+                Movie.findOne({tmdb_id: movie.id}).then(movieModel => {
+                    Rating.findOne({user_id: user.id, movie_id: movieModel ? movieModel.id : null}).then(rating => {
                         if (rating !== null) {
                             apiRes.data.results[index].user_rating = rating.rating
                         }
@@ -68,13 +68,13 @@ exports.get = (req, res, next) => {
     let isWishlistItem = false;
 
     User.findOne({email: req.params.token.username}).then(user => {
-        Movie.findOne({tmdbId: movieId}).then(movie => {
+        Movie.findOne({tmdb_id: movieId}).then(movie => {
 
             if (movie === null) {
                 let movieModel = new Movie({
-                    movieId: (new Types.ObjectId).toString(),
-                    imdbId: null,
-                    tmdbId: movieId
+                    movie_id: (new Types.ObjectId).toString(),
+                    imdb_id: null,
+                    tmdb_id: movieId
                 })
 
                 movieModel.save().then(error => {
@@ -82,7 +82,7 @@ exports.get = (req, res, next) => {
                 })
             } else {
                 WishlistItem.findOne({
-                    movie: {movieId: movie.movieId, imdbId: movie.imdbId, tmdbId: movie.tmdbId},
+                    movie: {movie_id: movie.movie_id, imdb_id: movie.imdb_id, tmdb_id: movie.tmdb_id},
                     user: {id: user.id}
                 }).then(item => {
                     isWishlistItem = item !== null

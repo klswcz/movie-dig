@@ -10,7 +10,7 @@ users = db.users
 movies = db.movies
 all_movies = movies.find().limit(6)
 for movie in all_movies:
-    print(movie['tmdbId'], end=',')
+    print(movie['tmdb_id'], end=',')
 
 sys.stdout.flush()
 quit()

@@ -8,12 +8,12 @@ const Types = mongoose.Types;
 
 exports.store = (req, res) => {
     User.findOne({email: req.params.token.username}).then(user => {
-        Movie.findOne({tmdbId: req.body.movie_id}).then(movie => {
+        Movie.findOne({tmdb_id: req.body.movie_id}).then(movie => {
             if (movie === null) {
                 let movieModel = new Movie({
-                    movieId: (new Types.ObjectId).toString(),
-                    imdbId: null,
-                    tmdbId: req.body.movieId
+                    movie_id: (new Types.ObjectId).toString(),
+                    imdb_id: null,
+                    tmdb_id: req.body.movie_id
                 })
 
                 movieModel.save().then(() => {
@@ -23,7 +23,7 @@ exports.store = (req, res) => {
             }
 
             WishlistItem.findOne({
-                movie: {imdbId: movie.imdbId, tmdbId: movie.tmdbId},
+                movie: {imdb_id: movie.imdb_id, tmdb_id: movie.tmdb_id},
                 user: {id: user.id}
             }).then(item => {
                 if (item) {
@@ -34,9 +34,9 @@ exports.store = (req, res) => {
                 } else {
                     let wishlistItemModel = new WishlistItem({
                         movie: {
-                            movieId: movie.movieId,
-                            imdbId: movie.imdbId,
-                            tmdbId: movie.tmdbId
+                            movie_id: movie.movie_id,
+                            imdb_id: movie.imdb_id,
+                            tmdb_id: movie.tmdb_id
                         },
                         user: {
                             id: user.id
@@ -63,9 +63,9 @@ exports.store = (req, res) => {
 
 exports.destroy = (req, res) => {
     User.findOne({email: req.params.token.username}).then(user => {
-        Movie.findOne({tmdbId: req.query.movie_id}).then(movie => {
+        Movie.findOne({tmdb_id: req.query.movie_id}).then(movie => {
             WishlistItem.deleteOne({
-                movie: {movieId: movie.movieId, imdbId: movie.imdbId, tmdbId: movie.tmdbId},
+                movie: {movie_id: movie.movie_id, imdb_id: movie.imdb_id, tmdb_id: movie.tmdb_id},
                 user: {id: user.id}
             }).then(() => {
                 return res.send({
@@ -86,8 +86,8 @@ exports.get = (req, res) => {
 
             wishlistItems.forEach(item => {
                 promises.push(
-                    tmdb.api.get(`/movie/${item.movie.tmdbId}?api_key=` + process.env.TMDB_API_KEY).then(apiRes => {
-                        return Rating.findOne({userId: user.id, movieId: item.movie.movieId}).then(rating => {
+                    tmdb.api.get(`/movie/${item.movie.tmdb_id}?api_key=` + process.env.TMDB_API_KEY).then(apiRes => {
+                        return Rating.findOne({user_id: user.id, movie_id: item.movie.movie_id}).then(rating => {
                             if (rating !== null) {
                                 apiRes.data.user_rating = rating.rating
                             }

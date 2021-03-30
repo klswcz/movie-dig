@@ -8,12 +8,12 @@ const Types = mongoose.Types;
 
 exports.update = (req, res, next) => {
     User.findOne({email: req.params.token.username}).then(user => {
-        Movie.findOne({tmdbId: req.body.movie_id}).then(movie => {
+        Movie.findOne({tmdb_id: req.body.movie_id}).then(movie => {
             if (movie === null) {
                 let movieModel = new Movie({
-                    movieId: (new Types.ObjectId).toString(),
-                    imdbId: null,
-                    tmdbId: req.body.movieId
+                    movie_id: (new Types.ObjectId).toString(),
+                    imdb_id: null,
+                    tmdb_id: req.body.movie_id
                 })
 
                 movieModel.save().then(error => {
@@ -21,8 +21,8 @@ exports.update = (req, res, next) => {
                 })
             }
             Rating.findOne({
-                userId: user.id,
-                movieId: movie.movieId
+                user_id: user.id,
+                movie_id: movie.movie_id
             }).then(rating => {
                 if (rating) {
                     rating.rating = req.body.rating
@@ -41,8 +41,8 @@ exports.update = (req, res, next) => {
                     })
                 } else {
                     let ratingModel = new Rating({
-                        userId: user.id,
-                        movieId: movie.movieId,
+                        user_id: user.id,
+                        movie_id: movie.movie_id,
                         rating: req.body.rating,
                         timestamp: Date.now()
                     })
@@ -69,11 +69,11 @@ exports.get = (req, res, next) => {
     const movieId = req.params[0];
 
     User.findOne({email: req.params.token.username}).then(user => {
-        Movie.findOne({tmdbId: movieId}).then(movie => {
+        Movie.findOne({tmdb_id: movieId}).then(movie => {
             if (movie) {
                 Rating.findOne({
-                    userId: user.id,
-                    movieId: movie.movieId
+                    user_id: user.id,
+                    movie_id: movie.movie_id
                 }).then(ratingModel => {
                     return res.status(200).json({
                         rating: ratingModel ? ratingModel.rating : null
@@ -91,10 +91,10 @@ exports.get = (req, res, next) => {
 
 exports.destroy = (req, res, next) => {
     User.findOne({email: req.params.token.username}).then(user => {
-        Movie.findOne({tmdbId: req.query.movie_id}).then(movie => {
+        Movie.findOne({tmdb_id: req.query.movie_id}).then(movie => {
             Rating.deleteOne({
-                userId: user.id,
-                movieId: movie.movieId
+                user_id: user.id,
+                movie_id: movie.movie_id
             }).then(item => {
                 return res.send({
                     flashMessageBag: [{msg: 'Rating has been deleted.'}],

@@ -45,6 +45,7 @@ function Account(props) {
             setEmail(res.data.email)
             setFirstName(res.data.first_name)
             setLastName(res.data.last_name)
+            localStorage.setItem('token', res.data.token)
         })
     }
 

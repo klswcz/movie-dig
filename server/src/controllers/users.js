@@ -31,15 +31,9 @@ exports.store = (req, res, next) => {
                 password: hashedPassword
             })
             userModel.save(error => {
-                if (error) {
-                    return res.status(500).json({
-                        flashMessageBag: [{msg: 'Internal error.'}]
-                    })
-                } else {
-                    return res.send({
-                        flashMessageBag: [{msg: 'User has been registered.'}]
-                    });
-                }
+                return res.send({
+                    flashMessageBag: [{msg: 'User has been registered.'}]
+                });
             })
         })
     })
@@ -64,20 +58,14 @@ exports.update = (req, res, next) => {
             user.last_name = req.body.last_name
 
             user.save(error => {
-                if (error) {
-                    return res.status(500).json({
-                        flashMessageBag: [{msg: 'Internal error.'}]
-                    })
-                } else {
-                    let token = generateToken(user)
-                    return res.status(200).send({
-                        flashMessageBag: [{msg: 'Account has been updated.'}],
-                        email: user.email,
-                        first_name: user.first_name,
-                        last_name: user.last_name,
-                        token: token
-                    });
-                }
+                let token = generateToken(user)
+                return res.status(200).send({
+                    flashMessageBag: [{msg: 'Account has been updated.'}],
+                    email: user.email,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    token: token
+                });
             })
         })
     })

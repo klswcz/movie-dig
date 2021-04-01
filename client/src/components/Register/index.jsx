@@ -23,9 +23,9 @@ function Register() {
 
     const register = () => {
         const passwordField = document.getElementById('password');
-        const confirmPasswordField = document.getElementById('confirmPassword');
+        const confirmPasswordField = document.getElementById('confirm_password');
         if (
-            passwordField.value === confirmPasswordField.value
+            passwordField.value === confirmPasswordField.value && passwordField.value !== ''
         ) {
             confirmPasswordField.setCustomValidity('');
             registerService({
@@ -52,21 +52,17 @@ function Register() {
                 </div>
                 <form className="mt-8 space-y-6" action="" method="POST" onSubmit={e => e.preventDefault()}>
                     <input type="hidden" name="remember" value="true"/>
-                    <div className="rounded-md shadow-sm -space-y-px">
-                        <Input name={'email'} type={'email'} value={email}
-                               required={true} onChange={event => setEmail(event.target.value)}/>
-                        <Input name={'first_name'} type={'text'} value={firstName}
-                               required={true} onChange={event => setFirstName(event.target.value)}/>
-                        <Input name={'last_name'} type={'text'} value={lastName}
-                               required={true} onChange={event => setLastName(event.target.value)}/>
-                        <Input name={'password'} type={'password'} value={password}
-                               required={true} onChange={event => setPassword(event.target.value)}/>
-                        <Input name={'confirmPassword'} type={'password'} value={confirmPassword}
-                               required={true} onChange={event => setConfirmPassword(event.target.value)}/>
-                    </div>
-                    <div>
-                        <Button onClick={register} label={'Sign up'}/>
-                    </div>
+                    <Input name={'email'} type={'email'} value={email}
+                           required={true} onChange={event => setEmail(event.target.value)}/>
+                    <Input name={'first_name'} type={'text'} value={firstName}
+                           required={true} onChange={event => setFirstName(event.target.value)}/>
+                    <Input name={'last_name'} type={'text'} value={lastName}
+                           required={true} onChange={event => setLastName(event.target.value)}/>
+                    <Input name={'password'} type={'password'} value={password}
+                           required={true} onChange={event => setPassword(event.target.value)}/>
+                    <Input name={'confirm_password'} type={'password'} value={confirmPassword}
+                           required={true} onChange={event => setConfirmPassword(event.target.value)}/>
+                    <Button onClick={register} label={'Sign up'}/>
                 </form>
             </div>
         </div>

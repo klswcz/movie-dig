@@ -28,7 +28,8 @@ exports.store = (req, res, next) => {
                 email: req.body.email,
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
-                password: hashedPassword
+                password: hashedPassword,
+                last_login: null
             })
             userModel.save(error => {
                 return res.send({
@@ -97,11 +98,15 @@ exports.login = (req, res, next) => {
             if (isPasswordValid) {
 
                 let token = generateToken(user)
+                let lastLogin = user.last_login
+                user.last_login = new Date()
 
-                return res.status(200).json({
-                    flashMessageBag: [{msg: 'Logged in.'}],
-                    token,
-                    cart: user.cart
+                user.save(() => {
+                    return res.status(200).json({
+                        flashMessageBag: [{msg: 'Logged in.'}],
+                        token,
+                        last_login: lastLogin
+                    })
                 })
             } else {
                 return res.status(400).json({
@@ -130,16 +135,10 @@ exports.updatePassword = (req, res, next) => {
                 bcrypt.hash(req.body.password, 12).then(hashedPassword => {
                     user.password = hashedPassword
 
-                    user.save(error => {
-                        if (error) {
-                            return res.status(500).json({
-                                flashMessageBag: [{msg: 'Internal error.'}]
-                            })
-                        } else {
-                            return res.send({
-                                flashMessageBag: [{msg: 'Password has been updated.'}]
-                            });
-                        }
+                    user.save(() => {
+                        return res.send({
+                            flashMessageBag: [{msg: 'Password has been updated.'}]
+                        });
                     })
                 })
 

@@ -18,6 +18,10 @@ const UserSchema = new Schema({
     last_name: {
         type: String,
         required: false
+    },
+    last_login: {
+        type: Date,
+        required: false
     }
 });
 

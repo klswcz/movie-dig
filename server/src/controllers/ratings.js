@@ -7,6 +7,8 @@ const Types = mongoose.Types;
 
 
 exports.update = (req, res, next) => {
+    let promises = []
+
     User.findOne({email: req.params.token.username}).then(user => {
         Movie.findOne({tmdb_id: req.body.movie_id}).then(movie => {
             if (movie === null) {
@@ -16,50 +18,56 @@ exports.update = (req, res, next) => {
                     tmdb_id: req.body.movie_id
                 })
 
-                movieModel.save().then(error => {
-                    movie = movieModel;
-                })
+                promises.push(new Promise((resolve, reject) => {
+                    movieModel.save().then(() => {
+                        movie = movieModel
+                        resolve()
+                    })
+                }))
             }
-            Rating.findOne({
-                user_id: user.id,
-                movie_id: movie.movie_id
-            }).then(rating => {
-                if (rating) {
-                    rating.rating = req.body.rating
-                    rating.timestamp = Date.now()
-                    rating.save(error => {
-                        if (error) {
-                            return res.status(500).json({
-                                flashMessageBag: [{msg: error}]
-                            })
-                        } else {
-                            return res.send({
-                                flashMessageBag: [{msg: 'Rating has been updated.'}],
-                                rating: rating.rating
-                            });
-                        }
-                    })
-                } else {
-                    let ratingModel = new Rating({
-                        user_id: user.id,
-                        movie_id: movie.movie_id,
-                        rating: req.body.rating,
-                        timestamp: Date.now()
-                    })
 
-                    ratingModel.save(error => {
-                        if (error) {
-                            return res.status(500).json({
-                                flashMessageBag: [{msg: error}]
-                            })
-                        } else {
-                            return res.send({
-                                flashMessageBag: [{msg: 'Rating has been added saved.'}],
-                                rating: ratingModel.rating
-                            });
-                        }
-                    })
-                }
+            Promise.all(promises).then(() => {
+                Rating.findOne({
+                    user_id: user.id,
+                    movie_id: movie.movie_id
+                }).then(rating => {
+                    if (rating) {
+                        rating.rating = req.body.rating
+                        rating.timestamp = Date.now()
+                        rating.save(error => {
+                            if (error) {
+                                return res.status(500).json({
+                                    flashMessageBag: [{msg: error}]
+                                })
+                            } else {
+                                return res.send({
+                                    flashMessageBag: [{msg: 'Rating has been updated.'}],
+                                    rating: rating.rating
+                                });
+                            }
+                        })
+                    } else {
+                        let ratingModel = new Rating({
+                            user_id: user.id,
+                            movie_id: movie.movie_id,
+                            rating: req.body.rating,
+                            timestamp: Date.now()
+                        })
+
+                        ratingModel.save(error => {
+                            if (error) {
+                                return res.status(500).json({
+                                    flashMessageBag: [{msg: error}]
+                                })
+                            } else {
+                                return res.send({
+                                    flashMessageBag: [{msg: 'Rating has been saved.'}],
+                                    rating: ratingModel.rating
+                                });
+                            }
+                        })
+                    }
+                })
             })
         })
     })

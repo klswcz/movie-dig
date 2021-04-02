@@ -115,7 +115,7 @@ function Dashboard() {
                                         size={24}
                                         color2={'#ffd700'}/>
                                     {userRating !== null &&
-                                    <button onClick={deleteRating} className='inline-block ml-4'>
+                                    <button onClick={deleteRating} className='inline-block ml-4 focus:outline-none'>
                                         <FontAwesomeIcon icon={faTrash}/>
                                     </button>
                                     }

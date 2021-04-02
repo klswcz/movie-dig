@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
-import {faStar, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faStar, faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link, useHistory} from "react-router-dom";
 import ReactStars from "react-stars";
-import {update as setRatingService} from "../../services/RatingServices";
+import {destroy as destroyRatingService, update as setRatingService} from "../../services/RatingServices";
 
 function MovieCard(props) {
     const [userRating, setUserRating] = useState(null)
@@ -19,6 +19,11 @@ function MovieCard(props) {
 
     const setRating = (newRating) => {
         setRatingService({movie_id: props.movieId, rating: newRating}).then(res => {
+            setUserRating(res.data.rating)
+        })
+    }
+    const deleteRating = () => {
+        destroyRatingService({movie_id: props.movieId}).then(res => {
             setUserRating(res.data.rating)
         })
     }
@@ -44,13 +49,20 @@ function MovieCard(props) {
             }
 
             {props.showRatingComponent &&
-            <ReactStars
-                className={'inline-block w-full flex justify-center '}
-                count={5}
-                value={parseFloat(userRating)}
-                size={20}
-                onChange={setRating}
-                color2={'#ffd700'}/>
+            <>
+                <ReactStars
+                    className={'inline-block'}
+                    count={5}
+                    value={parseFloat(userRating)}
+                    size={20}
+                    onChange={setRating}
+                    color2={'#ffd700'}/>
+                {userRating != null &&
+                <button onClick={deleteRating} className='inline-block ml-4 focus:outline-none'>
+                    <FontAwesomeIcon icon={faTrash}/>
+                </button>
+                }
+            </>
             }
         </div>
     )

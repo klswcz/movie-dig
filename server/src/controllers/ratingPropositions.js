@@ -11,15 +11,22 @@ exports.get = (req, res) => {
     let mongoPromises = []
 
     const movieGenres = [
-        {id: 35, name: 'Comedy'},
-        {id: 18, name: 'Drama'},
-        {id: 14, name: 'Fantasy'},
-        {id: 10749, name: 'Romance'},
         {id: 878, name: 'Science Fiction'},
-        {id: 53, name: 'Thriller'}
+        {id: 53, name: 'Thriller'},
+        {id: 35, name: 'Comedy'},
+        {id: 10749, name: 'Romance'},
     ]
 
     User.findOne({email: req.params.token.username}).then(user => {
+        apiPromises.push(tmdb.api.get(`/discover/movie?vote_count.gte=1000&sort_by=vote_average.desc&vote_count.gte=10000&with_original_language=en&api_key=${process.env.TMDB_API_KEY}`).then((apiRes) => {
+            propositionsResponse.push({
+                'name': "Top rated",
+                'movies': apiRes.data.results.sort((a, b) => {
+                    return b.vote_average - a.vote_average
+                })
+            })
+        }))
+
         movieGenres.forEach(genre => {
             apiPromises.push(tmdb.api.get(`/discover/movie?with_genres=${genre.id}&vote_count.gte=1000&api_key=${process.env.TMDB_API_KEY}`)
                 .then(apiRes => {

@@ -36,7 +36,11 @@ function BatchMovieRating(props) {
                                                        voteAverage={movie.vote_average}
                                                        posterPath={movie.poster_path} userRating={movie.user_rating}
                                                        key={index}
-                                                       movieId={movie.id}/>
+                                                       movieId={movie.id}
+                                                       showRatingComponent={true}
+                                                       hideRatings={true}
+                                                       disableLink={true}
+                                            />
                                         )
                                     })}
                                 </div>

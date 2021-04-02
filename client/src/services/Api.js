@@ -1,7 +1,7 @@
 import axios from 'axios'
 import store from '../store/reducer'
 
-axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
 const api = axios.create({
     baseURL: `http://localhost:8081`
@@ -15,6 +15,7 @@ api.interceptors.response.use(response => {
 
     updateAuthToken(response)
     showResponseMessages(response)
+    redirectIfFirstTimeLogin(response)
 
     return response
 }, error => {
@@ -52,8 +53,14 @@ const showResponseMessages = (response) => {
 
 const updateAuthToken = (response) => {
     if (response.config.url === '/account/login' || (response.config.url === '/account' && response.config.method === 'patch')) {
-        api.defaults.headers.common['Authorization'] = response.data.token;
+        api.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
     }
+}
+
+const redirectIfFirstTimeLogin = (response) => {
+    // if (response.config.url === '/account/login' && response.data.last_login == null) {
+    //     history.push('/movies/rating/batch')
+    // }
 }
 
 export {api}

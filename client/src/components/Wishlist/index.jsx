@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import {get as getWishlistService,} from "../../services/WishlistItemServices";
-import MovieCard from "../Dashboard/MovieCard";
+import MovieCard from "../UI/MovieCard";
 
 
 function Wishlist() {

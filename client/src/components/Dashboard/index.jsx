@@ -1,7 +1,7 @@
 import {recommendation as recommendationService, trending as trendingService} from "../../services/MovieServices";
 import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
-import MovieCard from "./MovieCard";
+import MovieCard from "../UI/MovieCard";
 
 function Dashboard() {
     const [trendingMovies, setTrendingMovies] = useState([])

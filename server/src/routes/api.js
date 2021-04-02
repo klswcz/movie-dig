@@ -4,6 +4,7 @@ const {check} = require('express-validator')
 const moviesController = require('../controllers/movies');
 const usersController = require('../controllers/users');
 const wishlistItemsController = require('../controllers/wishlistItems')
+const ratingPropositionsController = require('../controllers/ratingPropositions')
 const ratingsController = require('../controllers/ratings')
 const jwtAuth = require('../middlewares/jwtAuth')
 const returnValidationErrors = require('../middlewares/returnValidationErrors')
@@ -68,3 +69,6 @@ router.delete('/rating', [
 ], ratingsController.destroy)
 router.get('/rating/*', jwtAuth, ratingsController.get)
 module.exports = router;
+
+// RATING PROPOSITIONS
+router.get('/rating-propositions', jwtAuth, ratingPropositionsController.get)

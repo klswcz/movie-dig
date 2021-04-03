@@ -20,7 +20,6 @@ function BatchMovieRating(props) {
             getRatingPropositionService().then(res => {
                 setPropositions(res.data.propositions)
                 countRatingService().then(res => {
-                    console.log(res.data);
                     store.dispatch({type: 'SET_RATING_COUNT', payload: res.data.rating_count})
                     setLoadingFinished(true)
                 })
@@ -35,7 +34,7 @@ function BatchMovieRating(props) {
                 (<>
                     <h1 className="text-4xl pt-5 sm:mb-3">Let's rate some movies!</h1>
                     <div className="relative pt-1 mb-4">
-                        <h2 className="text-2xl">Movies rated</h2>
+                        <h2 className="text-2xl">Movies rated: {ratingCount}/20</h2>
 
                         <div className="relative pt-1">
                             <div className="overflow-hidden h-2 text-xs flex rounded bg-pink-200">

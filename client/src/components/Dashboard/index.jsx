@@ -37,7 +37,7 @@ function Dashboard() {
                 (<>
                     <div className="pt-5 mb-3">
                         <h1 className="text-4xl">Trending today</h1>
-                        <div className="grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
+                        <div className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
                             {trendingMovies.map((movie, index) => {
                                 return (
                                     <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
@@ -49,7 +49,7 @@ function Dashboard() {
                     </div>
                     <div className="my-3">
                         <h1 className="text-4xl">Recommended for you</h1>
-                        <div className="grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
+                        <div className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
                             {recommendedMovies.map((movie, index) => {
                                 return (
                                     <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}

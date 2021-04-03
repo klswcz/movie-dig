@@ -49,20 +49,20 @@ function MovieCard(props) {
             }
 
             {props.showRatingComponent &&
-            <>
+            <div>
                 <ReactStars
-                    className={'inline-block'}
+                    className={'inline-block align-bottom'}
                     count={5}
                     value={parseFloat(userRating)}
                     size={20}
                     onChange={setRating}
                     color2={'#ffd700'}/>
                 {userRating != null &&
-                <button onClick={deleteRating} className='inline-block ml-4 focus:outline-none'>
+                <button onClick={deleteRating} className='inline-block ml-4 focus:outline-none align-text-bottom'>
                     <FontAwesomeIcon icon={faTrash}/>
                 </button>
                 }
-            </>
+            </div>
             }
         </div>
     )

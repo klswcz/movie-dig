@@ -28,7 +28,7 @@ function BatchMovieRating(props) {
                     <div className="flex flex-wrap">
                         {propositions.map((proposition, propositionIndex) => {
                             return (
-                                <div className="grid w-full xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2" key={propositionIndex}>
+                                <div className="grid w-full 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2" key={propositionIndex}>
                                     <p>{proposition.name}</p>
                                     {proposition.movies.map((movie, index) => {
                                         return (

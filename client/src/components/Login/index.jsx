@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {login as loginService} from '../../services/AuthServices'
 import {useHistory} from "react-router-dom";
-import {useDispatch} from "react-redux";
 import Input from "../UI/Form/Input";
 import Button from "../UI/Form/Button";
 
@@ -9,7 +8,6 @@ function Login(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     let history = useHistory();
-    let dispatch = useDispatch();
 
     useEffect(() => {
         if (localStorage.getItem('token') !== 'null') {

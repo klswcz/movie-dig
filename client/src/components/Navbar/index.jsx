@@ -1,10 +1,8 @@
 import {Link, useHistory, useLocation} from "react-router-dom";
-import {useDispatch} from "react-redux";
 import React, {useEffect, useState} from 'react';
 import {search as searchMovieService} from "../../services/MovieServices";
 
 function Navbar() {
-    let dispatch = useDispatch()
     let history = useHistory()
     const location = useLocation();
     const [searchResults, setSearchResults] = useState([])

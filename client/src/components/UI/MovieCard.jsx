@@ -16,7 +16,7 @@ function MovieCard(props) {
         } else {
             setUserRating(props.userRating)
         }
-    }, []);
+    }, [history, props.userRating]);
 
     const setRating = (newRating) => {
         setRatingService({movie_id: props.movieId, rating: newRating, rating_count: true}).then(res => {

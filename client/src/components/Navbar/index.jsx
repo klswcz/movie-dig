@@ -1,4 +1,4 @@
-import {Link, useHistory} from "react-router-dom";
+import {Link, useHistory, useLocation} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import React, {useEffect, useState} from 'react';
 import {search as searchMovieService} from "../../services/MovieServices";
@@ -6,6 +6,7 @@ import {search as searchMovieService} from "../../services/MovieServices";
 function Navbar() {
     let dispatch = useDispatch()
     let history = useHistory()
+    const location = useLocation();
     const [searchResults, setSearchResults] = useState([])
 
     useEffect(() => {
@@ -132,7 +133,7 @@ function Navbar() {
             </div>
 
             <div className="lg:hidden hidden px-2 pt-2 pb-3 space-y-1" id="mobile-menu">
-                {localStorage.getItem('token') !== "null" &&
+                {location.pathname !== '/' && location.pathname !== '/tutorial' && location.pathname !== '/login' && location.pathname !== '/register' &&
                 <div>
                     <Link to="/dashboard"
                           className="block text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>

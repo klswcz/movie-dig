@@ -49,7 +49,7 @@ function MovieCard(props) {
             }
 
             {props.showRatingComponent &&
-            <div>
+            <div className="text-center">
                 <ReactStars
                     className={'inline-block align-bottom'}
                     count={5}

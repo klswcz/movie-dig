@@ -11,6 +11,7 @@ import Alert from "../UI/Alert"
 import Account from '../Account'
 import Wishlist from '../Wishlist'
 import BatchMovieRating from '../BatchMovieRating'
+import Tutorial from '../Tutorial'
 import store from '../../store/reducer'
 import {useSelector} from "react-redux"
 import FlashMessage from "../UI/FlashMessage"
@@ -45,9 +46,10 @@ function Layout() {
                     <Route path="/register" exact component={Register}/>
                     <Route path="/dashboard" exact component={Dashboard}/>
                     <Route path="/movie" component={Movie}/>
-                    <Route path="/account" component={Account}/>
-                    <Route path="/wishlist" component={Wishlist}/>
-                    <Route path="/movies/rating/batch" component={BatchMovieRating}/>
+                    <Route path="/account" exact component={Account}/>
+                    <Route path="/wishlist" exact component={Wishlist}/>
+                    <Route path="/tutorial" exact component={Tutorial}/>
+                    <Route path="/movies/rating/batch" exact component={BatchMovieRating}/>
                     <Route path="/" component={Home}/>
                 </Switch>
             </div>

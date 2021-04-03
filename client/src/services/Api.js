@@ -15,7 +15,6 @@ api.interceptors.response.use(response => {
 
     updateAuthToken(response)
     showResponseMessages(response)
-    redirectIfFirstTimeLogin(response)
 
     return response
 }, error => {
@@ -55,12 +54,6 @@ const updateAuthToken = (response) => {
     if (response.config.url === '/account/login' || (response.config.url === '/account' && response.config.method === 'patch')) {
         api.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
     }
-}
-
-const redirectIfFirstTimeLogin = (response) => {
-    // if (response.config.url === '/account/login' && response.data.last_login == null) {
-    //     history.push('/movies/rating/batch')
-    // }
 }
 
 export {api}

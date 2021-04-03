@@ -27,7 +27,11 @@ function Login(props) {
                 password: password
             }).then(res => {
                 localStorage.setItem('token', res.data.token)
-                history.push('/dashboard')
+                if (res.data.last_login) {
+                    history.push('/dashboard')
+                } else {
+                    history.push('/tutorial')
+                }
             })
         }
     };

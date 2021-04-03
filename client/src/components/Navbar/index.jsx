@@ -58,7 +58,7 @@ function Navbar() {
             <div className="mx-auto md:px-4 sm:pr-6 lg:pr-8">
                 <div className="flex items-center h-16">
                     <div className="flex items-start lg:items-center w-full">
-                        <Link to="/"
+                        <Link to={localStorage.getItem('token') === 'null' ? '/' : '/dashboard'}
                               className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">MovieDig</Link>
                         {localStorage.getItem('token') !== "null" &&
                         <div className="w-full">

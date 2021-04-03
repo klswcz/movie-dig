@@ -14,9 +14,12 @@ function Tutorial() {
             <div className="pt-5 mb-3">
                 <h1 className="text-4xl">Tutorial page</h1>
             </div>
-            <div className="mt-5">
-                <Button label={'Go to Movie Rating form'} widthAuto={true} to={'/movies/rating/batch'}/>
-            </div>
+            { localStorage.getItem('token') !== 'null' &&
+                <div className="mt-5">
+                    <Button label={'Go to Movie Rating form'} widthAuto={true} to={'/movies/rating/batch'}/>
+                </div>
+
+            }
         </div>
     )
 }

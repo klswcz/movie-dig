@@ -135,7 +135,6 @@ exports.count = (req, res, next) => {
     User.findOne({email: req.params.token.username}).then(user => {
         Rating.find({user_id: user.id}).then(ratings => {
             return res.send({
-                flashMessageBag: [{msg: 'Rating has been deleted.'}],
                 rating_count: ratings.length
             });
         })

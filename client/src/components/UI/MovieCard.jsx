@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link, useHistory} from "react-router-dom";
 import ReactStars from "react-stars";
 import {destroy as destroyRatingService, update as setRatingService} from "../../services/RatingServices";
+import store from "../../store/reducer";
 
 function MovieCard(props) {
     const [userRating, setUserRating] = useState(null)
@@ -15,15 +16,17 @@ function MovieCard(props) {
         } else {
             setUserRating(props.userRating)
         }
-    }, [history]);
+    }, []);
 
     const setRating = (newRating) => {
-        setRatingService({movie_id: props.movieId, rating: newRating}).then(res => {
+        setRatingService({movie_id: props.movieId, rating: newRating, rating_count: true}).then(res => {
+            store.dispatch({type: 'SET_RATING_COUNT', payload: res.data.rating_count})
             setUserRating(res.data.rating)
         })
     }
     const deleteRating = () => {
-        destroyRatingService({movie_id: props.movieId}).then(res => {
+        destroyRatingService({movie_id: props.movieId, rating_count: true}).then(res => {
+            store.dispatch({type: 'SET_RATING_COUNT', payload: res.data.rating_count})
             setUserRating(res.data.rating)
         })
     }

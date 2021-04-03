@@ -10,6 +10,7 @@ const initialState = {
         messageBag: []
     },
     userEmail: '',
+    ratingCount: 0
 }
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -45,15 +46,10 @@ const rootReducer = (state = initialState, action) => {
                     messageBag: action.payload
                 }
             }
-        case 'SET_USER_EMAIL':
+        case 'SET_RATING_COUNT':
             return {
                 ...state,
-                userEmail: 'damian@test.com'
-            }
-        case 'LOGOUT':
-            return {
-                ...state,
-                userEmail: ''
+                ratingCount: action.payload
             }
         default:
             return {

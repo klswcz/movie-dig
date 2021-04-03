@@ -14,4 +14,10 @@ const destroy = params => {
     })
 }
 
-export {get, update, destroy}
+const count = params => {
+    return api.get('/rating/count', {
+        params: params
+    })
+}
+
+export {get, update, destroy, count}

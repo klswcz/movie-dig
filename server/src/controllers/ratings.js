@@ -35,9 +35,13 @@ exports.update = (req, res, next) => {
                         rating.rating = req.body.rating
                         rating.timestamp = Date.now()
                         rating.save(error => {
-                            if (error) {
-                                return res.status(500).json({
-                                    flashMessageBag: [{msg: error}]
+                            if (req.body.rating_count) {
+                                Rating.find({user_id: user.id}).then(ratings => {
+                                    return res.send({
+                                        flashMessageBag: [{msg: 'Rating has been updated.'}],
+                                        rating: rating.rating,
+                                        rating_count: ratings.length
+                                    });
                                 })
                             } else {
                                 return res.send({
@@ -54,10 +58,14 @@ exports.update = (req, res, next) => {
                             timestamp: Date.now()
                         })
 
-                        ratingModel.save(error => {
-                            if (error) {
-                                return res.status(500).json({
-                                    flashMessageBag: [{msg: error}]
+                        ratingModel.save(() => {
+                            if (req.body.rating_count) {
+                                Rating.find({user_id: user.id}).then(ratings => {
+                                    return res.send({
+                                        flashMessageBag: [{msg: 'Rating has been saved.'}],
+                                        rating: ratingModel.rating,
+                                        rating_count: ratings.length
+                                    });
                                 })
                             } else {
                                 return res.send({
@@ -104,12 +112,32 @@ exports.destroy = (req, res, next) => {
                 user_id: user.id,
                 movie_id: movie.movie_id
             }).then(item => {
-                return res.send({
-                    flashMessageBag: [{msg: 'Rating has been deleted.'}],
-                    rating: null,
-                });
-
+                if (req.query.rating_count) {
+                    Rating.find({user_id: user.id}).then(ratings => {
+                        return res.send({
+                            flashMessageBag: [{msg: 'Rating has been deleted.'}],
+                            rating: null,
+                            rating_count: ratings.length
+                        });
+                    })
+                } else {
+                    return res.send({
+                        flashMessageBag: [{msg: 'Rating has been deleted.'}],
+                        rating: null,
+                    });
+                }
             })
+        })
+    })
+}
+
+exports.count = (req, res, next) => {
+    User.findOne({email: req.params.token.username}).then(user => {
+        Rating.find({user_id: user.id}).then(ratings => {
+            return res.send({
+                flashMessageBag: [{msg: 'Rating has been deleted.'}],
+                rating_count: ratings.length
+            });
         })
     })
 }

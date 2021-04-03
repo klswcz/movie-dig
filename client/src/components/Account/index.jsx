@@ -82,7 +82,6 @@ function Account(props) {
         }).then(result => {
             if (result.isConfirmed) {
                 destroyAccountService().then(res => {
-                    dispatch({type: 'LOGOUT'})
                     localStorage.setItem('token', null)
                     history.push('/')
                 })

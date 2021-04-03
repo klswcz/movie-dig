@@ -19,7 +19,6 @@ function Navbar() {
     }, [history])
 
     const logout = () => {
-        dispatch({type: 'LOGOUT'})
         localStorage.setItem('token', null)
         history.push('/')
     }

@@ -67,6 +67,7 @@ router.delete('/rating', [
     check('movie_id').notEmpty(),
     returnValidationErrors
 ], ratingsController.destroy)
+router.get('/rating/count', jwtAuth, ratingsController.count)
 router.get('/rating/*', jwtAuth, ratingsController.get)
 module.exports = router;
 

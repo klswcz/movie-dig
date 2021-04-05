@@ -1,7 +1,7 @@
 import axios from 'axios'
 import store from '../store/reducer'
 
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 const api = axios.create({
     baseURL: `http://localhost:8081`

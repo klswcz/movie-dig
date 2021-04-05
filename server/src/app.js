@@ -25,7 +25,10 @@ const jwtMiddleware = expressJwt({
 });
 
 mongoose.connect(process.env.DB_HOST, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.set('useCreateIndex', true)
 
 app.use(apiRoutes)
 
 app.listen(process.env.APP_PORT)
+
+module.exports = app

@@ -102,7 +102,7 @@ exports.login = (req, res, next) => {
                     return res.status(200).json({
                         flashMessageBag: [{msg: 'Logged in.'}],
                         token,
-                        lastLogin
+                        last_login: lastLogin
                     })
                 })
             } else {

@@ -1,10 +1,9 @@
-const bcrypt = require("bcryptjs");
-const User = require('../models/User');
+const bcrypt = require("bcryptjs")
+const User = require('../models/User')
 const jwt = require('jsonwebtoken')
-const validator = require('../validator')
-const WishlistItem = require('../models/WishlistItem');
-const Rating = require('../models/Rating');
-const {generateToken} = require("../generateToken");
+const WishlistItem = require('../models/WishlistItem')
+const Rating = require('../models/Rating')
+const {generateToken} = require("../generateToken")
 
 exports.get = (req, res, next) => {
     User.findOne({email: req.params.token.username}, (err, model) => {
@@ -90,33 +89,27 @@ exports.destroy = (req, res, next) => {
 exports.login = (req, res, next) => {
     User.findOne({email: req.body.email}).then(user => {
         if (!user) {
-            return res.status(400).json({
-                messageBag: [{msg: 'User not found.'}]
+            return res.status(401).json({
+                messageBag: [{msg: 'Email address and/or password is invalid.'}]
             });
         }
         return bcrypt.compare(req.body.password, user.password).then(isPasswordValid => {
             if (isPasswordValid) {
-
-                let token = generateToken(user)
-                let lastLogin = user.last_login
+                const token = generateToken(user)
+                const lastLogin = user.last_login
                 user.last_login = new Date()
-
                 user.save(() => {
                     return res.status(200).json({
                         flashMessageBag: [{msg: 'Logged in.'}],
                         token,
-                        last_login: lastLogin
+                        lastLogin
                     })
                 })
             } else {
-                return res.status(400).json({
-                    messageBag: [{msg: 'Invalid password.'}]
+                return res.status(401).json({
+                    messageBag: [{msg: 'Email address and/or password is invalid.'}]
                 });
             }
-        }).catch(error => {
-            return res.status(500).json({
-                flashMessageBag: [{msg: 'Internal error.'}]
-            });
         })
     })
 }

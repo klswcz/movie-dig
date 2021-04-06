@@ -1,5 +1,4 @@
 const Rating = require('../models/Rating');
-const validator = require('../validator')
 const Movie = require("../models/Movie");
 const User = require("../models/User");
 const mongoose = require("mongoose");

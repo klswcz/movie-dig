@@ -1,9 +1,9 @@
-const validator = require('../validator')
+const {validationResult} = require('express-validator')
 
 module.exports = (req, res, next) => {
-    let errors = validator.getValidationErrors(req, res);
+    let errors = validationResult(req)
     if (!errors.isEmpty()) {
-        res.status(400).json({messageBag: errors.array()});
+        return res.status(400).json({messageBag: errors.array({ onlyFirstError: true })});
     } else {
         next()
     }

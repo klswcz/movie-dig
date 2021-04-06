@@ -2,8 +2,6 @@ const tmdb = require('../services/TmdbApi')
 const Rating = require("../models/Rating");
 const User = require("../models/User");
 const Movie = require("../models/Movie")
-const Q = require('q')
-const async = require('async')
 
 exports.get = (req, res) => {
     let propositionsResponse = []

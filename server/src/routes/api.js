@@ -21,7 +21,7 @@ router.post('/account', [
     check('email', 'Invalid email format.').exists().isEmail(),
     check('first_name', 'Invalid first name.').exists().isString().isLength({min: 1, max: 255}),
     check('last_name', 'Invalid last name.').exists().isString().isLength({min: 1, max: 255}),
-    check('password', 'Password needs to be between 8 and 20 characters long.').isLength({min: 8, max: 20}),
+    check('password', 'Password needs to be between 8 and 50 characters long.').exists().isString().isLength({min: 8, max: 50}),
     returnValidationErrors
 ], usersController.store)
 router.patch('/account', [
@@ -34,12 +34,12 @@ router.patch('/account', [
 router.delete('/account', jwtAuth, usersController.destroy)
 router.post('/account/login', [
     check('email', 'Invalid email format.').notEmpty().isEmail(),
-    check('password', 'Invalid password.').notEmpty().isLength({min: 8, max: 20}),
+    check('password', 'Password needs to be between 8 and 50 characters long.').exists().isString().isLength({min: 8, max: 50}),
     returnValidationErrors
 ], usersController.login)
 router.post('/account/password', [
     jwtAuth,
-    check('password', 'Password needs to be between 8 and 20 characters long.').isLength({min: 8, max: 20}),
+    check('password', 'Password needs to be between 8 and 50 characters long.').exists().isString().isLength({min: 8, max: 50}),
     returnValidationErrors
 ], usersController.updatePassword)
 
@@ -69,7 +69,8 @@ router.delete('/rating', [
 ], ratingsController.destroy)
 router.get('/rating/count', jwtAuth, ratingsController.count)
 router.get('/rating/*', jwtAuth, ratingsController.get)
-module.exports = router;
 
 // RATING PROPOSITIONS
 router.get('/rating-propositions', jwtAuth, ratingPropositionsController.get)
+
+module.exports = router;

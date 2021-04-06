@@ -2,10 +2,10 @@ const User = require("../models/User");
 const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
-    jwt.verify(req.headers.authorization.substring(7), process.env.JWT_SECRET, (err, token) => {
+    jwt.verify(req.headers.authorization ? req.headers.authorization.substring(7) : '', process.env.JWT_SECRET, (err, token) => {
         if (err) {
             return res.status(401).json({
-                error: err,
+                messageBag: [{msg: 'Invalid JWT token.'}]
             })
         } else {
             User.findOne({email: token.username}).then(user => {
@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
                     next()
                 } else {
                     return res.status(401).json({
-                        messageBag: [{msg: 'User no longer exists'}]
+                        messageBag: [{msg: 'User no longer exists.'}]
                     })
                 }
             })

@@ -13,7 +13,7 @@ let userModel = {}
 describe('jwtAuth', () => {
     it('should throw validation error when Authorization token is missing', function () {
         return chai.request(server)
-            .get('/movies/trending') // route accessible to every logged in user
+            .get('/account') // route accessible to every logged in user
             .then((res) => {
                 res.should.have.status(401)
             })
@@ -21,7 +21,7 @@ describe('jwtAuth', () => {
 
     it('should throw validation error when Authorization token is not valid', function () {
         return chai.request(server)
-            .get('/movies/trending') // route accessible to every logged in user
+            .get('/account') // route accessible to every logged in user
             .set('Authorization', 'invalid_token')
             .then((res) => {
                 res.should.have.status(401)
@@ -38,7 +38,7 @@ describe('jwtAuth', () => {
         );
 
         return chai.request(server)
-            .get('/movies/trending') // route accessible to every logged in user
+            .get('/account') // route accessible to every logged in user
             .set('Authorization', `Bearer ${expiredToken}`)
             .then((res) => {
                 res.should.have.status(401)
@@ -53,7 +53,7 @@ describe('jwtAuth', () => {
             .then(res => {
                 res.should.have.status(200)
                 return chai.request(server)
-                    .get('/movies/trending') // route accessible to every logged in user
+                    .get('/account') // route accessible to every logged in user
                     .set('Authorization', `Bearer ${res.body.token}`)
                     .then(res => {
                         res.should.have.status(200)

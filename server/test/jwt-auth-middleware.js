@@ -4,7 +4,6 @@ let chai = require('chai')
 let chaiHttp = require('chai-http')
 let server = require('../src/app')
 let should = chai.should()
-const {generateToken} = require("../src/generateToken")
 const jwt = require('jsonwebtoken')
 
 chai.use(chaiHttp);
@@ -13,41 +12,37 @@ let userModel = {}
 
 describe('jwtAuth', () => {
     it('should throw validation error when Authorization token is missing', function () {
-        chai.request(server)
+        return chai.request(server)
             .get('/movies/trending') // route accessible to every logged in user
-            .end((err, res) => {
+            .then((res) => {
                 res.should.have.status(401)
             })
     });
 
     it('should throw validation error when Authorization token is not valid', function () {
-        chai.request(server)
+        return chai.request(server)
             .get('/movies/trending') // route accessible to every logged in user
             .set('Authorization', 'invalid_token')
-            .end((err, res) => {
+            .then((res) => {
                 res.should.have.status(401)
             })
     });
 
     it('should throw validation error when Authorization token is expired', function () {
+        const expiredToken = jwt.sign(
+            {
+                id: userModel._id, username: userModel.email
+            },
+            process.env.JWT_SECRET,
+            {expiresIn: -1} // token with expiration date in the past
+        );
 
-            const expiredToken = jwt.sign(
-                {
-                    id: userModel._id,
-                    username: userModel.email
-                },
-                process.env.JWT_SECRET,
-                {
-                    expiresIn: -1 // token with expiration date in the past
-                }
-            );
-
-            return chai.request(server)
-                .get('/movies/trending') // route accessible to every logged in user
-                .set('Authorization', `Bearer ${expiredToken}`)
-                .then((res) => {
-                    res.should.have.status(401)
-                })
+        return chai.request(server)
+            .get('/movies/trending') // route accessible to every logged in user
+            .set('Authorization', `Bearer ${expiredToken}`)
+            .then((res) => {
+                res.should.have.status(401)
+            })
     });
 
     it('should let logged in user access the protected route', function () {
@@ -60,25 +55,33 @@ describe('jwtAuth', () => {
                 return chai.request(server)
                     .get('/movies/trending') // route accessible to every logged in user
                     .set('Authorization', `Bearer ${res.body.token}`)
-                    .then( res => {
+                    .then(res => {
                         res.should.have.status(200)
                     })
             })
     });
 
     beforeEach(() => {
-        return bcrypt.hash('Pa$$w0rd!', 12).then(hashedPassword => {
-            User.create((new User({
-                    email: 'api_testing@moviedig.com',
-                    password: hashedPassword
+        return new Promise((resolve => {
+                bcrypt.hash('Pa$$w0rd!', 12).then(hashedPassword => {
+                    User.create((new User({
+                            email: 'api_testing@moviedig.com',
+                            password: hashedPassword
+                        })
+                    )).then((user) => {
+                        userModel = user
+                        resolve()
+                    })
                 })
-            )).then((user) => {
-                userModel = user
             })
-        })
+        )
     })
 
     afterEach(() => {
-        return User.deleteOne({email: 'api_testing@moviedig.com'})
+        return new Promise(resolve => {
+            User.deleteOne({email: 'api_testing@moviedig.com'}).then(() => {
+                resolve()
+            })
+        })
     })
 })

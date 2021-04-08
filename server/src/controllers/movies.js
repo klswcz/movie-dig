@@ -9,28 +9,32 @@ const Types = mongoose.Types;
 
 exports.trending = (req, res, next) => {
     let movies = []
-    let apiPromises = []
-    let mongoPromises = []
+    let promises = []
 
     tmdb.api.get('/trending/movie/week?api_key=' + process.env.TMDB_API_KEY).then(apiResponse => {
         User.findOne({email: req.params.token.email}).then(user => {
             apiResponse.data.results.forEach((movie, index) => {
-                Movie.findOne({tmdb_id: movie.id}).then(movieModel => {
-                    Rating.findOne({
-                        user_id: user.id,
-                        movie_id: movieModel ? movieModel.movie_id : null
-                    }).then(rating => {
-                        apiResponse.data.results[index].user_rating = rating ? rating.rating : null
-                        movies.push(apiResponse.data.results[index])
-                        if (movies.length === apiResponse.data.results.length) {
-                            return res.status(200).json({
-                                movies: movies
-                            })
-                        }
+                promises.push(new Promise(resolve => {
+                    Movie.findOne({tmdb_id: movie.id}).then(movieModel => {
+                        Rating.findOne({
+                            user_id: user.id,
+                            movie_id: movieModel ? movieModel.movie_id : null
+                        }).then(rating => {
+                            apiResponse.data.results[index].user_rating = rating ? rating.rating : null
+                            movies.push(apiResponse.data.results[index])
+                            resolve()
+                        })
                     })
+                }))
+            })
+
+            Promise.all(promises).then(() => {
+                return res.status(200).json({
+                    movies: movies
                 })
             })
         })
+
     })
 }
 
@@ -114,7 +118,6 @@ exports.get = (req, res, next) => {
 }
 
 exports.search = (req, res, next) => {
-
     User.findOne({email: req.params.token.email}).then(user => {
         tmdb.api.get(`/search/movie?query=${req.query.query}&api_key=` + process.env.TMDB_API_KEY).then(apiResponse => {
             return res.status(200).json({

@@ -40,7 +40,7 @@ describe('Movies controller', () => {
                 res.body.flashMessageBag.should.be.eql([{msg: 'Logged in.'}])
                 res.should.have.status(200)
                 return chai.request(server)
-                    .get('/movies/recommendation')
+                    .get('/movies/recommendations')
                     .set('Authorization', `Bearer ${res.body.token}`)
                     .then(res => {
                         res.body.movies.forEach((movie) => {

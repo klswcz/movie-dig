@@ -15,6 +15,7 @@ describe('jwtAuth', () => {
         return chai.request(server)
             .get('/account') // route accessible to every logged in user
             .then((res) => {
+                res.body.should.be.eql({messageBag: [{msg: 'Invalid JWT token.'}]})
                 res.should.have.status(401)
             })
     });
@@ -24,6 +25,7 @@ describe('jwtAuth', () => {
             .get('/account') // route accessible to every logged in user
             .set('Authorization', 'invalid_token')
             .then((res) => {
+                res.body.should.be.eql({messageBag: [{msg: 'Invalid JWT token.'}]})
                 res.should.have.status(401)
             })
     });
@@ -41,6 +43,7 @@ describe('jwtAuth', () => {
             .get('/account') // route accessible to every logged in user
             .set('Authorization', `Bearer ${expiredToken}`)
             .then((res) => {
+                res.body.should.be.eql({messageBag: [{msg: 'Invalid JWT token.'}]})
                 res.should.have.status(401)
             })
     });
@@ -51,11 +54,13 @@ describe('jwtAuth', () => {
             .type('form')
             .send({email: 'api_testing@moviedig.com', password: 'Pa$$w0rd!'})
             .then(res => {
+                res.body.flashMessageBag.should.be.eql([{msg: 'Logged in.'}])
                 res.should.have.status(200)
                 return chai.request(server)
                     .get('/account') // route accessible to every logged in user
                     .set('Authorization', `Bearer ${res.body.token}`)
                     .then(res => {
+                        res.body.should.be.eql({email: 'api_testing@moviedig.com'})
                         res.should.have.status(200)
                     })
             })

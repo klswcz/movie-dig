@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
                 messageBag: [{msg: 'Invalid JWT token.'}]
             })
         } else {
-            User.findOne({email: token.username}).then(user => {
+            User.findOne({email: token.email}).then(user => {
                 if (user) {
                     req.params.token = token
                     next()

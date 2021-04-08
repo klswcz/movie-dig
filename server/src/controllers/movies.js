@@ -71,18 +71,16 @@ exports.recommendations = (req, res, next) => {
 }
 
 exports.get = (req, res, next) => {
-    const movieId = req.params.id;
-    let isWishlistItem = false;
 
     const promise = new Promise(((resolve) => {
         User.findOne({email: req.params.token.email}).then(user => {
-            Movie.findOne({tmdb_id: movieId}).then(movie => {
+            Movie.findOne({tmdb_id: req.params.id}).then(movie => {
 
                 if (movie === null) {
                     let movieModel = new Movie({
                         movie_id: (new Types.ObjectId).toString(),
                         imdb_id: null,
-                        tmdb_id: movieId
+                        tmdb_id: req.params.id
                     })
 
                     movieModel.save().then(() => {
@@ -94,17 +92,16 @@ exports.get = (req, res, next) => {
                         movie: {movie_id: movie.movie_id, imdb_id: movie.imdb_id, tmdb_id: movie.tmdb_id},
                         user: {id: user.id}
                     }).then(item => {
-                        isWishlistItem = item !== null
-                        resolve()
+                        resolve(item !== null)
                     })
                 }
             })
         })
     }))
 
-    promise.then(() => {
-        tmdb.api.get(`/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}`).then(movieRes => {
-            tmdb.api.get(`/movie/${movieId}/credits?api_key=${process.env.TMDB_API_KEY}`).then(creditsRes => {
+    promise.then((isWishlistItem) => {
+        tmdb.api.get(`/movie/${req.params.id}?api_key=${process.env.TMDB_API_KEY}`).then(movieRes => {
+            tmdb.api.get(`/movie/${req.params.id}/credits?api_key=${process.env.TMDB_API_KEY}`).then(creditsRes => {
                 movieRes.data.credits = creditsRes.data
                 return res.status(200).json({
                     movie: movieRes.data,
@@ -112,7 +109,7 @@ exports.get = (req, res, next) => {
                 })
             })
         }).catch(() => {
-            return res.status(404)
+            return res.status(404).json({})
         })
     })
 }
@@ -122,10 +119,8 @@ exports.search = (req, res, next) => {
         return res.status(200).json({
             results: apiResponse.data.results.splice(0, 7)
         })
-    }).catch(err => {
-        return res.status(400).json({
-            results: err
-        })
+    }).catch(() => {
+        return res.status(422).json({})
     })
 }
 

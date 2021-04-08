@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const {check, query} = require('express-validator')
+const {check, query, param} = require('express-validator')
 const moviesController = require('../controllers/movies');
 const usersController = require('../controllers/users');
 const wishlistItemsController = require('../controllers/wishlistItems')
@@ -10,10 +10,10 @@ const jwtAuth = require('../middlewares/jwtAuth')
 const returnValidationErrors = require('../middlewares/returnValidationErrors')
 
 // MOVIES
-router.get('/movies/search', [query('query').exists().isString().isLength({min: 1}), jwtAuth], moviesController.search)
+router.get('/movies/search', [jwtAuth, query('query').exists().isString().isLength({min: 1}), returnValidationErrors], moviesController.search)
 router.get('/movies/trending', jwtAuth, moviesController.trending)
 router.get('/movies/recommendations', jwtAuth, moviesController.recommendations)
-router.get('/movies/:id', [query('id').exists().isString().isLength({min: 1}), jwtAuth], moviesController.get)
+router.get('/movies/:id', jwtAuth, moviesController.get)
 
 // USER
 router.get('/account', jwtAuth, usersController.get)

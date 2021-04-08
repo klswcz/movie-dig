@@ -13,6 +13,7 @@ let userModel = {}
 let tmdbResponseKeys = ["adult", "backdrop_path", "id", "original_language", "original_title", "overview", "popularity", "poster_path", "release_date", "title", "video", "vote_average", "vote_count"]
 
 describe('Movies controller', () => {
+
     it('should return trending movies from TMDb', () => {
         return chai.request(server)
             .post('/account/login')
@@ -109,30 +110,11 @@ describe('Movies controller', () => {
                     .set('Authorization', `Bearer ${loginRes.body.token}`)
                     .then(res => {
                         res.should.have.status(404)
-                    }).catch((err) => {
-                        console.log(err);
-                        err.should.have.status(404)
                     })
             })
     });
 
-    it('should return an error when no ID is sent to /movies endpoint', () => {
-        return chai.request(server)
-            .post('/account/login')
-            .type('form')
-            .send({email: 'api_testing@moviedig.com', password: 'Pa$$w0rd!'})
-            .then(loginRes => {
-                loginRes.should.have.status(200)
-                return chai.request(server)
-                    .get('/movies')
-                    .set('Authorization', `Bearer ${loginRes.body.token}`)
-                    .then(res => {
-                        res.should.have.status(404)
-                    })
-            })
-    });
-
-    it('should array of movies based on search query', () => {
+    it('should return an array of movies based on search query', () => {
         return chai.request(server)
             .post('/account/login')
             .type('form')
@@ -149,6 +131,48 @@ describe('Movies controller', () => {
                         })
                         expect(res.body.results.length).to.be.within(0, 7)
                         res.should.have.status(200)
+                    })
+            })
+    });
+
+    it('should return a validation error for empty search query', () => {
+        return chai.request(server)
+            .post('/account/login')
+            .type('form')
+            .send({email: 'api_testing@moviedig.com', password: 'Pa$$w0rd!'})
+            .then(loginRes => {
+                loginRes.should.have.status(200)
+                return chai.request(server)
+                    .get('/movies/search')
+                    .set('Authorization', `Bearer ${loginRes.body.token}`)
+                    .query({'query': ''})
+                    .then(res => {
+                        res.body.should.eql({
+                            messageBag: [{
+                                msg: 'Invalid value',
+                                param: 'query',
+                                location: 'query',
+                                value: ''
+                            }]
+                        })
+                        res.should.have.status(400)
+                    })
+            })
+    });
+
+    it('should return a validation error for no search query', () => {
+        return chai.request(server)
+            .post('/account/login')
+            .type('form')
+            .send({email: 'api_testing@moviedig.com', password: 'Pa$$w0rd!'})
+            .then(loginRes => {
+                loginRes.should.have.status(200)
+                return chai.request(server)
+                    .get('/movies/search')
+                    .set('Authorization', `Bearer ${loginRes.body.token}`)
+                    .then(res => {
+                        res.body.should.eql({messageBag: [{msg: 'Invalid value', param: 'query', location: 'query'}]})
+                        res.should.have.status(400)
                     })
             })
     });

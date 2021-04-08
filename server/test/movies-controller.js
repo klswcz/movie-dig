@@ -44,7 +44,6 @@ describe('Movies controller', () => {
                     .set('Authorization', `Bearer ${res.body.token}`)
                     .then(res => {
                         res.body.movies.forEach((movie) => {
-                            Object.keys(movie).length.should.be.eql(25)
                             expect(movie).to.include.keys(tmdbResponseKeys)
                         })
                         res.should.have.status(200)
@@ -98,7 +97,7 @@ describe('Movies controller', () => {
             })
     });
 
-    it('should return an error when wrong ID is sent', () => {
+    it('should return an error when wrong ID is sent to /movies endpoint', () => {
         return chai.request(server)
             .post('/account/login')
             .type('form')
@@ -117,7 +116,7 @@ describe('Movies controller', () => {
             })
     });
 
-    it('should return an error when no ID is sent', () => {
+    it('should return an error when no ID is sent to /movies endpoint', () => {
         return chai.request(server)
             .post('/account/login')
             .type('form')
@@ -133,6 +132,26 @@ describe('Movies controller', () => {
             })
     });
 
+    it('should array of movies based on search query', () => {
+        return chai.request(server)
+            .post('/account/login')
+            .type('form')
+            .send({email: 'api_testing@moviedig.com', password: 'Pa$$w0rd!'})
+            .then(loginRes => {
+                loginRes.should.have.status(200)
+                return chai.request(server)
+                    .get('/movies/search')
+                    .set('Authorization', `Bearer ${loginRes.body.token}`)
+                    .query({'query': 'Spider-man'})
+                    .then(res => {
+                        res.body.results.forEach((movie) => {
+                            expect(movie).to.include.keys(tmdbResponseKeys)
+                        })
+                        expect(res.body.results.length).to.be.within(0, 7)
+                        res.should.have.status(200)
+                    })
+            })
+    });
 
     beforeEach(() => {
         return new Promise((resolve => {

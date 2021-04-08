@@ -118,15 +118,13 @@ exports.get = (req, res, next) => {
 }
 
 exports.search = (req, res, next) => {
-    User.findOne({email: req.params.token.email}).then(user => {
-        tmdb.api.get(`/search/movie?query=${req.query.query}&api_key=` + process.env.TMDB_API_KEY).then(apiResponse => {
-            return res.status(200).json({
-                results: apiResponse.data.results
-            })
-        }).catch(err => {
-            return res.status(400).json({
-                results: err
-            })
+    tmdb.api.get(`/search/movie?query=${req.query.query}&api_key=` + process.env.TMDB_API_KEY).then(apiResponse => {
+        return res.status(200).json({
+            results: apiResponse.data.results.splice(0, 7)
+        })
+    }).catch(err => {
+        return res.status(400).json({
+            results: err
         })
     })
 }

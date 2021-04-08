@@ -9,7 +9,7 @@ const trending = params => {
 }
 
 const recommendation = params => {
-    return api.get('movies/recommendation')
+    return api.get('movies/recommendations')
 }
 
 const search = params => {

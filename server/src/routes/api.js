@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const {check} = require('express-validator')
+const {check, query} = require('express-validator')
 const moviesController = require('../controllers/movies');
 const usersController = require('../controllers/users');
 const wishlistItemsController = require('../controllers/wishlistItems')
@@ -10,10 +10,10 @@ const jwtAuth = require('../middlewares/jwtAuth')
 const returnValidationErrors = require('../middlewares/returnValidationErrors')
 
 // MOVIES
-router.get('/movies/search', jwtAuth, moviesController.search)
+router.get('/movies/search', [query('query').exists().isString().isLength({min: 1}), jwtAuth], moviesController.search)
 router.get('/movies/trending', jwtAuth, moviesController.trending)
 router.get('/movies/recommendation', jwtAuth, moviesController.recommendations)
-router.get('/movies/*', jwtAuth, moviesController.get)
+router.get('/movies/:id', [query('id').exists().isString().isLength({min: 1}), jwtAuth], moviesController.get)
 
 // USER
 router.get('/account', jwtAuth, usersController.get)
@@ -21,7 +21,10 @@ router.post('/account', [
     check('email', 'Invalid email format.').exists().isEmail(),
     check('first_name', 'Invalid first name.').exists().isString().isLength({min: 1, max: 255}),
     check('last_name', 'Invalid last name.').exists().isString().isLength({min: 1, max: 255}),
-    check('password', 'Password needs to be between 8 and 50 characters long.').exists().isString().isLength({min: 8, max: 50}),
+    check('password', 'Password needs to be between 8 and 50 characters long.').exists().isString().isLength({
+        min: 8,
+        max: 50
+    }),
     returnValidationErrors
 ], usersController.store)
 router.patch('/account', [
@@ -34,12 +37,18 @@ router.patch('/account', [
 router.delete('/account', jwtAuth, usersController.destroy)
 router.post('/account/login', [
     check('email', 'Invalid email format.').notEmpty().isEmail(),
-    check('password', 'Password needs to be between 8 and 50 characters long.').exists().isString().isLength({min: 8, max: 50}),
+    check('password', 'Password needs to be between 8 and 50 characters long.').exists().isString().isLength({
+        min: 8,
+        max: 50
+    }),
     returnValidationErrors
 ], usersController.login)
 router.post('/account/password', [
     jwtAuth,
-    check('password', 'Password needs to be between 8 and 50 characters long.').exists().isString().isLength({min: 8, max: 50}),
+    check('password', 'Password needs to be between 8 and 50 characters long.').exists().isString().isLength({
+        min: 8,
+        max: 50
+    }),
     returnValidationErrors
 ], usersController.updatePassword)
 

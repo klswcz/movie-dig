@@ -8,7 +8,7 @@ const Types = mongoose.Types;
 exports.update = (req, res, next) => {
     let promises = []
 
-    User.findOne({email: req.params.token.username}).then(user => {
+    User.findOne({email: req.params.token.email}).then(user => {
         Movie.findOne({tmdb_id: req.body.movie_id}).then(movie => {
             if (movie === null) {
                 let movieModel = new Movie({
@@ -83,7 +83,7 @@ exports.update = (req, res, next) => {
 exports.get = (req, res, next) => {
     const movieId = req.params[0];
 
-    User.findOne({email: req.params.token.username}).then(user => {
+    User.findOne({email: req.params.token.email}).then(user => {
         Movie.findOne({tmdb_id: movieId}).then(movie => {
             if (movie) {
                 Rating.findOne({
@@ -105,7 +105,7 @@ exports.get = (req, res, next) => {
 }
 
 exports.destroy = (req, res, next) => {
-    User.findOne({email: req.params.token.username}).then(user => {
+    User.findOne({email: req.params.token.email}).then(user => {
         Movie.findOne({tmdb_id: req.query.movie_id}).then(movie => {
             Rating.deleteOne({
                 user_id: user.id,
@@ -131,7 +131,7 @@ exports.destroy = (req, res, next) => {
 }
 
 exports.count = (req, res, next) => {
-    User.findOne({email: req.params.token.username}).then(user => {
+    User.findOne({email: req.params.token.email}).then(user => {
         Rating.find({user_id: user.id}).then(ratings => {
             return res.send({
                 rating_count: ratings.length

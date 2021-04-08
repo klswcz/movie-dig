@@ -84,7 +84,7 @@ function MovieCard(props) {
         props.disableLink ?
             movieCard
             :
-            <Link to={{pathname: '/movie', search: `?id=${props.movieId}`}} className="mx-2 my-3">
+            <Link to={{pathname: `/movies/${props.movieId}`}} className="mx-2 my-3">
                 {movieCard}
             </Link>
     )

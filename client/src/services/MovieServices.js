@@ -1,7 +1,7 @@
 import {api} from './Api'
 
 const get = params => {
-    return api.get(`/movies/${params.movie_id}`)
+    return api.get(`/movies/${params.id}`)
 }
 
 const trending = params => {
@@ -13,9 +13,7 @@ const recommendation = params => {
 }
 
 const search = params => {
-    return api.get('movies/search', {
-        params: params
-    })
+    return api.get('movies/search', {params})
 }
 
 export {trending, get, recommendation, search}

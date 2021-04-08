@@ -45,7 +45,7 @@ function Layout() {
                     <Route path="/login" exact component={Login}/>
                     <Route path="/register" exact component={Register}/>
                     <Route path="/dashboard" exact component={Dashboard}/>
-                    <Route path="/movie" component={Movie}/>
+                    <Route path="/movies/:id" component={Movie}/>
                     <Route path="/account" exact component={Account}/>
                     <Route path="/wishlist" exact component={Wishlist}/>
                     <Route path="/tutorial" exact component={Tutorial}/>

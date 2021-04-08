@@ -15,11 +15,11 @@ exports.get = (req, res) => {
         {id: 10749, name: 'Romance'},
     ]
 
-    User.findOne({email: req.params.token.username}).then(user => {
-        apiPromises.push(tmdb.api.get(`/discover/movie?vote_count.gte=1000&sort_by=vote_average.desc&vote_count.gte=10000&with_original_language=en&api_key=${process.env.TMDB_API_KEY}`).then((apiRes) => {
+    User.findOne({email: req.params.token.email}).then(user => {
+        apiPromises.push(tmdb.api.get(`/discover/movie?vote_count.gte=1000&sort_by=vote_average.desc&vote_count.gte=10000&with_original_language=en&api_key=${process.env.TMDB_API_KEY}`).then((apiResponse) => {
             propositionsResponse.push({
                 'name': "Top rated",
-                'movies': apiRes.data.results.sort((a, b) => {
+                'movies': apiResponse.data.results.sort((a, b) => {
                     return b.vote_average - a.vote_average
                 })
             })
@@ -27,10 +27,10 @@ exports.get = (req, res) => {
 
         movieGenres.forEach(genre => {
             apiPromises.push(tmdb.api.get(`/discover/movie?with_genres=${genre.id}&vote_count.gte=1000&api_key=${process.env.TMDB_API_KEY}`)
-                .then(apiRes => {
+                .then(apiResponse => {
                     propositionsResponse.push({
                         'name': genre.name,
-                        'movies': apiRes.data.results.sort((a, b) => {
+                        'movies': apiResponse.data.results.sort((a, b) => {
                             return b.vote_average - a.vote_average
                         })
                     })

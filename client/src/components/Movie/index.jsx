@@ -14,8 +14,8 @@ import ReactStars from 'react-stars'
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {useHistory} from "react-router-dom";
 
-function Dashboard() {
-    let movieId = window.location.search.replace("?id=", ''); // get movie id from url parameter
+function Movie(props) {
+    let movieId = props.match.params.id
     const [movie, setMovie] = useState([])
     const [isWishlistItem, setIsWishlistItem] = useState(false)
     const [isWishlistRequestProcessed, setIsWishlistRequestProcessed] = useState(false)
@@ -30,7 +30,7 @@ function Dashboard() {
             setIsWishlistRequestProcessed(true)
             getRatingService({movie_id: movieId}).then(res => {
                 setUserRating(res.data.rating)
-                getMovieService({movie_id: movieId}).then(res => {
+                getMovieService({id: movieId}).then(res => {
                     setMovie(res.data.movie)
                     setIsWishlistItem(res.data.isWishlistItem)
                     setIsWishlistRequestProcessed(false)
@@ -91,12 +91,12 @@ function Dashboard() {
                     <div className="flex flex-wrap">
                         <div className="w-full sm:w-1/4">
                             {movie.poster_path ?
-                            <img src={'https://image.tmdb.org/t/p/w300' + movie.poster_path} alt=""
-                                 className="rounded-md w-1/3 align-top sm:align-middle sm:w-auto inline-block sm:block"/>
+                                <img src={'https://image.tmdb.org/t/p/w300' + movie.poster_path} alt=""
+                                     className="rounded-md w-1/3 align-top sm:align-middle sm:w-auto inline-block sm:block"/>
                                 :
                                 <img src={'https://dummyimage.com/300x450/cccccc/ffffff&text=No+poster'}
-                                alt=""
-                                className="rounded-md align-top sm:align-middle inline-block mr-3"/>
+                                     alt=""
+                                     className="rounded-md align-top sm:align-middle inline-block mr-3"/>
                             }
                             <div className="w-2/3 pl-3 inline-block sm:hidden align-top">
                                 <h2 className="text-2xl">Description</h2>
@@ -159,9 +159,9 @@ function Dashboard() {
                                     return (
                                         <div className="text-center flex items-center flex-col mr-10" key={index}>
                                             {actor.profile_path ?
-                                            <img src={'https://image.tmdb.org/t/p/w300' + actor.profile_path} alt=""
-                                                 className="rounded-lg w-full"/>
-                                                 :
+                                                <img src={'https://image.tmdb.org/t/p/w300' + actor.profile_path} alt=""
+                                                     className="rounded-lg w-full"/>
+                                                :
                                                 <img src={'https://dummyimage.com/300x450/cccccc/ffffff&text=No+image'}
                                                      alt=""
                                                      className="rounded-md align-top sm:align-middle inline-block mr-3"/>
@@ -181,4 +181,4 @@ function Dashboard() {
     )
 }
 
-export default Dashboard;
+export default Movie;

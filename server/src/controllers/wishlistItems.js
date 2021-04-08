@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const Types = mongoose.Types;
 
 exports.store = (req, res) => {
-    User.findOne({email: req.params.token.username}).then(user => {
+    User.findOne({email: req.params.token.email}).then(user => {
         Movie.findOne({tmdb_id: req.body.movie_id}).then(movie => {
             if (movie === null) {
                 let movieModel = new Movie({
@@ -62,7 +62,7 @@ exports.store = (req, res) => {
 }
 
 exports.destroy = (req, res) => {
-    User.findOne({email: req.params.token.username}).then(user => {
+    User.findOne({email: req.params.token.email}).then(user => {
         Movie.findOne({tmdb_id: req.query.movie_id}).then(movie => {
             WishlistItem.deleteOne({
                 movie: {movie_id: movie.movie_id, imdb_id: movie.imdb_id, tmdb_id: movie.tmdb_id},
@@ -78,7 +78,7 @@ exports.destroy = (req, res) => {
 }
 
 exports.get = (req, res) => {
-    User.findOne({email: req.params.token.username}).then(user => {
+    User.findOne({email: req.params.token.email}).then(user => {
         WishlistItem.find({user: {id: user.id}}).then(wishlistItems => {
 
             let promises = []
@@ -86,12 +86,12 @@ exports.get = (req, res) => {
 
             wishlistItems.forEach(item => {
                 promises.push(
-                    tmdb.api.get(`/movie/${item.movie.tmdb_id}?api_key=` + process.env.TMDB_API_KEY).then(apiRes => {
+                    tmdb.api.get(`/movie/${item.movie.tmdb_id}?api_key=` + process.env.TMDB_API_KEY).then(apiResponse => {
                         return Rating.findOne({user_id: user.id, movie_id: item.movie.movie_id}).then(rating => {
                             if (rating !== null) {
-                                apiRes.data.user_rating = rating.rating
+                                apiResponse.data.user_rating = rating.rating
                             }
-                            apiMovies.push(apiRes.data)
+                            apiMovies.push(apiResponse.data)
                         })
                     })
                 )

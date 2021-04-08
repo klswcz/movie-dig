@@ -6,7 +6,7 @@ const Rating = require('../models/Rating')
 const {generateToken} = require("../generateToken")
 
 exports.get = (req, res, next) => {
-    User.findOne({email: req.params.token.username}, (err, model) => {
+    User.findOne({email: req.params.token.email}, (err, model) => {
         return res.status(200).json({
             email: model.email,
             first_name: model.first_name,
@@ -40,14 +40,14 @@ exports.store = (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
-    User.findOne({email: req.params.token.username}, (err, user) => {
+    User.findOne({email: req.params.token.email}, (err, user) => {
         if (!user) {
             return res.status(400).json({
                 messageBag: [{msg: 'User not found.'}]
             });
         }
         User.findOne({email: req.body.email}, (err, sameEmailUser) => {
-            if (req.params.token.username !== req.body.email && sameEmailUser) {
+            if (req.params.token.email !== req.body.email && sameEmailUser) {
                 return res.status(400).json({
                     flashMessageBag: [{msg: 'User with this email already exists.'}]
                 });
@@ -74,7 +74,7 @@ exports.update = (req, res, next) => {
 exports.destroy = (req, res, next) => {
     let promises = []
 
-    User.findOne({email: req.params.token.username}, (err, user) => {
+    User.findOne({email: req.params.token.email}, (err, user) => {
         promises.push(WishlistItem.deleteMany({user: {id: user.id}}))
         promises.push(Rating.deleteMany({user_id: user.id,}))
 
@@ -115,7 +115,7 @@ exports.login = (req, res, next) => {
 }
 
 exports.updatePassword = (req, res, next) => {
-    User.findOne({email: req.params.token.username}, (err, user) => {
+    User.findOne({email: req.params.token.email}, (err, user) => {
         if (!user) {
             return res.status(400).json({
                 messageBag: [{msg: 'User not found.'}]

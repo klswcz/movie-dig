@@ -26,6 +26,10 @@ describe('Movies controller', () => {
                     .get('/movies/trending')
                     .set('Authorization', `Bearer ${res.body.token}`)
                     .then(res => {
+                        let tmdbKeyWithUserRating = [...tmdbResponseKeys, 'user_rating']
+                        res.body.movies.forEach((movie) => {
+                            expect(movie).to.include.keys(tmdbKeyWithUserRating)
+                        })
                         res.body.movies.length.should.be.eql(20);
                         res.should.have.status(200)
                     })
@@ -44,8 +48,9 @@ describe('Movies controller', () => {
                     .get('/movies/recommendations')
                     .set('Authorization', `Bearer ${res.body.token}`)
                     .then(res => {
+                        let tmdbKeyWithUserRating = [...tmdbResponseKeys, 'user_rating']
                         res.body.movies.forEach((movie) => {
-                            expect(movie).to.include.keys(tmdbResponseKeys)
+                            expect(movie).to.include.keys(tmdbKeyWithUserRating)
                         })
                         res.should.have.status(200)
                     })

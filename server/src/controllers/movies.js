@@ -42,23 +42,41 @@ exports.recommendations = (req, res, next) => {
 
     runRecommendationScript().then(
         recommendations => {
-            let promises = []
-            let tmdbApiResponses = []
+            let apiPromises = []
+            let mongoPromises = []
+            let recommendedMovies = []
 
             recommendations = recommendations.split(",")
             recommendations = recommendations.slice(0, recommendations.length - 1)
 
             recommendations.forEach(tmdbId => {
-                promises.push(
+                apiPromises.push(
                     tmdb.api.get(`/movie/${tmdbId}?api_key=${process.env.TMDB_API_KEY}`).then(apiResponse => {
-                        tmdbApiResponses.push(apiResponse.data)
+                        recommendedMovies.push(apiResponse.data)
                     })
                 )
             })
 
-            Promise.all(promises).then(() => {
-                return res.status(200).json({
-                    movies: tmdbApiResponses
+            Promise.all(apiPromises).then(() => {
+                User.findOne({email: req.params.token.email}).then(user => {
+                    recommendedMovies.forEach((movie, index) => {
+                        mongoPromises.push(new Promise(resolve => {
+                            Movie.findOne({tmdb_id: movie.id}).then(movieModel => {
+                                Rating.findOne({
+                                    user_id: user.id,
+                                    movie_id: movieModel ? movieModel.movie_id : null
+                                }).then(rating => {
+                                    recommendedMovies[index].user_rating = rating ? rating.rating : null
+                                    resolve()
+                                })
+                            })
+                        }))
+                    })
+                    Promise.all(mongoPromises).then(() => {
+                        return res.status(200).json({
+                            movies: recommendedMovies
+                        })
+                    })
                 })
             })
         },

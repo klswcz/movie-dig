@@ -49,6 +49,8 @@ exports.get = (req, res) => {
                                 }).then(rating => {
                                     if (rating !== null) {
                                         propositionsResponse[genreIndex].movies[movieIndex].user_rating = rating.rating
+                                    } else {
+                                        propositionsResponse[genreIndex].movies[movieIndex].user_rating = null
                                     }
                                     resolve()
                                 })

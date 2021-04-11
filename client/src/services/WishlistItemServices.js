@@ -5,13 +5,11 @@ const get = params => {
 }
 
 const create = params => {
-    return api.post('/wishlist', params)
+    return api.post('/wishlist', {params})
 }
 
 const destroy = params => {
-    return api.delete('/wishlist', {
-        params: params
-    })
+    return api.delete('/wishlist', {params})
 }
 
 export {create, destroy, get}

@@ -28,11 +28,11 @@ function Movie(props) {
             history.push({pathname: "/login",});
         } else {
             setIsWishlistRequestProcessed(true)
-            getRatingService({movie_id: movieId}).then(res => {
-                setUserRating(res.data.rating)
-                getMovieService({id: movieId}).then(res => {
-                    setMovie(res.data.movie)
-                    setIsWishlistItem(res.data.isWishlistItem)
+            getMovieService({id: movieId}).then(res => {
+                setMovie(res.data.movie)
+                setIsWishlistItem(res.data.isWishlistItem)
+                getRatingService({movie_id: movieId}).then(res => {
+                    setUserRating(res.data.rating)
                     setIsWishlistRequestProcessed(false)
                     setLoadingFinished(true)
                 })

@@ -5,11 +5,11 @@ const get = () => {
 }
 
 const update = params => {
-    return api.patch('/account', params)
+    return api.patch('/account', {params})
 }
 
 const updatePassword = params => {
-    return api.post('/account/password', params)
+    return api.post('/account/password', {params})
 }
 
 const destroy = () => {

@@ -66,18 +66,24 @@ router.delete('/wishlist', [
 ], wishlistItemsController.destroy)
 
 // MOVIE RATING
-router.patch('/rating', [
+router.post('/ratings', [
     jwtAuth,
     check('rating').notEmpty().isFloat({min: 0.5, max: 5}),
+    check('movie_id').notEmpty(),
+    returnValidationErrors
+], ratingsController.create)
+router.patch('/ratings', [
+    jwtAuth,
+    check('rating').notEmpty().isFloat({min: 0.5, max: 5}),
+    check('movie_id').notEmpty(),
     returnValidationErrors
 ], ratingsController.update)
-router.delete('/rating', [
+router.delete('/ratings', [
     jwtAuth,
     check('movie_id').notEmpty(),
     returnValidationErrors
 ], ratingsController.destroy)
-router.get('/rating/count', jwtAuth, ratingsController.count)
-router.get('/rating/*', jwtAuth, ratingsController.get)
+router.get('/ratings/:movie_id', jwtAuth, ratingsController.get)
 
 // RATING PROPOSITIONS
 router.get('/rating-propositions', jwtAuth, ratingPropositionsController.get)

@@ -4,6 +4,52 @@ const User = require("../models/User");
 const mongoose = require("mongoose");
 const Types = mongoose.Types;
 
+exports.create = (req, res, next) => {
+    let promises = []
+    User.findOne({email: req.params.token.email}).then(user => {
+        Movie.findOne({tmdb_id: req.body.movie_id}).then(movie => {
+            if (movie === null) {
+                movie = new Movie({
+                    movie_id: (new Types.ObjectId).toString(),
+                    imdb_id: null,
+                    tmdb_id: req.body.movie_id
+                })
+                promises.push(new Promise((resolve, reject) => {
+                    movie.save().then(() => {
+                        resolve()
+                    })
+                }))
+            }
+
+            Promise.all(promises).then(() => {
+                let ratingModel = new Rating({
+                    user_id: user.id,
+                    movie_id: movie.movie_id,
+                    rating: req.body.rating,
+                    timestamp: Date.now()
+                })
+
+                ratingModel.save(() => {
+                    if (req.body.rating_count) {
+                        Rating.find({user_id: user.id}).then(ratings => {
+                            return res.send({
+                                flashMessageBag: [{msg: 'Rating has been saved.'}],
+                                rating: ratingModel.rating,
+                                rating_count: ratings.length
+                            });
+                        })
+                    } else {
+                        return res.send({
+                            flashMessageBag: [{msg: 'Rating has been saved.'}],
+                            rating: ratingModel.rating
+                        });
+                    }
+                })
+            })
+        })
+    })
+
+}
 
 exports.update = (req, res, next) => {
     let promises = []
@@ -30,50 +76,24 @@ exports.update = (req, res, next) => {
                     user_id: user.id,
                     movie_id: movie.movie_id
                 }).then(rating => {
-                    if (rating) {
-                        rating.rating = req.body.rating
-                        rating.timestamp = Date.now()
-                        rating.save(error => {
-                            if (req.body.rating_count) {
-                                Rating.find({user_id: user.id}).then(ratings => {
-                                    return res.send({
-                                        flashMessageBag: [{msg: 'Rating has been updated.'}],
-                                        rating: rating.rating,
-                                        rating_count: ratings.length
-                                    });
-                                })
-                            } else {
+                    rating.rating = req.body.rating
+                    rating.timestamp = Date.now()
+                    rating.save(() => {
+                        if (req.body.rating_count) {
+                            Rating.find({user_id: user.id}).then(ratings => {
                                 return res.send({
                                     flashMessageBag: [{msg: 'Rating has been updated.'}],
-                                    rating: rating.rating
+                                    rating: rating.rating,
+                                    rating_count: ratings.length
                                 });
-                            }
-                        })
-                    } else {
-                        let ratingModel = new Rating({
-                            user_id: user.id,
-                            movie_id: movie.movie_id,
-                            rating: req.body.rating,
-                            timestamp: Date.now()
-                        })
-
-                        ratingModel.save(() => {
-                            if (req.body.rating_count) {
-                                Rating.find({user_id: user.id}).then(ratings => {
-                                    return res.send({
-                                        flashMessageBag: [{msg: 'Rating has been saved.'}],
-                                        rating: ratingModel.rating,
-                                        rating_count: ratings.length
-                                    });
-                                })
-                            } else {
-                                return res.send({
-                                    flashMessageBag: [{msg: 'Rating has been saved.'}],
-                                    rating: ratingModel.rating
-                                });
-                            }
-                        })
-                    }
+                            })
+                        } else {
+                            return res.send({
+                                flashMessageBag: [{msg: 'Rating has been updated.'}],
+                                rating: rating.rating
+                            });
+                        }
+                    })
                 })
             })
         })
@@ -81,10 +101,8 @@ exports.update = (req, res, next) => {
 }
 
 exports.get = (req, res, next) => {
-    const movieId = req.params[0];
-
     User.findOne({email: req.params.token.email}).then(user => {
-        Movie.findOne({tmdb_id: movieId}).then(movie => {
+        Movie.findOne({tmdb_id: req.params.movie_id}).then(movie => {
             if (movie) {
                 Rating.findOne({
                     user_id: user.id,
@@ -106,11 +124,11 @@ exports.get = (req, res, next) => {
 
 exports.destroy = (req, res, next) => {
     User.findOne({email: req.params.token.email}).then(user => {
-        Movie.findOne({tmdb_id: req.query.movie_id}).then(movie => {
+        Movie.findOne({tmdb_id: req.body.movie_id}).then(movie => {
             Rating.deleteOne({
                 user_id: user.id,
                 movie_id: movie.movie_id
-            }).then(item => {
+            }).then(() => {
                 if (req.query.rating_count) {
                     Rating.find({user_id: user.id}).then(ratings => {
                         return res.send({
@@ -126,15 +144,9 @@ exports.destroy = (req, res, next) => {
                     });
                 }
             })
-        })
-    })
-}
-
-exports.count = (req, res, next) => {
-    User.findOne({email: req.params.token.email}).then(user => {
-        Rating.find({user_id: user.id}).then(ratings => {
-            return res.send({
-                rating_count: ratings.length
+        }).catch((err) => {
+            return res.status(400).json({
+                messageBag: [{msg: 'Rating was not found.'}]
             });
         })
     })

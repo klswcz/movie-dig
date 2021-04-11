@@ -30,20 +30,13 @@ exports.create = (req, res, next) => {
                 })
 
                 ratingModel.save(() => {
-                    if (req.body.rating_count) {
-                        Rating.find({user_id: user.id}).then(ratings => {
-                            return res.send({
-                                flashMessageBag: [{msg: 'Rating has been saved.'}],
-                                rating: ratingModel.rating,
-                                rating_count: ratings.length
-                            });
-                        })
-                    } else {
+                    Rating.find({user_id: user.id}).then(ratings => {
                         return res.send({
                             flashMessageBag: [{msg: 'Rating has been saved.'}],
-                            rating: ratingModel.rating
+                            rating: ratingModel.rating,
+                            rating_count: ratings.length
                         });
-                    }
+                    })
                 })
             })
         })
@@ -79,20 +72,13 @@ exports.update = (req, res, next) => {
                     rating.rating = req.body.rating
                     rating.timestamp = Date.now()
                     rating.save(() => {
-                        if (req.body.rating_count) {
-                            Rating.find({user_id: user.id}).then(ratings => {
-                                return res.send({
-                                    flashMessageBag: [{msg: 'Rating has been updated.'}],
-                                    rating: rating.rating,
-                                    rating_count: ratings.length
-                                });
-                            })
-                        } else {
+                        Rating.find({user_id: user.id}).then(ratings => {
                             return res.send({
                                 flashMessageBag: [{msg: 'Rating has been updated.'}],
-                                rating: rating.rating
+                                rating: rating.rating,
+                                rating_count: ratings.length
                             });
-                        }
+                        })
                     })
                 })
             })
@@ -103,21 +89,18 @@ exports.update = (req, res, next) => {
 exports.get = (req, res, next) => {
     User.findOne({email: req.params.token.email}).then(user => {
         Movie.findOne({tmdb_id: req.params.movie_id}).then(movie => {
-            if (movie) {
-                Rating.findOne({
-                    user_id: user.id,
-                    movie_id: movie.movie_id
-                }).then(ratingModel => {
-                    return res.status(200).json({
-                        rating: ratingModel ? ratingModel.rating : null
-                    })
-
-                })
-            } else {
+            Rating.findOne({
+                user_id: user.id,
+                movie_id: movie.movie_id
+            }).then(ratingModel => {
                 return res.status(200).json({
-                    rating: null
+                    rating: ratingModel ? ratingModel.rating : null
                 })
-            }
+            })
+        }).catch((err) => {
+            return res.status(400).json({
+                messageBag: [{msg: 'Rating was not found.'}]
+            });
         })
     })
 }
@@ -129,20 +112,13 @@ exports.destroy = (req, res, next) => {
                 user_id: user.id,
                 movie_id: movie.movie_id
             }).then(() => {
-                if (req.query.rating_count) {
-                    Rating.find({user_id: user.id}).then(ratings => {
-                        return res.send({
-                            flashMessageBag: [{msg: 'Rating has been deleted.'}],
-                            rating: null,
-                            rating_count: ratings.length
-                        });
-                    })
-                } else {
+                Rating.find({user_id: user.id}).then(ratings => {
                     return res.send({
                         flashMessageBag: [{msg: 'Rating has been deleted.'}],
                         rating: null,
+                        rating_count: ratings.length
                     });
-                }
+                })
             })
         }).catch((err) => {
             return res.status(400).json({

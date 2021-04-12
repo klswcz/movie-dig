@@ -120,7 +120,6 @@ describe('Users controller', () => {
                     })
                     .then(res => {
                         res.should.have.status(400)
-                        console.log(res.body);
                         res.body.should.be.eql(
                             {messageBag: [{msg: 'User with this email already exists.'}]}
                         )

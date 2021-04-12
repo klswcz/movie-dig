@@ -14,7 +14,7 @@ let userModel = {}
 let tmdbResponseKeys = ["adult", "backdrop_path", "id", "original_language", "original_title", "overview", "popularity", "poster_path", "release_date", "title", "video", "vote_average", "vote_count"]
 let tmdbKeyWithUserRating = [...tmdbResponseKeys, 'user_rating']
 
-describe('Rating propositions controller', () => {
+describe('Users controller', () => {
 
     it('should return account\'s details', () => {
         return bcrypt.hash('Pa$$w0rd!', 12).then(hashedPassword => {

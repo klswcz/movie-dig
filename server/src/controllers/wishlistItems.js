@@ -19,9 +19,7 @@ exports.store = (req, res) => {
                 movieModel.save().then(() => {
                     movie = movieModel;
                 })
-
             }
-
             WishlistItem.findOne({
                 movie: {imdb_id: movie.imdb_id, tmdb_id: movie.tmdb_id},
                 user: {id: user.id}
@@ -57,7 +55,7 @@ exports.store = (req, res) => {
 
 exports.destroy = (req, res) => {
     User.findOne({email: req.params.token.email}).then(user => {
-        Movie.findOne({tmdb_id: req.query.movie_id}).then(movie => {
+        Movie.findOne({tmdb_id: req.body.movie_id}).then(movie => {
             WishlistItem.deleteOne({
                 movie: {movie_id: movie.movie_id, imdb_id: movie.imdb_id, tmdb_id: movie.tmdb_id},
                 user: {id: user.id}
@@ -82,9 +80,7 @@ exports.get = (req, res) => {
                 promises.push(
                     tmdb.api.get(`/movie/${item.movie.tmdb_id}?api_key=` + process.env.TMDB_API_KEY).then(apiResponse => {
                         return Rating.findOne({user_id: user.id, movie_id: item.movie.movie_id}).then(rating => {
-                            if (rating !== null) {
-                                apiResponse.data.user_rating = rating.rating
-                            }
+                            apiResponse.data.user_rating = rating ? rating.rating : null
                             apiMovies.push(apiResponse.data)
                         })
                     })

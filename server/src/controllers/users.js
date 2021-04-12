@@ -32,7 +32,10 @@ exports.store = (req, res, next) => {
             })
             userModel.save(error => {
                 return res.send({
-                    flashMessageBag: [{msg: 'User has been registered.'}]
+                    flashMessageBag: [{msg: 'User has been registered.'}],
+                    email: 'api_testing@moviedig.com',
+                    first_name: 'Test',
+                    last_name: 'User',
                 });
             })
         })
@@ -52,11 +55,9 @@ exports.update = (req, res, next) => {
                     flashMessageBag: [{msg: 'User with this email already exists.'}]
                 });
             }
-
             user.email = req.body.email
             user.first_name = req.body.first_name
             user.last_name = req.body.last_name
-
             user.save(error => {
                 let token = generateToken(user)
                 return res.status(200).send({
@@ -80,7 +81,9 @@ exports.destroy = (req, res, next) => {
 
         Promise.all(promises).then(() => {
             user.remove().then(() => {
-                return res.status(200).json({})
+                return res.status(200).json({
+                    flashMessageBag: [{msg: 'Account has been deleted.'}],
+                })
             })
         })
     })
@@ -89,7 +92,7 @@ exports.destroy = (req, res, next) => {
 exports.login = (req, res, next) => {
     User.findOne({email: req.body.email}).then(user => {
         if (!user) {
-            return res.status(401).json({
+            return res.status(400).json({
                 messageBag: [{msg: 'Email address and/or password is invalid.'}]
             });
         }
@@ -106,7 +109,7 @@ exports.login = (req, res, next) => {
                     })
                 })
             } else {
-                return res.status(401).json({
+                return res.status(400).json({
                     messageBag: [{msg: 'Email address and/or password is invalid.'}]
                 });
             }
@@ -124,7 +127,6 @@ exports.updatePassword = (req, res, next) => {
 
         return bcrypt.compare(req.body.old_password, user.password).then(isPasswordValid => {
             if (isPasswordValid) {
-
                 bcrypt.hash(req.body.password, 12).then(hashedPassword => {
                     user.password = hashedPassword
 
@@ -134,16 +136,11 @@ exports.updatePassword = (req, res, next) => {
                         });
                     })
                 })
-
             } else {
                 return res.status(400).json({
-                    messageBag: [{msg: 'Invalid old password.'}]
+                    messageBag: [{msg: 'Invalid existing password.'}]
                 });
             }
-        }).catch(error => {
-            return res.status(500).json({
-                flashMessageBag: [{msg: 'Internal error.'}]
-            });
         })
     })
 }

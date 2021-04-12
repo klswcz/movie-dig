@@ -44,16 +44,10 @@ exports.store = (req, res) => {
                     })
 
                     wishlistItemModel.save(error => {
-                        if (error) {
-                            return res.status(500).json({
-                                flashMessageBag: [{msg: error}]
-                            })
-                        } else {
-                            return res.send({
-                                flashMessageBag: [{msg: 'Movie has been added to wish list.'}],
-                                isWishlistItem: true,
-                            });
-                        }
+                        return res.send({
+                            flashMessageBag: [{msg: 'Movie has been added to wish list.'}],
+                            isWishlistItem: true,
+                        });
                     })
                 }
             })

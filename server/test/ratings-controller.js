@@ -30,7 +30,11 @@ describe('Rating propositions controller', () => {
                     .send({rating: 3.5, movie_id: 862})
                     .then(res => {
                         res.should.have.status(200)
-                        res.body.should.be.eql({flashMessageBag: [{msg: 'Rating has been saved.'}], rating: '3.5', "rating_count": 1})
+                        res.body.should.be.eql({
+                            flashMessageBag: [{msg: 'Rating has been saved.'}],
+                            rating: '3.5',
+                            "rating_count": 1
+                        })
                         new Promise(resolve => {
                             Rating.deleteMany({user_id: userModel.id}).then(() => {
                                 resolve()

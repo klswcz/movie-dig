@@ -73,7 +73,7 @@ function Navbar() {
                                     className="fixed left-0 w-screen md:w-full md:relative bg-white border border-gray-300 pt-2">
                                     {searchResults.map((movie, index) => {
                                         return (
-                                            <Link to={{pathname: '/movie', search: `?id=${movie.id}`}}
+                                            <Link to={{pathname: `/movies/${movie.id}`}}
                                                   className="py-2 px-3 block hover:bg-purple-500 hover:text-white border-b truncate"
                                                   key={index}>
                                                 {movie.poster_path ?

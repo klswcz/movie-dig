@@ -3,7 +3,12 @@ import {faStar, faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link, useHistory} from "react-router-dom";
 import ReactStars from "react-stars";
-import {destroy as destroyRatingService, update as setRatingService} from "../../services/RatingServices";
+import {
+    destroy as destroyRatingService,
+    update as setRatingService,
+    update as updateRatingService,
+    create as createRatingService
+} from "../../services/RatingServices";
 import store from "../../store/reducer";
 
 function MovieCard(props) {
@@ -18,12 +23,20 @@ function MovieCard(props) {
         }
     }, [history, props.userRating]);
 
-    const setRating = (newRating) => {
-        setRatingService({movie_id: props.movieId, rating: newRating, rating_count: true}).then(res => {
+    const createRating = (rating) => {
+        createRatingService({movie_id: props.movieId, rating: rating, rating_count: true}).then(res => {
             store.dispatch({type: 'SET_RATING_COUNT', payload: res.data.rating_count})
             setUserRating(res.data.rating)
         })
     }
+
+    const updateRating = (rating) => {
+        updateRatingService({movie_id: props.movieId, rating: rating, rating_count: true}).then(res => {
+            store.dispatch({type: 'SET_RATING_COUNT', payload: res.data.rating_count})
+            setUserRating(res.data.rating)
+        })
+    }
+
     const deleteRating = () => {
         destroyRatingService({movie_id: props.movieId, rating_count: true}).then(res => {
             store.dispatch({type: 'SET_RATING_COUNT', payload: res.data.rating_count})
@@ -66,7 +79,7 @@ function MovieCard(props) {
                         count={5}
                         value={parseFloat(userRating)}
                         size={20}
-                        onChange={setRating}
+                        onChange={userRating ? updateRating : createRating}
                         color2={'#ffd700'}/>
                     {userRating != null &&
                     <button onClick={deleteRating} className='inline-block ml-4 focus:outline-none align-text-bottom'>

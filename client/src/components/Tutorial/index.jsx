@@ -16,7 +16,7 @@ function Tutorial() {
             </div>
             { localStorage.getItem('token') !== 'null' &&
                 <div className="mt-5">
-                    <Button label={'Go to Movie Rating form'} widthAuto={true} to={'/movies/rating/batch'}/>
+                    <Button label={'Go to Movie Rating form'} widthAuto={true} to={'/rating/batch'}/>
                 </div>
 
             }

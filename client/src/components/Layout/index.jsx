@@ -49,7 +49,7 @@ function Layout() {
                     <Route path="/account" exact component={Account}/>
                     <Route path="/wishlist" exact component={Wishlist}/>
                     <Route path="/tutorial" exact component={Tutorial}/>
-                    <Route path="/movies/rating/batch" exact component={BatchMovieRating}/>
+                    <Route path="/rating/batch" exact component={BatchMovieRating}/>
                     <Route path="/" component={Home}/>
                 </Switch>
             </div>

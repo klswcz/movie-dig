@@ -1,4 +1,3 @@
-
 const bcrypt = require("bcryptjs")
 let User = require('../src/models/User')
 let WishlistItem = require('../src/models/WishlistItem')
@@ -116,9 +115,10 @@ describe('Wishlit items controller', () => {
                             .set('Authorization', `Bearer ${loginRes.body.token}`)
                             .send({movie_id: 862})
                             .then(res => {
+                                console.log(res.body);
                                 res.should.have.status(200)
                                 res.body.should.be.eql({
-                                    flashMessageBag: [ { msg: 'Movie has been removed from wish list.' } ],
+                                    flashMessageBag: [{msg: 'Movie has been removed from wish list.'}],
                                     isWishlistItem: false
                                 })
                             })

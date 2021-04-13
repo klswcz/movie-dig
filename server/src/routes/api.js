@@ -34,6 +34,7 @@ router.delete('/wishlist', [jwtAuth, check('movie_id').notEmpty(), returnValidat
 router.post('/ratings', [jwtAuth, check('rating').notEmpty().isFloat({min: 0.5, max: 5}), check('movie_id').notEmpty(), returnValidationErrors], ratingsController.create)
 router.patch('/ratings', [jwtAuth, check('rating').notEmpty().isFloat({min: 0.5, max: 5}), check('movie_id').notEmpty(), returnValidationErrors], ratingsController.update)
 router.delete('/ratings', [jwtAuth, check('movie_id').notEmpty(), returnValidationErrors], ratingsController.destroy)
+router.get('/ratings/count', jwtAuth, ratingsController.count)
 router.get('/ratings/:movie_id', jwtAuth, ratingsController.get)
 
 // RATING PROPOSITIONS

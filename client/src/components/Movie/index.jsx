@@ -6,7 +6,8 @@ import {
 import {
     destroy as destroyRatingService,
     get as getRatingService,
-    update as setRatingService
+    update as updateRatingService,
+    create as createRatingService
 } from "../../services/RatingServices";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import React, {useEffect, useState} from 'react';
@@ -57,8 +58,14 @@ function Movie(props) {
         })
     }
 
-    const setRating = (newRating) => {
-        setRatingService({movie_id: movieId, rating: newRating}).then(res => {
+    const createRating = (rating) => {
+        createRatingService({movie_id: movieId, rating: rating}).then(res => {
+            setUserRating(res.data.rating)
+        })
+    }
+
+    const updateRating = (rating) => {
+        updateRatingService({movie_id: movieId, rating: rating}).then(res => {
             setUserRating(res.data.rating)
         })
     }
@@ -111,7 +118,7 @@ function Movie(props) {
                                         className={'inline-block'}
                                         count={5}
                                         value={parseFloat(userRating)}
-                                        onChange={setRating}
+                                        onChange={userRating ? updateRating : createRating}
                                         size={24}
                                         color2={'#ffd700'}/>
                                     {userRating !== null &&

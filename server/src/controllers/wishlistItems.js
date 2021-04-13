@@ -54,16 +54,22 @@ exports.store = (req, res) => {
 }
 
 exports.destroy = (req, res) => {
+    console.log(req.body);
     User.findOne({email: req.params.token.email}).then(user => {
-        Movie.findOne({tmdb_id: req.body.movie_id}).then(movie => {
-            WishlistItem.deleteOne({
-                movie: {movie_id: movie.movie_id, imdb_id: movie.imdb_id, tmdb_id: movie.tmdb_id},
-                user: {id: user.id}
-            }).then(() => {
-                return res.send({
-                    flashMessageBag: [{msg: 'Movie has been removed from wish list.'}],
-                    isWishlistItem: false,
-                });
+        Movie.findOne({tmdb_id: req.query.movie_id}).then(movie => {
+            WishlistItem.findOne({
+                movie: {
+                    movie_id: movie.movie_id,
+                    imdb_id: movie.imdb_id,
+                    tmdb_id: movie.tmdb_id
+                }
+            }).then(wishlistItem => {
+                wishlistItem.remove().then(() => {
+                    return res.send({
+                        flashMessageBag: [{msg: 'Movie has been removed from wish list.'}],
+                        isWishlistItem: false,
+                    });
+                })
             })
         })
     })

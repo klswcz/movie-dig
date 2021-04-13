@@ -107,7 +107,7 @@ exports.get = (req, res, next) => {
 
 exports.destroy = (req, res, next) => {
     User.findOne({email: req.params.token.email}).then(user => {
-        Movie.findOne({tmdb_id: req.body.movie_id}).then(movie => {
+        Movie.findOne({tmdb_id: req.query.movie_id}).then(movie => {
             Rating.deleteOne({
                 user_id: user.id,
                 movie_id: movie.movie_id
@@ -123,6 +123,16 @@ exports.destroy = (req, res, next) => {
         }).catch((err) => {
             return res.status(400).json({
                 messageBag: [{msg: 'Rating was not found.'}]
+            });
+        })
+    })
+}
+
+exports.count = (req, res, next) => {
+    User.findOne({email: req.params.token.email}).then(user => {
+        Rating.find({user_id: user.id}).then(ratings => {
+            return res.send({
+                rating_count: ratings.length
             });
         })
     })

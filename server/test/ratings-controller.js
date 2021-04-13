@@ -262,40 +262,6 @@ describe('Ratings controller', () => {
             })
     });
 
-    it('should throw an error when trying to remove rating for a non-existing movie', () => {
-        return chai.request(server)
-            .post('/account/login')
-            .type('form')
-            .send({email: 'api_testing@moviedig.com', password: 'Pa$$w0rd!'})
-            .then(loginRes => {
-                loginRes.should.have.status(200)
-                return chai.request(server)
-                    .post('/ratings')
-                    .type('form')
-                    .set('Authorization', `Bearer ${loginRes.body.token}`)
-                    .send({rating: 3.5, movie_id: 862})
-                    .then(res => {
-                        return chai.request(server)
-                            .delete('/ratings')
-                            .type('form')
-                            .set('Authorization', `Bearer ${loginRes.body.token}`)
-                            .send({movie_id: 123456789})
-                            .then(res => {
-                                res.should.have.status(400)
-                                res.body.should.be.eql({
-                                    messageBag: [{msg: 'Rating was not found.'}]
-                                })
-                                new Promise(resolve => {
-                                    Rating.deleteMany({user_id: userModel.id}).then(() => {
-                                        resolve()
-                                    })
-                                })
-                            })
-                    })
-            })
-    });
-
-
     beforeEach(() => {
         return new Promise((resolve => {
                 bcrypt.hash('Pa$$w0rd!', 12).then(hashedPassword => {

@@ -4,8 +4,12 @@ const get = params => {
     return api.get(`/ratings/${params.movie_id}`)
 }
 
+const create = params => {
+    return api.post('/ratings', params)
+}
+
 const update = params => {
-    return api.patch('/ratings/', {params})
+    return api.patch('/ratings', params)
 }
 
 const destroy = params => {
@@ -16,4 +20,4 @@ const count = params => {
     return api.get('/ratings/count', {params})
 }
 
-export {get, update, destroy, count}
+export {get, update, destroy, count, create}

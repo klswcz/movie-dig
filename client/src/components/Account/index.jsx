@@ -83,7 +83,7 @@ function Account(props) {
             if (result.isConfirmed) {
                 destroyAccountService().then(res => {
                     localStorage.setItem('token', null)
-                    history.push('/')
+                    window.location.reload()
                 })
             }
         })

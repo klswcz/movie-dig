@@ -45,15 +45,27 @@ exports.recommendations = (req, res, next) => {
             let apiPromises = []
             let mongoPromises = []
             let recommendedMovies = []
+            recommendations = JSON.parse(recommendations)
+            let recommendationJson = []
 
-            recommendations = recommendations.split(",")
-            recommendations = recommendations.slice(0, recommendations.length - 1)
+            for (let i = 0; i < Object.keys(recommendations.movie_id).length; i++) {
+                recommendationJson.push(
+                    {
+                        'movie_id': recommendations.movie_id[i],
+                        'tmdb_id': recommendations.tmdb_id[i],
+                        'weighted_avg_recommend_score': recommendations.weighted_avg_recommend_score[i]
 
-            recommendations.forEach(tmdbId => {
+                    }
+                )
+            }
+
+            recommendationJson.forEach(movie => {
+                console.log(movie.tmdb_id);
                 apiPromises.push(
-                    tmdb.api.get(`/movie/${tmdbId}?api_key=${process.env.TMDB_API_KEY}`).then(apiResponse => {
+                    tmdb.api.get(`/movie/${movie.tmdb_id}?api_key=${process.env.TMDB_API_KEY}`).then(apiResponse => {
                         recommendedMovies.push(apiResponse.data)
-                    })
+                    }).catch(err => {
+                        })
                 )
             })
 

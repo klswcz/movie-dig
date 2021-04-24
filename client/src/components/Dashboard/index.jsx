@@ -10,6 +10,9 @@ import {
 import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import MovieCard from "../UI/MovieCard";
+import ScrollMenu from "react-horizontal-scrolling-menu";
+import {faChevronLeft, faChevronRight, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function Dashboard() {
     const [trendingMovies, setTrendingMovies] = useState([])
@@ -86,17 +89,27 @@ function Dashboard() {
             <div className="pt-5 mb-3">
                 <h1 className="text-4xl">This may interest you</h1>
                 {recommendedMovies !== null ?
-                    <div
-                        className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
-                        {recommendedMovies.map((movie, index) => {
-                            return (
-                                <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
-                                           posterPath={movie.poster_path} userRating={movie.user_rating}
-                                           key={index}
-                                           movieId={movie.id}/>
-                            )
-                        })}
-                    </div>
+                    <ScrollMenu
+                        arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
+                        arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
+                        arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
+                        wheel={false}
+                        dragging={false}
+                        clickWhenDrag={false}
+                        transition={0.3}
+                        data={
+                            recommendedMovies.map((movie, index) => {
+                                return (
+                                    <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
+                                               posterPath={movie.poster_path} userRating={movie.user_rating}
+                                               key={index}
+                                               movieId={movie.id}
+                                               customClass={'w-52 mx-2 my-3'}
+                                    />
+                                )
+                            })
+                        }
+                    />
                     :
                     <div>You have rated {ratedMovies} movies. Please rate {requiredMovies - ratedMovies} more
                         movie(s) to see your personalised recommendations.</div>
@@ -104,85 +117,148 @@ function Dashboard() {
             </div>
             <div className="my-3">
                 <h1 className="text-4xl">Trending today</h1>
-                <div
-                    className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
-                    {trendingMovies.map((movie, index) => {
-                        return (
-                            <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
-                                       posterPath={movie.poster_path} userRating={movie.user_rating} key={index}
-                                       movieId={movie.id}/>
-                        )
-                    })}
-                </div>
+                <ScrollMenu
+                    arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
+                    arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
+                    arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
+                    wheel={false}
+                    dragging={false}
+                    clickWhenDrag={false}
+                    transition={0.3}
+                    data={
+                        trendingMovies.map((movie, index) => {
+                            return (
+                                <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
+                                           posterPath={movie.poster_path} userRating={movie.user_rating}
+                                           key={index}
+                                           movieId={movie.id}
+                                           customClass={'w-52 mx-2 my-3'}
+                                />
+                            )
+                        })
+                    }
+                />
             </div>
             <div className="my-3">
                 <h1 className="text-4xl">Cinema classics</h1>
-                <div
-                    className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
-                    {topRatedMovies.map((movie, index) => {
-                        return (
-                            <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
-                                       posterPath={movie.poster_path} userRating={movie.user_rating} key={index}
-                                       movieId={movie.id}/>
-                        )
-                    })}
-                </div>
+                <ScrollMenu
+                    arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
+                    arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
+                    arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
+                    wheel={false}
+                    dragging={false}
+                    clickWhenDrag={false}
+                    transition={0.3}
+                    data={
+                        topRatedMovies.map((movie, index) => {
+                            return (
+                                <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
+                                           posterPath={movie.poster_path} userRating={movie.user_rating}
+                                           key={index}
+                                           movieId={movie.id}
+                                           customClass={'w-52 mx-2 my-3'}
+                                />
+                            )
+                        })
+                    }
+                />
             </div>
             <div className="my-3">
                 <h1 className="text-4xl">Popular</h1>
-                <div
-                    className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
-                    {popularMovies.map((movie, index) => {
-                        return (
-                            <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
-                                       posterPath={movie.poster_path} userRating={movie.user_rating} key={index}
-                                       movieId={movie.id}/>
-                        )
-                    })}
-                </div>
+                <ScrollMenu
+                    arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
+                    arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
+                    arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
+                    wheel={false}
+                    dragging={false}
+                    clickWhenDrag={false}
+                    transition={0.3}
+                    data={
+                        popularMovies.map((movie, index) => {
+                            return (
+                                <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
+                                           posterPath={movie.poster_path} userRating={movie.user_rating}
+                                           key={index}
+                                           movieId={movie.id}
+                                           customClass={'w-52 mx-2 my-3'}
+                                />
+                            )
+                        })
+                    }
+                />
             </div>
-
-
             <div className="my-3">
                 <h1 className="text-4xl">Thrillers that will blow your mind</h1>
-                <div
-                    className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
-                    {topThrillers.map((movie, index) => {
-                        return (
-                            <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
-                                       posterPath={movie.poster_path} userRating={movie.user_rating} key={index}
-                                       movieId={movie.id}/>
-                        )
-                    })}
-                </div>
+                <ScrollMenu
+                    arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
+                    arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
+                    arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
+                    wheel={false}
+                    dragging={false}
+                    clickWhenDrag={false}
+                    transition={0.3}
+                    data={
+                        topThrillers.map((movie, index) => {
+                            return (
+                                <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
+                                           posterPath={movie.poster_path} userRating={movie.user_rating}
+                                           key={index}
+                                           movieId={movie.id}
+                                           customClass={'w-52 mx-2 my-3'}
+                                />
+                            )
+                        })
+                    }
+                />
             </div>
             <div className="my-3">
                 <h1 className="text-4xl">Laugh out loud comedies to lift your spirits</h1>
-                <div
-                    className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
-                    {topComedies.map((movie, index) => {
-                        return (
-                            <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
-                                       posterPath={movie.poster_path} userRating={movie.user_rating} key={index}
-                                       movieId={movie.id}/>
-                        )
-                    })}
-                </div>
+                <ScrollMenu
+                    arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
+                    arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
+                    arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
+                    wheel={false}
+                    dragging={false}
+                    clickWhenDrag={false}
+                    transition={0.3}
+                    data={
+                        topComedies.map((movie, index) => {
+                            return (
+                                <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
+                                           posterPath={movie.poster_path} userRating={movie.user_rating}
+                                           key={index}
+                                           movieId={movie.id}
+                                           customClass={'w-52 mx-2 my-3'}
+                                />
+                            )
+                        })
+                    }
+                />
             </div>
             <div className="my-3">
                 <h1 className="text-4xl">Best date night films</h1>
-                <div
-                    className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
-                    {topRomances.map((movie, index) => {
-                        return (
-                            <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
-                                       posterPath={movie.poster_path} userRating={movie.user_rating} key={index}
-                                       movieId={movie.id}/>
-                        )
-                    })}
-                </div>
+                <ScrollMenu
+                    arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
+                    arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
+                    arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
+                    wheel={false}
+                    dragging={false}
+                    clickWhenDrag={false}
+                    transition={0.3}
+                    data={
+                        topRomances.map((movie, index) => {
+                            return (
+                                <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
+                                           posterPath={movie.poster_path} userRating={movie.user_rating}
+                                           key={index}
+                                           movieId={movie.id}
+                                           customClass={'w-52 mx-2 my-3'}
+                                />
+                            )
+                        })
+                    }
+                />
             </div>
-
         </div>
     )
 }

@@ -46,7 +46,7 @@ function MovieCard(props) {
 
     const movieCard = (
         <div
-            className={`relative bg-white border border-black shadow overflow-hidden sm:rounded-md h-72  ${(props.disableLink ? 'mx-2 my-3' : '')}`}
+            className={`${props.customClass} relative bg-white border border-black shadow overflow-hidden sm:rounded-md h-72 ${props.customClass}  ${(props.disableLink ? 'mx-2 my-3' : '')}`}
             style={{
                 backgroundImage: props.posterPath ? 'url(https://image.tmdb.org/t/p/w300' + props.posterPath + ')' : 'url(https://dummyimage.com/300x450/cccccc/ffffff&text=No+poster)',
                 backgroundPosition: "center",

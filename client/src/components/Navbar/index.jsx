@@ -6,10 +6,12 @@ function Navbar() {
     let history = useHistory()
     const location = useLocation();
     const [searchResults, setSearchResults] = useState([])
+    const [accountDropdownVisible, setAccountDropdownVisible] = useState(false)
 
     useEffect(() => {
         return history.listen((location) => {
             setSearchResults([])
+            setAccountDropdownVisible(false)
             if (document.getElementById('movie_search')) {
                 document.getElementById('movie_search').value = '';
             }
@@ -35,6 +37,10 @@ function Navbar() {
         setTimeout(() => {
             setSearchResults([])
         }, 100)
+    }
+
+    const toggleAccountDropdown = () => {
+        setAccountDropdownVisible(!accountDropdownVisible)
     }
 
     useEffect(() => {
@@ -96,15 +102,33 @@ function Navbar() {
                                 </div>
                                 <div className="hidden lg:block">
                                     <div className="ml-10 flex items-baseline">
-                                        <Link to="/account"
-                                              className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Settings</Link>
-                                        <Link to="/wishlist"
-                                              className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Wish
-                                            list</Link>
-                                        <button onClick={logout}
-                                                className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Log
-                                            out
+                                        <button type="button"
+                                                className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto"
+                                                onClick={toggleAccountDropdown}
+                                                onBlur={() => setTimeout(() => setAccountDropdownVisible(false), 100)}>
+                                            Account
                                         </button>
+                                        {accountDropdownVisible &&
+                                        <div className="absolute top-full right-3 w-auto bg-gray-800 rounded-b-md">
+                                            <ul className="px-2">
+                                                <li className="px-3 py-2">
+                                                    <Link to="/account"
+                                                          className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Settings</Link>
+                                                </li>
+                                                <li className="px-3 py-2">
+                                                    <Link to="/wishlist"
+                                                          className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Wish
+                                                        list</Link>
+                                                </li>
+                                                <li className="px-3 py-2">
+                                                    <button onClick={logout}
+                                                            className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Log
+                                                        out
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

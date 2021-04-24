@@ -204,7 +204,6 @@ exports.recommendations = (req, res, next) => {
 }
 
 exports.get = (req, res, next) => {
-
     const promise = new Promise(((resolve) => {
         User.findOne({email: req.params.token.email}).then(user => {
             Movie.findOne({tmdb_id: req.params.id}).then(movie => {

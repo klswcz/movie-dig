@@ -143,7 +143,7 @@ function Dashboard() {
                 </HorizontalScroll>
             </div>
             <div className="my-3">
-                <h1 className="text-4xl">Cinema classics</h1>
+                <h1 className="text-4xl">All-time classics</h1>
                 <HorizontalScroll>
                     {
                         topRatedMovies.map((movie, index) => {

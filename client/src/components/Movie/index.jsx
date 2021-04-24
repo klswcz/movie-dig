@@ -86,11 +86,16 @@ function Movie(props) {
                         :
                         <p className="mb-5 text-gray-500">&nbsp;</p>
                     }
+                    <div className="block sm:hidden mb-2">
+                        <p className=""><span className="font-bold">Director</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Director").name}</p>
+                        <p className=""><span className="font-bold">Main writer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Screenplay").name}</p>
+                        <p className=""><span className="font-bold">Producer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Producer").name}</p>
+                    </div>
                     <div className="inline-block sm:hidden mb-3">
                         {movie.genres &&
                         movie.genres.map((genre, index) => {
                             return (
-                                <p className="inline-block pr-4" key={index}>{genre.name}</p>
+                                <p className="inline-block mr-3 px-3 py-1 text-white rounded-md bg-green-500" key={index}>{genre.name}</p>
                             )
                         })
                         }
@@ -147,14 +152,19 @@ function Movie(props) {
                             </button>
                         </div>
                         <div className="w-full sm:w-3/4 sm:pl-7">
-                            <div className="hidden sm:inline-block">
+                            <div className="hidden sm:block mb-2">
                                 {movie.genres &&
                                 movie.genres.map((genre, index) => {
                                     return (
-                                        <p className="inline-block pr-4" key={index}>{genre.name}</p>
+                                        <p className="inline-block mr-3 px-3 py-1 text-white rounded-md bg-green-500" key={index}>{genre.name}</p>
                                     )
                                 })
                                 }
+                            </div>
+                            <div className="hidden sm:block mb-2">
+                                <p className=""><span className="font-bold">Director</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Director").name}</p>
+                                <p className=""><span className="font-bold">Main writer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Screenplay").name}</p>
+                                <p className=""><span className="font-bold">Producer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Producer").name}</p>
                             </div>
                             <h2 className="text-2xl mt-5 hidden sm:block">Description</h2>
                             <p className="hidden sm:block">{movie.overview}</p>

@@ -57,56 +57,67 @@ function Navbar() {
                     <div className="flex items-start lg:items-center w-full">
                         <Link to={localStorage.getItem('token') === 'null' ? '/' : '/dashboard'}
                               className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">MovieDig</Link>
-                        {localStorage.getItem('token') !== "null" &&
-                        <div className="w-full">
-                            <div className="w-1/2 md:w-2/3 lg:w-1/3 xl:w-1/2 absolute left-0 right-0 ml-auto mr-auto">
-
-                                <input id="movie_search" name="movie_search" type="text"
-                                       autoComplete="off"
-                                       onChange={event => movieSearch(event.target.value)}
-                                       onFocus={event => movieSearch(event.target.value)}
-                                       onBlur={() => hideSearchResults()}
-                                       className="appearance-none relative block w-full py-2 px-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-sm"
-                                       placeholder="Search movies by title..."/>
-                                {searchResults.length > 0 &&
+                        {location.pathname !== '/' && location.pathname !== '/tutorial' && location.pathname !== '/login' && location.pathname !== '/register' ?
+                            <div className="w-full">
                                 <div
-                                    className="fixed left-0 w-screen md:w-full md:relative bg-white border border-gray-300 pt-2">
-                                    {searchResults.map((movie, index) => {
-                                        return (
-                                            <Link to={{pathname: `/movies/${movie.id}`}}
-                                                  className="py-2 px-3 block hover:bg-purple-500 hover:text-white border-b truncate"
-                                                  key={index}>
-                                                {movie.poster_path ?
-                                                    <img src={'https://image.tmdb.org/t/p/w45' + movie.poster_path}
-                                                         alt=""
-                                                         className="rounded-md align-top sm:align-middle inline-block mr-3"/>
-                                                    :
-                                                    <img
-                                                        src={'https://dummyimage.com/45x68/cccccc/ffffff&text=No+poster'}
-                                                        alt=""
-                                                        className="rounded-md align-top sm:align-middle inline-block mr-3"/>
-                                                }
-                                                {movie.title}
-                                            </Link>
-                                        )
-                                    })}
+                                    className="w-1/2 md:w-2/3 lg:w-1/3 xl:w-1/2 absolute left-0 right-0 ml-auto mr-auto">
+
+                                    <input id="movie_search" name="movie_search" type="text"
+                                           autoComplete="off"
+                                           onChange={event => movieSearch(event.target.value)}
+                                           onFocus={event => movieSearch(event.target.value)}
+                                           onBlur={() => hideSearchResults()}
+                                           className="appearance-none relative block w-full py-2 px-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-sm"
+                                           placeholder="Search movies by title..."/>
+                                    {searchResults.length > 0 &&
+                                    <div
+                                        className="fixed left-0 w-screen md:w-full md:relative bg-white border border-gray-300 pt-2">
+                                        {searchResults.map((movie, index) => {
+                                            return (
+                                                <Link to={{pathname: `/movies/${movie.id}`}}
+                                                      className="py-2 px-3 block hover:bg-purple-500 hover:text-white border-b truncate"
+                                                      key={index}>
+                                                    {movie.poster_path ?
+                                                        <img src={'https://image.tmdb.org/t/p/w45' + movie.poster_path}
+                                                             alt=""
+                                                             className="rounded-md align-top sm:align-middle inline-block mr-3"/>
+                                                        :
+                                                        <img
+                                                            src={'https://dummyimage.com/45x68/cccccc/ffffff&text=No+poster'}
+                                                            alt=""
+                                                            className="rounded-md align-top sm:align-middle inline-block mr-3"/>
+                                                    }
+                                                    {movie.title}
+                                                </Link>
+                                            )
+                                        })}
+                                    </div>
+                                    }
                                 </div>
-                                }
+                                <div className="hidden lg:block">
+                                    <div className="ml-10 flex items-baseline">
+                                        <Link to="/account"
+                                              className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Settings</Link>
+                                        <Link to="/wishlist"
+                                              className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Wish
+                                            list</Link>
+                                        <button onClick={logout}
+                                                className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Log
+                                            out
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="hidden lg:block">
+                            :
+                            <div className="hidden lg:block w-full">
                                 <div className="ml-10 flex items-baseline">
-                                    <Link to="/account"
-                                          className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Settings</Link>
-                                    <Link to="/wishlist"
-                                          className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Wish
-                                        list</Link>
-                                    <button onClick={logout}
-                                            className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Log
-                                        out
-                                    </button>
+                                    <Link to="/login"
+                                          className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Log
+                                        in</Link>
+                                    <Link to="/register"
+                                          className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Register</Link>
                                 </div>
                             </div>
-                        </div>
                         }
                     </div>
                     <div className="mr-2 flex lg:hidden">
@@ -130,19 +141,26 @@ function Navbar() {
             </div>
 
             <div className="lg:hidden hidden px-2 pt-2 pb-3 space-y-1" id="mobile-menu">
-                {location.pathname !== '/' && location.pathname !== '/tutorial' && location.pathname !== '/login' && location.pathname !== '/register' &&
-                <div>
-                    <Link to="/dashboard"
-                          className="block text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
-                    <Link to="/account"
-                          className="block text-white px-3 py-2 rounded-md text-sm font-medium">Settings</Link>
-                    <Link to="/wishlist"
-                          className="block text-white px-3 py-2 rounded-md text-sm font-medium">Wish list</Link>
-                    <hr/>
-                    <button onClick={logout}
-                            className="block text-white px-3 py-2 rounded-md text-sm font-medium">Log out
-                    </button>
-                </div>
+                {location.pathname !== '/' && location.pathname !== '/tutorial' && location.pathname !== '/login' && location.pathname !== '/register' ?
+                    <div>
+                        <Link to="/dashboard"
+                              className="block text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
+                        <Link to="/account"
+                              className="block text-white px-3 py-2 rounded-md text-sm font-medium">Settings</Link>
+                        <Link to="/wishlist"
+                              className="block text-white px-3 py-2 rounded-md text-sm font-medium">Wish list</Link>
+                        <hr/>
+                        <button onClick={logout}
+                                className="block text-white px-3 py-2 rounded-md text-sm font-medium">Log out
+                        </button>
+                    </div>
+                    :
+                    <div>
+                        <Link to="/login"
+                              className="block text-white px-3 py-2 rounded-md text-sm font-medium">Log in</Link>
+                        <Link to="/register"
+                              className="block text-white px-3 py-2 rounded-md text-sm font-medium">Register</Link>
+                    </div>
                 }
             </div>
         </nav>

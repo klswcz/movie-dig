@@ -32,7 +32,7 @@ exports.store = (req, res, next) => {
             })
             userModel.save(error => {
                 return res.send({
-                    flashMessageBag: [{msg: 'User has been registered.'}],
+                    messageBag: [{msg: 'Account has been created, please move to the login page now.'}],
                     email: 'api_testing@moviedig.com',
                     first_name: 'Test',
                     last_name: 'User',

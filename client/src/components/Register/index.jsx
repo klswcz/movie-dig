@@ -34,8 +34,6 @@ function Register() {
                 last_name: lastName,
                 password: password
             }).then(res => {
-                dispatch({type: "SHOW_ALERT", payload: [{msg: 'Sign in to your new account.'}]})
-                history.push('/login')
             })
         } else {
             confirmPasswordField.setCustomValidity('Password must be matching.');

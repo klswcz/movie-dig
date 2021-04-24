@@ -40,64 +40,76 @@ exports.trending = (req, res, next) => {
 
 exports.recommendations = (req, res, next) => {
 
-    runRecommendationScript().then(
-        recommendations => {
-            let apiPromises = []
-            let mongoPromises = []
-            let recommendedMovies = []
-            recommendations = JSON.parse(recommendations)
-            let recommendationJson = []
 
-            for (let i = 0; i < Object.keys(recommendations.movie_id).length; i++) {
-                recommendationJson.push(
-                    {
-                        'movie_id': recommendations.movie_id[i],
-                        'tmdb_id': recommendations.tmdb_id[i],
-                        'weighted_avg_recommend_score': recommendations.weighted_avg_recommend_score[i]
+    User.findOne({email: req.params.token.email}).then(user => {
+        Rating.find({user_id: user.id}).then(ratings => {
+            if (ratings.length >= 20) {
+                runRecommendationScript().then(
+                    recommendations => {
+                        let apiPromises = []
+                        let mongoPromises = []
+                        let recommendedMovies = []
+                        recommendations = JSON.parse(recommendations)
+                        let recommendationJson = []
 
-                    }
-                )
-            }
+                        for (let i = 0; i < Object.keys(recommendations.movie_id).length; i++) {
+                            recommendationJson.push(
+                                {
+                                    'movie_id': recommendations.movie_id[i],
+                                    'tmdb_id': recommendations.tmdb_id[i],
+                                    'weighted_avg_recommend_score': recommendations.weighted_avg_recommend_score[i]
 
-            recommendationJson.forEach(movie => {
-                console.log(movie.tmdb_id);
-                apiPromises.push(
-                    tmdb.api.get(`/movie/${movie.tmdb_id}?api_key=${process.env.TMDB_API_KEY}`).then(apiResponse => {
-                        recommendedMovies.push(apiResponse.data)
-                    }).catch(err => {
+                                }
+                            )
+                        }
+
+                        recommendationJson.forEach(movie => {
+                            apiPromises.push(
+                                tmdb.api.get(`/movie/${movie.tmdb_id}?api_key=${process.env.TMDB_API_KEY}`).then(apiResponse => {
+                                    recommendedMovies.push(apiResponse.data)
+                                }).catch(err => {
+                                })
+                            )
                         })
-                )
-            })
 
-            Promise.all(apiPromises).then(() => {
-                User.findOne({email: req.params.token.email}).then(user => {
-                    recommendedMovies.forEach((movie, index) => {
-                        mongoPromises.push(new Promise(resolve => {
-                            Movie.findOne({tmdb_id: movie.id}).then(movieModel => {
-                                Rating.findOne({
-                                    user_id: user.id,
-                                    movie_id: movieModel ? movieModel.movie_id : null
-                                }).then(rating => {
-                                    recommendedMovies[index].user_rating = rating ? rating.rating : null
-                                    resolve()
+                        Promise.all(apiPromises).then(() => {
+                            User.findOne({email: req.params.token.email}).then(user => {
+                                recommendedMovies.forEach((movie, index) => {
+                                    mongoPromises.push(new Promise(resolve => {
+                                        Movie.findOne({tmdb_id: movie.id}).then(movieModel => {
+                                            Rating.findOne({
+                                                user_id: user.id,
+                                                movie_id: movieModel ? movieModel.movie_id : null
+                                            }).then(rating => {
+                                                recommendedMovies[index].user_rating = rating ? rating.rating : null
+                                                resolve()
+                                            })
+                                        })
+                                    }))
+                                })
+                                Promise.all(mongoPromises).then(() => {
+                                    return res.status(200).json({
+                                        movies: recommendedMovies
+                                    })
                                 })
                             })
-                        }))
-                    })
-                    Promise.all(mongoPromises).then(() => {
-                        return res.status(200).json({
-                            movies: recommendedMovies
                         })
-                    })
+                    },
+                    err => {
+                        return res.status(400).json({
+                            messageBag: [{msg: 'An error occurred while generating the recommendations.'}]
+                        });
+                    }
+                )
+            } else {
+                return res.status(200).json({
+                    movies: null,
+                    ratings_required: 20,
+                    ratings_given: ratings.length
                 })
-            })
-        },
-        err => {
-            return res.status(400).json({
-                messageBag: [{msg: 'An error occurred while generating the recommendations.'}]
-            });
-        }
-    );
+            }
+        })
+    })
 }
 
 exports.get = (req, res, next) => {

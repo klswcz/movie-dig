@@ -7,6 +7,8 @@ function Dashboard() {
     const [trendingMovies, setTrendingMovies] = useState([])
     const [recommendedMovies, setRecommendedMovies] = useState([])
     const [loadingFinished, setLoadingFinished] = useState(false)
+    const [ratedMovies, setRatedMovies] = useState(0)
+    const [requiredMovies, setRequiredMovies] = useState(0)
     const history = useHistory();
 
     useEffect(() => {
@@ -28,6 +30,8 @@ function Dashboard() {
     const getRecommendations = () => {
         recommendationService().then(res => {
             setRecommendedMovies(res.data.movies)
+            setRatedMovies(res.data.ratings_given)
+            setRequiredMovies(res.data.ratings_required)
         })
     };
 
@@ -36,8 +40,34 @@ function Dashboard() {
             {loadingFinished ?
                 (<>
                     <div className="pt-5 mb-3">
+                        <h1 className="text-4xl">Recommended for you</h1>
+
+
+                        {recommendedMovies !== null ?
+
+                            <div
+                                className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
+                                {recommendedMovies.map((movie, index) => {
+                                    return (
+                                        <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
+                                                   posterPath={movie.poster_path} userRating={movie.user_rating}
+                                                   key={index}
+                                                   movieId={movie.id}/>
+                                    )
+                                })}
+
+                            </div>
+                            :
+                            <div>You have rated {ratedMovies} movies. Please rate {requiredMovies - ratedMovies} more
+                                movie(s) to see your personalised recommendations.</div>
+                        }
+
+
+                    </div>
+                    <div className="my-3">
                         <h1 className="text-4xl">Trending today</h1>
-                        <div className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
+                        <div
+                            className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
                             {trendingMovies.map((movie, index) => {
                                 return (
                                     <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
@@ -47,19 +77,6 @@ function Dashboard() {
                             })}
                         </div>
                     </div>
-                    <div className="my-3">
-                        <h1 className="text-4xl">Recommended for you</h1>
-                        <div className="grid 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
-                            {recommendedMovies.map((movie, index) => {
-                                return (
-                                    <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
-                                               posterPath={movie.poster_path} userRating={movie.user_rating} key={index}
-                                               movieId={movie.id}/>
-                                )
-                            })}
-                        </div>
-                    </div>
-
                 </>) :
                 <p>Loading</p>}
         </div>

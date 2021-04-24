@@ -115,7 +115,6 @@ describe('Wishlit items controller', () => {
                             .set('Authorization', `Bearer ${loginRes.body.token}`)
                             .send({movie_id: 862})
                             .then(res => {
-                                console.log(res.body);
                                 res.should.have.status(200)
                                 res.body.should.be.eql({
                                     flashMessageBag: [{msg: 'Movie has been removed from wish list.'}],

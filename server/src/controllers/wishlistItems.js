@@ -54,7 +54,6 @@ exports.store = (req, res) => {
 }
 
 exports.destroy = (req, res) => {
-    console.log(req.body);
     User.findOne({email: req.params.token.email}).then(user => {
         Movie.findOne({tmdb_id: req.query.movie_id}).then(movie => {
             WishlistItem.findOne({

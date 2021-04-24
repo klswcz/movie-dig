@@ -74,7 +74,7 @@ function Dashboard() {
     };
 
     const getRecommendations = () => {
-        recommendationService().then(res => {
+        recommendationService({count: 20}).then(res => {
             setRecommendedMovies(res.data.movies)
             setRatedMovies(res.data.ratings_given)
             setRequiredMovies(res.data.ratings_required)

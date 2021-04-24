@@ -29,7 +29,7 @@ const topRomances = params => {
 }
 
 const recommendation = params => {
-    return api.get('/movies/recommendations')
+    return api.get('/movies/recommendations', {params})
 }
 
 const search = params => {

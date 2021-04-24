@@ -132,12 +132,10 @@ exports.topMovies = (req, res, next) => {
 }
 
 exports.recommendations = (req, res, next) => {
-
-
     User.findOne({email: req.params.token.email}).then(user => {
         Rating.find({user_id: user.id}).then(ratings => {
             if (ratings.length >= 20) {
-                runRecommendationScript().then(
+                runRecommendationScript(user.id, req.query.count).then(
                     recommendations => {
                         let apiPromises = []
                         let mongoPromises = []
@@ -259,8 +257,8 @@ exports.search = (req, res, next) => {
     })
 }
 
-const runRecommendationScript = async () => {
-    const child = spawn('python3', ["src/scripts/recommendation.py"]);
+const runRecommendationScript = async (userId, moviesCount = 20) => {
+    const child = spawn('python3', ['src/scripts/recommendation.py', userId, moviesCount]);
 
     let data = "";
     for await (const chunk of child.stdout) {

@@ -12,14 +12,14 @@ ratings = db.ratings
 
 movies_df = pd.DataFrame(list(movies.find()))
 ratings_df = pd.DataFrame(list(ratings.find({
-    'user_id': {'$ne': '6081e532d21ad034bb67d308'}
+    'user_id': {'$ne': sys.argv[1]}
 })))
 
 movies_df = movies_df.drop(['imdb_id', '_id', '__v'], 1)
 ratings_df = ratings_df.drop(['_id', '__v', 'timestamp'], 1)
 
 inputMovies = pd.DataFrame(list(ratings.find({
-    'user_id': '6081e532d21ad034bb67d308'
+    'user_id': sys.argv[1]
 })))
 
 inputMovies = inputMovies.drop(['_id', '__v', 'timestamp'], 1)
@@ -102,6 +102,6 @@ recommendation_df = recommendation_df.sort_values(by='weighted_avg_recommend_sco
 recommendation_df.index.name = None
 recommendation_df = recommendation_df.merge(movies_df, left_on='movie_id', right_on='movie_id', how='outer')
 
-print(recommendation_df.head(15).to_json())
+print(recommendation_df.head(int(sys.argv[2])).to_json())
 sys.stdout.flush()
 quit()

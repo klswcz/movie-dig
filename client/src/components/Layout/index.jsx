@@ -10,6 +10,7 @@ import Movie from "../Movie"
 import Alert from "../UI/Alert"
 import Account from '../Account'
 import Wishlist from '../Wishlist'
+import RatedMovies from "../RatedMovies"
 import BatchMovieRating from '../BatchMovieRating'
 import Tutorial from '../Tutorial'
 import store from '../../store/reducer'
@@ -47,6 +48,7 @@ function Layout() {
                     <Route path="/dashboard" exact component={Dashboard}/>
                     <Route path="/movies/:id" component={Movie}/>
                     <Route path="/account" exact component={Account}/>
+                    <Route path="/account/ratings" exact component={RatedMovies}/>
                     <Route path="/wishlist" exact component={Wishlist}/>
                     <Route path="/tutorial" exact component={Tutorial}/>
                     <Route path="/rating/batch" exact component={BatchMovieRating}/>

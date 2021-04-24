@@ -112,6 +112,10 @@ function Navbar() {
                                         <div className="absolute top-full right-3 w-auto bg-gray-800 rounded-b-md">
                                             <ul className="px-2">
                                                 <li className="px-3 py-2">
+                                                    <Link to="/account/ratings"
+                                                          className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Rated movies</Link>
+                                                </li>
+                                                <li className="px-3 py-2">
                                                     <Link to="/account"
                                                           className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Settings</Link>
                                                 </li>

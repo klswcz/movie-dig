@@ -2,6 +2,7 @@ const Rating = require('../models/Rating');
 const Movie = require("../models/Movie");
 const User = require("../models/User");
 const mongoose = require("mongoose");
+const tmdb = require('../services/TmdbApi')
 const Types = mongoose.Types;
 
 exports.create = (req, res, next) => {
@@ -101,6 +102,33 @@ exports.get = (req, res, next) => {
             return res.status(400).json({
                 messageBag: [{msg: 'Rating was not found.'}]
             });
+        })
+    })
+}
+
+exports.accountRatings = (req, res, next) => {
+    User.findOne({email: req.params.token.email}).then(user => {
+        Rating.find({user_id: user.id}).then(ratings => {
+            let promises = []
+            let apiMovies = []
+            ratings.forEach(rating => {
+                promises.push(new Promise(resolve => {
+                        Movie.findOne({movie_id: rating.movie_id}).then(movie => {
+                            tmdb.api.get(`/movie/${movie.tmdb_id}?api_key=` + process.env.TMDB_API_KEY).then(apiResponse => {
+                                apiResponse.data.user_rating = rating ? rating.rating : null
+                                apiMovies.push(apiResponse.data)
+                                resolve()
+                            })
+                        })
+                    })
+                )
+            })
+            Promise.all(promises).then(() => {
+                return res.status(200).send({
+                    ratedMovies: apiMovies
+                })
+            })
+
         })
     })
 }

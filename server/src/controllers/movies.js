@@ -246,6 +246,37 @@ exports.get = (req, res, next) => {
     })
 }
 
+exports.getSimilar = (req, res, next) => {
+    let movies = []
+    let promises = []
+
+    tmdb.api.get(`/movie/${req.params.id}/recommendations?api_key=` + process.env.TMDB_API_KEY).then(apiResponse => {
+        User.findOne({email: req.params.token.email}).then(user => {
+            apiResponse.data.results.forEach((movie, index) => {
+                promises.push(new Promise(resolve => {
+                    Movie.findOne({tmdb_id: movie.id}).then(movieModel => {
+                        Rating.findOne({
+                            user_id: user.id,
+                            movie_id: movieModel ? movieModel.movie_id : null
+                        }).then(rating => {
+                            apiResponse.data.results[index].user_rating = rating ? rating.rating : null
+                            movies.push(apiResponse.data.results[index])
+                            resolve()
+                        })
+                    })
+                }))
+            })
+
+            Promise.all(promises).then(() => {
+                return res.status(200).json({
+                    movies: movies
+                })
+            })
+        })
+
+    })
+}
+
 exports.search = (req, res, next) => {
     tmdb.api.get(`/search/movie?query=${req.query.query}&api_key=` + process.env.TMDB_API_KEY).then(apiResponse => {
         return res.status(200).json({

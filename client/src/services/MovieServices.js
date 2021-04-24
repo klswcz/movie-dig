@@ -32,8 +32,12 @@ const recommendation = params => {
     return api.get('/movies/recommendations', {params})
 }
 
+const getSimilar = params => {
+    return api.get(`/movies/${params.id}/similar`)
+}
+
 const search = params => {
     return api.get('movies/search', {params})
 }
 
-export {trending, topRated, popular, get, recommendation, search, topThrillers, topRomances, topComedies}
+export {trending, topRated, popular, get, recommendation, search, topThrillers, topRomances, topComedies, getSimilar}

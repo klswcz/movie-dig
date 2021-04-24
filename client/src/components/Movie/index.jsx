@@ -1,4 +1,4 @@
-import {get as getMovieService} from "../../services/MovieServices";
+import {get as getMovieService, getSimilar as getSimilarService} from "../../services/MovieServices";
 import {
     create as createWishlistItemService,
     destroy as destroyWishlistItemService
@@ -14,10 +14,13 @@ import React, {useEffect, useState} from 'react';
 import ReactStars from 'react-stars'
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {useHistory} from "react-router-dom";
+import HorizontalScroll from "../UI/HorizontalScroll";
+import MovieCard from "../UI/MovieCard";
 
 function Movie(props) {
     let movieId = props.match.params.id
     const [movie, setMovie] = useState([])
+    const [similarMovies, setSimilarMovies] = useState([])
     const [isWishlistItem, setIsWishlistItem] = useState(false)
     const [isWishlistRequestProcessed, setIsWishlistRequestProcessed] = useState(false)
     const [userRating, setUserRating] = useState(null)
@@ -29,6 +32,9 @@ function Movie(props) {
             history.push({pathname: "/login",});
         } else {
             setIsWishlistRequestProcessed(true)
+            getSimilarService({id: movieId}).then(res => {
+                setSimilarMovies(res.data.movies)
+            })
             getMovieService({id: movieId}).then(res => {
                 setMovie(res.data.movie)
                 setIsWishlistItem(res.data.isWishlistItem)
@@ -87,15 +93,22 @@ function Movie(props) {
                         <p className="mb-5 text-gray-500">&nbsp;</p>
                     }
                     <div className="block sm:hidden mb-2">
-                        <p className=""><span className="font-bold">Director</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Director").name}</p>
-                        <p className=""><span className="font-bold">Main writer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Screenplay").name}</p>
-                        <p className=""><span className="font-bold">Producer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Producer").name}</p>
+                        <p className=""><span
+                            className="font-bold">Director</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Director").name}
+                        </p>
+                        <p className=""><span
+                            className="font-bold">Main writer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Screenplay").name}
+                        </p>
+                        <p className=""><span
+                            className="font-bold">Producer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Producer").name}
+                        </p>
                     </div>
                     <div className="inline-block sm:hidden mb-3">
                         {movie.genres &&
                         movie.genres.map((genre, index) => {
                             return (
-                                <p className="inline-block mr-3 px-3 py-1 text-white rounded-md bg-green-500" key={index}>{genre.name}</p>
+                                <p className="inline-block mr-3 px-3 py-1 text-white rounded-md bg-green-500"
+                                   key={index}>{genre.name}</p>
                             )
                         })
                         }
@@ -112,7 +125,7 @@ function Movie(props) {
                             }
                             <div className="w-2/3 pl-3 inline-block sm:hidden align-top">
                                 <h2 className="text-2xl">Description</h2>
-                                <p>{movie.overview}</p>
+                                <p className="text-justify sm:text-left">{movie.overview}</p>
                             </div>
                             <div className="">
                                 <p className="my-2">
@@ -156,15 +169,22 @@ function Movie(props) {
                                 {movie.genres &&
                                 movie.genres.map((genre, index) => {
                                     return (
-                                        <p className="inline-block mr-3 px-3 py-1 text-white rounded-md bg-green-500" key={index}>{genre.name}</p>
+                                        <p className="inline-block mr-3 px-3 py-1 text-white rounded-md bg-green-500"
+                                           key={index}>{genre.name}</p>
                                     )
                                 })
                                 }
                             </div>
                             <div className="hidden sm:block mb-2">
-                                <p className=""><span className="font-bold">Director</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Director").name}</p>
-                                <p className=""><span className="font-bold">Main writer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Screenplay").name}</p>
-                                <p className=""><span className="font-bold">Producer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Producer").name}</p>
+                                <p className=""><span
+                                    className="font-bold">Director</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Director").name}
+                                </p>
+                                <p className=""><span
+                                    className="font-bold">Main writer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Screenplay").name}
+                                </p>
+                                <p className=""><span
+                                    className="font-bold">Producer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Producer").name}
+                                </p>
                             </div>
                             <h2 className="text-2xl mt-5 hidden sm:block">Description</h2>
                             <p className="hidden sm:block">{movie.overview}</p>
@@ -189,6 +209,23 @@ function Movie(props) {
                                         </div>
                                     )
                                 })}
+                            </div>
+                            <h2 className="text-2xl mt-5">People who enjoyed this movie also liked</h2>
+                            <div>
+                                <HorizontalScroll>
+                                    {
+                                        similarMovies.map((movie, index) => {
+                                            return (
+                                                <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
+                                                           posterPath={movie.poster_path} userRating={movie.user_rating}
+                                                           key={index}
+                                                           movieId={movie.id}
+                                                           customClass={'w-52 mx-2 my-3'}
+                                                />
+                                            )
+                                        })
+                                    }
+                                </HorizontalScroll>
                             </div>
                         </div>
                     </div>

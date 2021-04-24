@@ -16,6 +16,7 @@ router.get('/movies/top-rated', jwtAuth, moviesController.topRated)
 router.get('/movies/popular', jwtAuth, moviesController.popular)
 router.get('/movies/recommendations', jwtAuth, moviesController.recommendations)
 router.get('/movies/top/:genre_id', jwtAuth, moviesController.topMovies)
+router.get('/movies/:id/similar', jwtAuth, moviesController.getSimilar)
 router.get('/movies/:id', jwtAuth, moviesController.get)
 
 // USER

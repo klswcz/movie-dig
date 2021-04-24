@@ -13,6 +13,7 @@ function HorizontalScroll(props) {
             dragging={false}
             clickWhenDrag={false}
             transition={0.3}
+            translate={-1}
             data={props.children}
         />
     )

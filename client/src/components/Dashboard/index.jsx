@@ -14,6 +14,7 @@ import ScrollMenu from "react-horizontal-scrolling-menu";
 import {faChevronLeft, faChevronRight, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import HorizontalScroll from "../UI/HorizontalScroll";
+import {BeatLoader} from "react-spinners";
 
 function Dashboard() {
     const [trendingMovies, setTrendingMovies] = useState([])
@@ -25,6 +26,7 @@ function Dashboard() {
     const [recommendedMovies, setRecommendedMovies] = useState([])
     const [ratedMovies, setRatedMovies] = useState(0)
     const [requiredMovies, setRequiredMovies] = useState(0)
+    const [loadingRecommendations, setLoadingRecommendations] = useState(true)
     const history = useHistory();
 
     useEffect(() => {
@@ -82,6 +84,7 @@ function Dashboard() {
             setRecommendedMovies(res.data.movies)
             setRatedMovies(res.data.ratings_given)
             setRequiredMovies(res.data.ratings_required)
+            setLoadingRecommendations(false)
         })
     };
 
@@ -89,32 +92,38 @@ function Dashboard() {
         <div className=" pb-14 px-4 mt-16">
             <div className="pt-5 mb-3">
                 <h1 className="text-4xl">This may interest you</h1>
-                {recommendedMovies !== null ?
-                    <ScrollMenu
-                        arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
-                        arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
-                        arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
-                        wheel={false}
-                        dragging={false}
-                        clickWhenDrag={false}
-                        transition={0.3}
-                        data={
-                            recommendedMovies.map((movie, index) => {
-                                return (
-                                    <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
-                                               posterPath={movie.poster_path} userRating={movie.user_rating}
-                                               key={index}
-                                               movieId={movie.id}
-                                               customClass={'w-52 mx-2 my-3'}
-                                    />
-                                )
-                            })
-                        }
-                    />
+                {!loadingRecommendations ?
+                    recommendedMovies !== null ?
+                        <ScrollMenu
+                            arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
+                            arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
+                            arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
+                            wheel={false}
+                            dragging={false}
+                            clickWhenDrag={false}
+                            transition={0.3}
+                            data={
+                                recommendedMovies.map((movie, index) => {
+                                    return (
+                                        <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
+                                                   posterPath={movie.poster_path} userRating={movie.user_rating}
+                                                   key={index}
+                                                   movieId={movie.id}
+                                                   customClass={'w-52 mx-2 my-3'}
+                                        />
+                                    )
+                                })
+                            }
+                        />
+                        :
+                        <div>You have rated {ratedMovies} movies. Please rate {requiredMovies - ratedMovies} more
+                            movie(s) to see your personalised recommendations.</div>
                     :
-                    <div>You have rated {ratedMovies} movies. Please rate {requiredMovies - ratedMovies} more
-                        movie(s) to see your personalised recommendations.</div>
+                    <div className="w-full text-center py-4">
+                        <BeatLoader size={30} color={'#3830a3'}/>
+                    </div>
                 }
+
             </div>
             <div className="my-3">
                 <h1 className="text-4xl">Trending today</h1>

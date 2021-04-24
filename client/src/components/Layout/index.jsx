@@ -16,6 +16,7 @@ import Tutorial from '../Tutorial'
 import store from '../../store/reducer'
 import {useSelector} from "react-redux"
 import FlashMessage from "../UI/FlashMessage"
+import Recommendations from "../Recommendations";
 
 function Layout() {
     const location = useLocation();
@@ -52,6 +53,7 @@ function Layout() {
                     <Route path="/account/wishlist" exact component={Wishlist}/>
                     <Route path="/tutorial" exact component={Tutorial}/>
                     <Route path="/rating/batch" exact component={BatchMovieRating}/>
+                    <Route path="/recommendations/more" exact component={Recommendations}/>
                     <Route path="/" component={Home}/>
                 </Switch>
             </div>

@@ -94,13 +94,13 @@ function Movie(props) {
                     }
                     <div className="block sm:hidden mb-2">
                         <p className=""><span
-                            className="font-bold">Director</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Director").name}
+                            className="font-bold">Director</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Director") ? movie.credits.crew.find(crewMember => crewMember.job == "Director").name : 'N/A'}
                         </p>
                         <p className=""><span
-                            className="font-bold">Main writer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Screenplay").name}
+                            className="font-bold">Main writer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Screenplay") ? movie.credits.crew.find(crewMember => crewMember.job == "Screenplay").name : 'N/A'}
                         </p>
                         <p className=""><span
-                            className="font-bold">Producer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Producer").name}
+                            className="font-bold">Producer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Producer") ? movie.credits.crew.find(crewMember => crewMember.job == "Producer").name : 'N/A'}
                         </p>
                     </div>
                     <div className="inline-block sm:hidden mb-3">
@@ -177,13 +177,13 @@ function Movie(props) {
                             </div>
                             <div className="hidden sm:block mb-2">
                                 <p className=""><span
-                                    className="font-bold">Director</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Director").name}
+                                    className="font-bold">Director</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Director") ? movie.credits.crew.find(crewMember => crewMember.job == "Director").name : 'N/A'}
                                 </p>
                                 <p className=""><span
-                                    className="font-bold">Main writer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Screenplay").name}
+                                    className="font-bold">Main writer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Screenplay") ? movie.credits.crew.find(crewMember => crewMember.job == "Screenplay").name : 'N/A'}
                                 </p>
                                 <p className=""><span
-                                    className="font-bold">Producer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Producer").name}
+                                    className="font-bold">Producer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Producer") ? movie.credits.crew.find(crewMember => crewMember.job == "Producer").name : 'N/A'}
                                 </p>
                             </div>
                             <h2 className="text-2xl mt-5 hidden sm:block">Description</h2>

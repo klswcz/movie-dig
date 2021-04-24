@@ -116,11 +116,11 @@ function Navbar() {
                                                           className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Rated movies</Link>
                                                 </li>
                                                 <li className="px-3 py-2">
-                                                    <Link to="/account"
+                                                    <Link to="/account/settings"
                                                           className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Settings</Link>
                                                 </li>
                                                 <li className="px-3 py-2">
-                                                    <Link to="/wishlist"
+                                                    <Link to="/account/wishlist"
                                                           className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Wish
                                                         list</Link>
                                                 </li>
@@ -173,9 +173,9 @@ function Navbar() {
                     <div>
                         <Link to="/dashboard"
                               className="block text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
-                        <Link to="/account"
+                        <Link to="/account/settings"
                               className="block text-white px-3 py-2 rounded-md text-sm font-medium">Settings</Link>
-                        <Link to="/wishlist"
+                        <Link to="/account/wishlist"
                               className="block text-white px-3 py-2 rounded-md text-sm font-medium">Wish list</Link>
                         <hr/>
                         <button onClick={logout}

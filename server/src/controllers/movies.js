@@ -38,6 +38,99 @@ exports.trending = (req, res, next) => {
     })
 }
 
+exports.topRated = (req, res, next) => {
+    let movies = []
+    let promises = []
+
+    tmdb.api.get('/movie/top_rated?api_key=' + process.env.TMDB_API_KEY).then(apiResponse => {
+        User.findOne({email: req.params.token.email}).then(user => {
+            apiResponse.data.results.forEach((movie, index) => {
+                promises.push(new Promise(resolve => {
+                    Movie.findOne({tmdb_id: movie.id}).then(movieModel => {
+                        Rating.findOne({
+                            user_id: user.id,
+                            movie_id: movieModel ? movieModel.movie_id : null
+                        }).then(rating => {
+                            apiResponse.data.results[index].user_rating = rating ? rating.rating : null
+                            movies.push(apiResponse.data.results[index])
+                            resolve()
+                        })
+                    })
+                }))
+            })
+
+            Promise.all(promises).then(() => {
+                return res.status(200).json({
+                    movies: movies
+                })
+            })
+        })
+
+    })
+}
+
+exports.popular = (req, res, next) => {
+    let movies = []
+    let promises = []
+
+    tmdb.api.get('/movie/popular?api_key=' + process.env.TMDB_API_KEY).then(apiResponse => {
+        User.findOne({email: req.params.token.email}).then(user => {
+            apiResponse.data.results.forEach((movie, index) => {
+                promises.push(new Promise(resolve => {
+                    Movie.findOne({tmdb_id: movie.id}).then(movieModel => {
+                        Rating.findOne({
+                            user_id: user.id,
+                            movie_id: movieModel ? movieModel.movie_id : null
+                        }).then(rating => {
+                            apiResponse.data.results[index].user_rating = rating ? rating.rating : null
+                            movies.push(apiResponse.data.results[index])
+                            resolve()
+                        })
+                    })
+                }))
+            })
+
+            Promise.all(promises).then(() => {
+                return res.status(200).json({
+                    movies: movies
+                })
+            })
+        })
+
+    })
+}
+
+exports.topMovies = (req, res, next) => {
+    let movies = []
+    let promises = []
+
+    tmdb.api.get(`/discover/movie?with_genres=${req.params.genre_id}&vote_count.gte=1000&sort_by=vote_average.desc&vote_count.gte=10000&with_original_language=en&api_key=${process.env.TMDB_API_KEY}`).then(apiResponse => {
+        User.findOne({email: req.params.token.email}).then(user => {
+            apiResponse.data.results.forEach((movie, index) => {
+                promises.push(new Promise(resolve => {
+                    Movie.findOne({tmdb_id: movie.id}).then(movieModel => {
+                        Rating.findOne({
+                            user_id: user.id,
+                            movie_id: movieModel ? movieModel.movie_id : null
+                        }).then(rating => {
+                            apiResponse.data.results[index].user_rating = rating ? rating.rating : null
+                            movies.push(apiResponse.data.results[index])
+                            resolve()
+                        })
+                    })
+                }))
+            })
+
+            Promise.all(promises).then(() => {
+                return res.status(200).json({
+                    movies: movies
+                })
+            })
+        })
+
+    })
+}
+
 exports.recommendations = (req, res, next) => {
 
 

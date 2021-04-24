@@ -13,6 +13,7 @@ import MovieCard from "../UI/MovieCard";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import {faChevronLeft, faChevronRight, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import HorizontalScroll from "../UI/HorizontalScroll";
 
 function Dashboard() {
     const [trendingMovies, setTrendingMovies] = useState([])
@@ -117,15 +118,8 @@ function Dashboard() {
             </div>
             <div className="my-3">
                 <h1 className="text-4xl">Trending today</h1>
-                <ScrollMenu
-                    arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
-                    arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
-                    arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
-                    wheel={false}
-                    dragging={false}
-                    clickWhenDrag={false}
-                    transition={0.3}
-                    data={
+                <HorizontalScroll>
+                    {
                         trendingMovies.map((movie, index) => {
                             return (
                                 <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
@@ -137,19 +131,12 @@ function Dashboard() {
                             )
                         })
                     }
-                />
+                </HorizontalScroll>
             </div>
             <div className="my-3">
                 <h1 className="text-4xl">Cinema classics</h1>
-                <ScrollMenu
-                    arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
-                    arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
-                    arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
-                    wheel={false}
-                    dragging={false}
-                    clickWhenDrag={false}
-                    transition={0.3}
-                    data={
+                <HorizontalScroll>
+                    {
                         topRatedMovies.map((movie, index) => {
                             return (
                                 <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
@@ -161,19 +148,12 @@ function Dashboard() {
                             )
                         })
                     }
-                />
+                </HorizontalScroll>
             </div>
             <div className="my-3">
                 <h1 className="text-4xl">Popular</h1>
-                <ScrollMenu
-                    arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
-                    arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
-                    arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
-                    wheel={false}
-                    dragging={false}
-                    clickWhenDrag={false}
-                    transition={0.3}
-                    data={
+                <HorizontalScroll>
+                    {
                         popularMovies.map((movie, index) => {
                             return (
                                 <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
@@ -185,19 +165,12 @@ function Dashboard() {
                             )
                         })
                     }
-                />
+                </HorizontalScroll>
             </div>
             <div className="my-3">
                 <h1 className="text-4xl">Thrillers that will blow your mind</h1>
-                <ScrollMenu
-                    arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
-                    arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
-                    arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
-                    wheel={false}
-                    dragging={false}
-                    clickWhenDrag={false}
-                    transition={0.3}
-                    data={
+                <HorizontalScroll>
+                    {
                         topThrillers.map((movie, index) => {
                             return (
                                 <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
@@ -209,19 +182,12 @@ function Dashboard() {
                             )
                         })
                     }
-                />
+                </HorizontalScroll>
             </div>
             <div className="my-3">
                 <h1 className="text-4xl">Laugh out loud comedies to lift your spirits</h1>
-                <ScrollMenu
-                    arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
-                    arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
-                    arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
-                    wheel={false}
-                    dragging={false}
-                    clickWhenDrag={false}
-                    transition={0.3}
-                    data={
+                <HorizontalScroll>
+                    {
                         topComedies.map((movie, index) => {
                             return (
                                 <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
@@ -233,19 +199,12 @@ function Dashboard() {
                             )
                         })
                     }
-                />
+                </HorizontalScroll>
             </div>
             <div className="my-3">
                 <h1 className="text-4xl">Best date night films</h1>
-                <ScrollMenu
-                    arrowLeft={<FontAwesomeIcon icon={faChevronLeft} className="h-full"/>}
-                    arrowRight={<FontAwesomeIcon icon={faChevronRight} className="h-full"/>}
-                    arrowClass={'px-5 h-72 flex bg-indigo-100 hover:bg-indigo-600 text-indigo-600 hover:text-indigo-50 duration-500 cursor-pointer'}
-                    wheel={false}
-                    dragging={false}
-                    clickWhenDrag={false}
-                    transition={0.3}
-                    data={
+                <HorizontalScroll>
+                    {
                         topRomances.map((movie, index) => {
                             return (
                                 <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
@@ -257,7 +216,7 @@ function Dashboard() {
                             )
                         })
                     }
-                />
+                </HorizontalScroll>
             </div>
         </div>
     )

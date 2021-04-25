@@ -54,7 +54,7 @@ describe('Users controller', () => {
             .then(res => {
                 res.should.have.status(200)
                 res.body.should.be.eql({
-                    flashMessageBag: [{msg: 'User has been registered.'}],
+                    messageBag: [{msg: 'Account has been created, please move to the login page now.'}],
                     email: 'api_testing@moviedig.com',
                     first_name: 'Test',
                     last_name: 'User',

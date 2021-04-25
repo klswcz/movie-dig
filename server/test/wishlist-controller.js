@@ -96,35 +96,6 @@ describe('Wishlit items controller', () => {
             })
     });
 
-    it('should remove wishlist item with a given ID', () => {
-        return chai.request(server)
-            .post('/account/login')
-            .type('form')
-            .send({email: 'api_testing@moviedig.com', password: 'Pa$$w0rd!'})
-            .then(loginRes => {
-                loginRes.should.have.status(200)
-                return chai.request(server)
-                    .post('/wishlist')
-                    .type('form')
-                    .set('Authorization', `Bearer ${loginRes.body.token}`)
-                    .send({movie_id: 862})
-                    .then(res => {
-                        return chai.request(server)
-                            .delete('/wishlist')
-                            .type('form')
-                            .set('Authorization', `Bearer ${loginRes.body.token}`)
-                            .send({movie_id: 862})
-                            .then(res => {
-                                res.should.have.status(200)
-                                res.body.should.be.eql({
-                                    flashMessageBag: [{msg: 'Movie has been removed from wish list.'}],
-                                    isWishlistItem: false
-                                })
-                            })
-                    })
-            })
-    });
-
     beforeEach(() => {
         return new Promise((resolve => {
                 bcrypt.hash('Pa$$w0rd!', 12).then(hashedPassword => {

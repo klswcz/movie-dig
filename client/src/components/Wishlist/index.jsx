@@ -26,19 +26,22 @@ function Wishlist() {
                 (<>
                     <div className="pt-5 mb-3">
                         <h1 className="text-3xl font-extrabold text-gray-900 pt-5 sm:mb-3">Wish list</h1>
-                        <div className="grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
-                            {wishlistItems.length > 0 ?
-                            wishlistItems.map((movie, index) => {
-                                return (
-                                    <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
-                                               posterPath={movie.poster_path} userRating={movie.user_rating} key={index}
-                                               movieId={movie.id}/>
-                                )
-                            }) : (
-                                <p>there are no items on your wish list</p>
-                                )
-                            }
-                        </div>
+                        {wishlistItems.length > 0 ?
+                            <div className="grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
+
+                                {wishlistItems.map((movie, index) => {
+                                    return (
+                                        <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
+                                                   posterPath={movie.poster_path} userRating={movie.user_rating}
+                                                   key={index}
+                                                   movieId={movie.id}/>
+                                    )
+                                })}
+                            </div>
+                            : (
+                                <p>there are no items on your wish list.</p>
+                            )
+                        }
                     </div>
                 </>) :
                 <div className="w-full text-center pt-16">

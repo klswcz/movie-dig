@@ -36,7 +36,7 @@ describe('Movies controller', () => {
             })
     });
 
-    it('should return IDs of recommended movies from Python script and add information from TMDb to each of them', () => {
+    it('should return no recommended movies from Python script if user has not rated at least 20 movies', () => {
         return chai.request(server)
             .post('/account/login')
             .type('form')
@@ -48,10 +48,7 @@ describe('Movies controller', () => {
                     .get('/movies/recommendations')
                     .set('Authorization', `Bearer ${res.body.token}`)
                     .then(res => {
-                        let tmdbKeyWithUserRating = [...tmdbResponseKeys, 'user_rating']
-                        res.body.movies.forEach((movie) => {
-                            expect(movie).to.include.keys(tmdbKeyWithUserRating)
-                        })
+                        res.body.should.be.eql({movies: null, ratings_required: 20, ratings_given: 0})
                         res.should.have.status(200)
                     })
             })

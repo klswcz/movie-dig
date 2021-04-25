@@ -29,8 +29,8 @@ api.interceptors.response.use(response => {
                 showResponseMessages(error.response)
                 break
             default:
-                localStorage.setItem('token', null)
-                window.location.reload()
+                // localStorage.setItem('token', null)
+                // window.location.reload()
         }
     } else {
         store.dispatch({

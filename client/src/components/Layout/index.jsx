@@ -46,13 +46,13 @@ function Layout() {
                 <Switch>
                     <Route path="/login" exact component={Login}/>
                     <Route path="/register" exact component={Register}/>
+                    <Route path="/tutorial" exact component={Tutorial}/>
                     <Route path="/dashboard" exact component={Dashboard}/>
-                    <Route path="/movies/:id" component={Movie}/>
                     <Route path="/account/settings" exact component={Account}/>
                     <Route path="/account/ratings" exact component={RatedMovies}/>
                     <Route path="/account/wishlist" exact component={Wishlist}/>
-                    <Route path="/tutorial" exact component={Tutorial}/>
-                    <Route path="/rating/batch" exact component={BatchMovieRating}/>
+                    <Route path="/movies/rate" exact component={BatchMovieRating}/>
+                    <Route path="/movies/:id" component={Movie}/>
                     <Route path="/recommendations/more" exact component={Recommendations}/>
                     <Route path="/" component={Home}/>
                 </Switch>

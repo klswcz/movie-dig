@@ -66,7 +66,7 @@ function Navbar() {
                         {location.pathname !== '/' && location.pathname !== '/tutorial' && location.pathname !== '/login' && location.pathname !== '/register' ?
                             <div className="w-full">
                                 <div
-                                    className="w-1/2 md:w-2/3 lg:w-1/3 xl:w-1/2 absolute left-0 right-0 ml-auto mr-auto">
+                                    className="w-1/2 md:w-2/3 lg:w-1/3 2xl:1/2 absolute left-0 right-0 ml-auto mr-auto">
 
                                     <input id="movie_search" name="movie_search" type="text"
                                            autoComplete="off"
@@ -105,6 +105,8 @@ function Navbar() {
 
                                         <Link to="/recommendations/more"
                                               className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Recommendations</Link>
+                                        <Link to="/movies/rate"
+                                              className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Rate movies</Link>
                                         <button type="button"
                                                 className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                                                 onClick={toggleAccountDropdown}
@@ -178,6 +180,8 @@ function Navbar() {
                               className="block text-white px-3 py-3 rounded-md text-sm font-medium">Dashboard</Link>
                         <Link to="/recommendations/more"
                               className="block text-white px-3 py-3 rounded-md text-sm font-medium">Recommendations</Link>
+                        <Link to="/movies/rate"
+                              className="block text-white px-3 py-3 rounded-md text-sm font-medium">Rate movies</Link>
                         <Link to="/account/settings"
                               className="block text-white px-3 py-3 rounded-md text-sm font-medium">Settings</Link>
                         <Link to="/account/ratings"

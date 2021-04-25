@@ -35,7 +35,8 @@ function BatchMovieRating(props) {
                 (<>
                     <h1 className="text-3xl font-extrabold text-gray-900 pt-5 sm:mb-3">Let's rate some movies!</h1>
                     <div className="relative pt-1 mb-4">
-                        <h2 className="text-2xl">Movies rated: {ratingCount}/20</h2>
+                        <h2 className="text-md mb-2">We need you to rate at least 20 movies in order to
+                            generate accurate recommendations.</h2>
 
                         <div className="relative pt-1">
                             <div className="overflow-hidden h-2 text-xs flex rounded bg-pink-200">
@@ -43,36 +44,37 @@ function BatchMovieRating(props) {
                                      className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-500"/>
                             </div>
                         </div>
-                        <p className="text-gray-500 mt-1 text-sm">Rate at least 20 movies to get your
-                            recommendations!</p>
+                        <p className="text-gray-500 mt-1 text-sm">{ratingCount}/20</p>
 
                     </div>
                     <div className="flex flex-wrap">
                         {propositions.map((proposition, propositionIndex) => {
                             return (
-                                <div
-                                    className="grid w-full 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2"
-                                    key={propositionIndex}>
-                                    <p>{proposition.name}</p>
-                                    {proposition.movies.map((movie, index) => {
-                                        return (
-                                            <MovieCard title={movie.title ?? movie.name}
-                                                       voteAverage={movie.vote_average}
-                                                       posterPath={movie.poster_path} userRating={movie.user_rating}
-                                                       key={index}
-                                                       movieId={movie.id}
-                                                       showRatingComponent={true}
-                                                       hideRatings={true}
-                                                       disableLink={true}
-                                            />
-                                        )
-                                    })}
-                                </div>
+                                <>
+                                    <h2 className="font-extrabold text-gray-900 text-2xl">{proposition.name}</h2>
+                                    <div
+                                        className="grid w-full 4xl:grid-cols-12 3xl:grid-cols-10 2xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2"
+                                        key={propositionIndex}>
+                                        {proposition.movies.map((movie, index) => {
+                                            return (
+                                                <MovieCard title={movie.title ?? movie.name}
+                                                           voteAverage={movie.vote_average}
+                                                           posterPath={movie.poster_path} userRating={movie.user_rating}
+                                                           key={index}
+                                                           movieId={movie.id}
+                                                           showRatingComponent={true}
+                                                           hideRatings={true}
+                                                           disableLink={true}
+                                                />
+                                            )
+                                        })}
+                                    </div>
+                                </>
                             )
                         })}
                     </div>
-                    <div className="mt-5">
-                        <Button label={'Go to Dashboard'} widthAuto={true} to={'/dashboard'}/>
+                    <div className="fixed bottom-10 sm:bottom-20 z-10 right-6">
+                        <Button label={'Go to Dashboard'} customClass={'text-xl'} widthAuto={true} to={'/dashboard'}/>
                     </div>
                 </>) :
                 <div className="w-full text-center pt-16">

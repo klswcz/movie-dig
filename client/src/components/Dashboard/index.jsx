@@ -124,9 +124,9 @@ function Dashboard() {
                                     }
                                 </HorizontalScroll>
                                 :
-                                <div>You have rated {ratedMovies} movies. Please
+                                <p className="mt-2">You have rated {ratedMovies} movies. Please
                                     rate {requiredMovies - ratedMovies} more
-                                    movie(s) to see your personalised recommendations.</div>
+                                    movie(s) to see your personalised recommendations.</p>
                             :
                             <div className="w-full text-center py-4">
                                 <BeatLoader size={30} color={'#3830a3'}/>

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import {all as allRatingsService} from "../../services/RatingServices";
 import MovieCard from "../UI/MovieCard";
+import {BeatLoader} from "react-spinners";
 
 
 function RatedMovies() {
@@ -40,7 +41,9 @@ function RatedMovies() {
                         </div>
                     </div>
                 </>) :
-                <p>Loading</p>}
+                <div className="w-full text-center pt-16">
+                    <BeatLoader size={30} color={'#3830a3'}/>
+                </div>}
         </div>
     )
 }

@@ -6,6 +6,7 @@ import MovieCard from "../UI/MovieCard"
 import Button from "../UI/Form/Button"
 import {useSelector} from "react-redux"
 import store from "../../store/reducer";
+import {BeatLoader} from "react-spinners";
 
 function BatchMovieRating(props) {
     let history = useHistory();
@@ -74,7 +75,9 @@ function BatchMovieRating(props) {
                         <Button label={'Go to Dashboard'} widthAuto={true} to={'/dashboard'}/>
                     </div>
                 </>) :
-                <p>Loading</p>}
+                <div className="w-full text-center pt-16">
+                    <BeatLoader size={30} color={'#3830a3'}/>
+                </div>}
         </div>
     )
 }

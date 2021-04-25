@@ -3,6 +3,7 @@ import {useHistory} from "react-router-dom";
 import {get as getWishlistService,} from "../../services/WishlistItemServices";
 import MovieCard from "../UI/MovieCard";
 import {recommendation as recommendationService} from "../../services/MovieServices";
+import {BeatLoader} from "react-spinners";
 
 
 function Recommendations() {
@@ -50,7 +51,9 @@ function Recommendations() {
                     }
                 </div>)
                 :
-                (<p>Loading</p>)}
+                (<div className="w-full text-center pt-16">
+                    <BeatLoader size={30} color={'#3830a3'}/>
+                </div>)}
         </div>
     )
 }

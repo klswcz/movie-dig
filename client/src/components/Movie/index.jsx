@@ -16,6 +16,7 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {useHistory} from "react-router-dom";
 import HorizontalScroll from "../UI/HorizontalScroll";
 import MovieCard from "../UI/MovieCard";
+import {BeatLoader} from "react-spinners";
 
 function Movie(props) {
     let movieId = props.match.params.id
@@ -128,7 +129,7 @@ function Movie(props) {
                                 <p className="text-justify sm:text-left">{movie.overview}</p>
                             </div>
                             <div className="">
-                                <p className="my-2">
+                                <p className="my-2 font-extrabold text-gray-900">
                                     Your rating
                                 </p>
                                 <div className="inline-flex">
@@ -147,7 +148,7 @@ function Movie(props) {
                                 </div>
                             </div>
                             <div className="">
-                                <p className="my-2">Overall rating</p>
+                                <p className="my-2 font-extrabold text-gray-900">Overall rating</p>
                                 <div className="inline-flex">
                                     <ReactStars
                                         count={5}
@@ -186,9 +187,9 @@ function Movie(props) {
                                     className="font-bold">Producer</span>: {movie.credits.crew.find(crewMember => crewMember.job == "Producer") ? movie.credits.crew.find(crewMember => crewMember.job == "Producer").name : 'N/A'}
                                 </p>
                             </div>
-                            <h2 className="text-2xl mt-5 hidden sm:block">Description</h2>
+                            <h2 className="text-2xl font-extrabold text-gray-900 mt-5 mb-1 hidden sm:block">Description</h2>
                             <p className="hidden sm:block">{movie.overview}</p>
-                            <h2 className="text-2xl mt-5">Cast</h2>
+                            <h2 className="text-2xl mt-5 font-extrabold text-gray-900 mb-1">Cast</h2>
                             <div
                                 className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8">
                                 {movie.credits &&
@@ -210,7 +211,7 @@ function Movie(props) {
                                     )
                                 })}
                             </div>
-                            <h2 className="text-2xl mt-5">People who enjoyed this movie also liked</h2>
+                            <h2 className="text-2xl mt-5 font-extrabold text-gray-900">People who enjoyed this movie also liked</h2>
                             <div>
                                 <HorizontalScroll>
                                     {
@@ -230,7 +231,9 @@ function Movie(props) {
                         </div>
                     </div>
                 </>) :
-                <p>Loading</p>}
+                <div className="w-full text-center pt-16">
+                    <BeatLoader size={30} color={'#3830a3'}/>
+                </div>}
         </div>
     )
 }

@@ -102,8 +102,11 @@ function Navbar() {
                                 </div>
                                 <div className="hidden lg:block">
                                     <div className="ml-10 flex items-baseline">
+
+                                        <Link to="/recommendations/more"
+                                              className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto">Recommendations</Link>
                                         <button type="button"
-                                                className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium ml-auto"
+                                                className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                                                 onClick={toggleAccountDropdown}
                                                 onBlur={() => setTimeout(() => setAccountDropdownVisible(false), 100)}>
                                             Account

@@ -34,6 +34,11 @@ function Register() {
                 last_name: lastName,
                 password: password
             }).then(res => {
+                setEmail('')
+                setFirstName('')
+                setLastName('')
+                setPassword('')
+                setConfirmPassword('')
             })
         } else {
             confirmPasswordField.setCustomValidity('Password must be matching.');

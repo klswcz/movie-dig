@@ -91,11 +91,11 @@ function Account(props) {
 
     return (
         <div className=" pb-14 mt-16 grid grid-cols-1">
-            <div className="max-w-xl place-self-center">
+            <div className="w-11/12 sm:w-96 place-self-center">
                 <div>
-                    <h2 className="pt-5 text-center text-3xl font-extrabold text-gray-900">
+                    <h1 className="pt-5 text-center text-3xl font-extrabold text-gray-900">
                         Update account details
-                    </h2>
+                    </h1>
                 </div>
                 <form className="mt-8 space-y-6" action="" method="POST" onSubmit={e => e.preventDefault()}>
                     <Input name={'email'} type={'text'} value={email} onChange={event => setEmail(event.target.value)}/>
@@ -114,7 +114,7 @@ function Account(props) {
                            onChange={event => setConfirmPassword(event.target.value)}/>
                     <Button onClick={updatePassword} label={'Update password'}/>
                 </form>
-                <Button onClick={destroy} label={'Remove account'} customClass={'mt-3'}/>
+                <Button onClick={destroy} label={'Remove account'} customClass={'mt-3'} customColor={'bg-red-600 hover:bg-red-700'}/>
             </div>
         </div>
     )

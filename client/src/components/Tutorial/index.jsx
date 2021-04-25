@@ -12,7 +12,7 @@ function Tutorial() {
     return (
         <div className="pb-14 px-4 mt-16">
             <div className="pt-5 mb-3">
-                <h1 className="text-4xl">Tutorial page</h1>
+                <h1 className="text-3xl font-extrabold text-gray-900">Tutorial page</h1>
             </div>
             { localStorage.getItem('token') !== 'null' &&
                 <div className="mt-5">

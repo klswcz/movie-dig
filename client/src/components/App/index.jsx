@@ -1,10 +1,13 @@
 import Layout from "../Layout";
 import {BrowserRouter as Router} from "react-router-dom";
+import ScrollToTop from "./scrollToTop";
 
 function App() {
     return (
         <Router>
-            <Layout/>
+            <ScrollToTop>
+                <Layout/>
+            </ScrollToTop>
         </Router>
     );
 }

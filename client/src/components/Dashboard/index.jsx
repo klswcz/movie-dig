@@ -91,7 +91,7 @@ function Dashboard() {
     return (
         <div className=" pb-14 px-4 mt-16">
             <div className="pt-5 mb-3">
-                <h1 className="text-4xl">Recommended for you {recommendedMovies !== null && <Link to={'/recommendations/more'} className="text-lg font-bold text-indigo-600 ml-2 hover:bg-indigo-200 p-2 rounded-md">See more</Link>}</h1>
+                <h1 className="text-3xl font-extrabold text-gray-900">Recommended for you {recommendedMovies !== null && <Link to={'/recommendations/more'} className="text-lg font-bold text-indigo-600 ml-2 hover:bg-indigo-200 p-2 rounded-md">See more</Link>}</h1>
                 {!loadingRecommendations ?
                     recommendedMovies !== null ?
                         <HorizontalScroll>
@@ -119,7 +119,7 @@ function Dashboard() {
 
             </div>
             <div className="my-3">
-                <h1 className="text-4xl">Trending today</h1>
+                <h1 className="text-3xl font-extrabold text-gray-900">Trending today</h1>
                 <HorizontalScroll>
                     {
                         trendingMovies.map((movie, index) => {
@@ -136,7 +136,7 @@ function Dashboard() {
                 </HorizontalScroll>
             </div>
             <div className="my-3">
-                <h1 className="text-4xl">All-time classics</h1>
+                <h1 className="text-3xl font-extrabold text-gray-900">All-time classics</h1>
                 <HorizontalScroll>
                     {
                         topRatedMovies.map((movie, index) => {
@@ -153,7 +153,7 @@ function Dashboard() {
                 </HorizontalScroll>
             </div>
             <div className="my-3">
-                <h1 className="text-4xl">Popular</h1>
+                <h1 className="text-3xl font-extrabold text-gray-900">Popular</h1>
                 <HorizontalScroll>
                     {
                         popularMovies.map((movie, index) => {
@@ -170,7 +170,7 @@ function Dashboard() {
                 </HorizontalScroll>
             </div>
             <div className="my-3">
-                <h1 className="text-4xl">Thrillers that will blow your mind</h1>
+                <h1 className="text-3xl font-extrabold text-gray-900">Thrillers that will blow your mind</h1>
                 <HorizontalScroll>
                     {
                         topThrillers.map((movie, index) => {
@@ -187,7 +187,7 @@ function Dashboard() {
                 </HorizontalScroll>
             </div>
             <div className="my-3">
-                <h1 className="text-4xl">Laugh out loud comedies to lift your spirits</h1>
+                <h1 className="text-3xl font-extrabold text-gray-900">Laugh out loud comedies to lift your spirits</h1>
                 <HorizontalScroll>
                     {
                         topComedies.map((movie, index) => {
@@ -204,7 +204,7 @@ function Dashboard() {
                 </HorizontalScroll>
             </div>
             <div className="my-3">
-                <h1 className="text-4xl">Best date night films</h1>
+                <h1 className="text-3xl font-extrabold text-gray-900">Best date night films</h1>
                 <HorizontalScroll>
                     {
                         topRomances.map((movie, index) => {

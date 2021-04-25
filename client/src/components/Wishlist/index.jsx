@@ -24,7 +24,7 @@ function Wishlist() {
             {loadingFinished ?
                 (<>
                     <div className="pt-5 mb-3">
-                        <h1 className="text-4xl pt-5 sm:mb-3">Wish list</h1>
+                        <h1 className="text-3xl font-extrabold text-gray-900 pt-5 sm:mb-3">Wish list</h1>
                         <div className="grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
                             {wishlistItems.length > 0 ?
                             wishlistItems.map((movie, index) => {

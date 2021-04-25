@@ -32,7 +32,7 @@ function BatchMovieRating(props) {
         <div className="h-screen-minus-navbar pb-4 px-4 mt-16">
             {loadingFinished ?
                 (<>
-                    <h1 className="text-4xl pt-5 sm:mb-3">Let's rate some movies!</h1>
+                    <h1 className="text-3xl font-extrabold text-gray-900 pt-5 sm:mb-3">Let's rate some movies!</h1>
                     <div className="relative pt-1 mb-4">
                         <h2 className="text-2xl">Movies rated: {ratingCount}/20</h2>
 

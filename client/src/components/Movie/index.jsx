@@ -86,7 +86,7 @@ function Movie(props) {
         <div className="h-screen-minus-navbar pb-14 px-4 mt-16">
             {loadingFinished ?
                 (<>
-                    <h1 className="text-4xl pt-5 sm:mb-3">{movie.title}</h1>
+                    <h1 className="text-3xl font-extrabold text-gray-900 pt-5 sm:mb-3">{movie.title}</h1>
                     {movie.tagline ?
                         <p className="mb-5 text-gray-500">{movie.tagline}</p>
                         :

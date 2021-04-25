@@ -9,7 +9,6 @@ function Footer() {
                 <a  className="ml-2" href="https://github.com/klswcz" target="_blank"><FontAwesomeIcon icon={faGithub}/></a>
                 <a  className="ml-2" href="https://www.linkedin.com/in/damian-klisiewicz/" target="_blank"><FontAwesomeIcon
                     icon={faLinkedin}/></a>
-                <a  className="ml-2" href="mailto:damianklisiewicz@gmail.com"><FontAwesomeIcon icon={faEnvelopeOpenText}/></a>
             </p>
         </div>
     )

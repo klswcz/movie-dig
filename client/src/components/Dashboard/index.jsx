@@ -91,7 +91,7 @@ function Dashboard() {
     return (
         <div className=" pb-14 px-4 mt-16">
             <div className="pt-5 mb-3">
-                <h1 className="text-4xl">Recommended for you {recommendedMovies !== null && <Link to={'/recommendations/more'} className="text-lg font-bold 2xl:text-indigo-600 ml-2">See more</Link>}</h1>
+                <h1 className="text-4xl">Recommended for you {recommendedMovies !== null && <Link to={'/recommendations/more'} className="text-lg font-bold text-indigo-600 ml-2 hover:bg-indigo-200 p-2 rounded-md">See more</Link>}</h1>
                 {!loadingRecommendations ?
                     recommendedMovies !== null ?
                         <HorizontalScroll>

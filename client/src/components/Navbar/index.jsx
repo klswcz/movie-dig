@@ -73,15 +73,15 @@ function Navbar() {
                                            onChange={event => movieSearch(event.target.value)}
                                            onFocus={event => movieSearch(event.target.value)}
                                            onBlur={() => hideSearchResults()}
-                                           className="appearance-none relative block w-full py-2 px-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-sm"
+                                           className="appearance-none relative block w-full py-2 px-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-sm rounded-md"
                                            placeholder="Search movies by title..."/>
                                     {searchResults.length > 0 &&
                                     <div
-                                        className="fixed left-0 w-screen md:w-full md:relative bg-white border border-gray-300 pt-2">
+                                        className="fixed left-0 w-screen md:w-full md:relative bg-white border border-gray-300 rounded-md mt-5 shadow-2xl">
                                         {searchResults.map((movie, index) => {
                                             return (
                                                 <Link to={{pathname: `/movies/${movie.id}`}}
-                                                      className="py-2 px-3 block hover:bg-purple-500 hover:text-white border-b truncate"
+                                                      className="py-2 px-3 block hover:bg-indigo-500 hover:text-white border-b truncate"
                                                       key={index}>
                                                     {movie.poster_path ?
                                                         <img src={'https://image.tmdb.org/t/p/w45' + movie.poster_path}
@@ -175,14 +175,18 @@ function Navbar() {
                 {location.pathname !== '/' && location.pathname !== '/tutorial' && location.pathname !== '/login' && location.pathname !== '/register' ?
                     <div>
                         <Link to="/dashboard"
-                              className="block text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
+                              className="block text-white px-3 py-3 rounded-md text-sm font-medium">Dashboard</Link>
+                        <Link to="/recommendations/more"
+                              className="block text-white px-3 py-3 rounded-md text-sm font-medium">Recommendations</Link>
                         <Link to="/account/settings"
-                              className="block text-white px-3 py-2 rounded-md text-sm font-medium">Settings</Link>
+                              className="block text-white px-3 py-3 rounded-md text-sm font-medium">Settings</Link>
+                        <Link to="/account/ratings"
+                              className="block text-white px-3 py-3 rounded-md text-sm font-medium">Rated movies</Link>
                         <Link to="/account/wishlist"
-                              className="block text-white px-3 py-2 rounded-md text-sm font-medium">Wish list</Link>
+                              className="block text-white px-3 pt-3 pb-4 rounded-md text-sm font-medium">Wish list</Link>
                         <hr/>
                         <button onClick={logout}
-                                className="block text-white px-3 py-2 rounded-md text-sm font-medium">Log out
+                                className="block text-white px-3 pt-4 rounded-md text-sm font-medium">Log out
                         </button>
                     </div>
                     :

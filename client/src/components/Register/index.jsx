@@ -41,7 +41,7 @@ function Register() {
     };
 
     return (
-        <div className="mt-16 grid grid-cols-1">
+        <div className="pb-14 mt-16 grid grid-cols-1">
             <div className="w-11/12 sm:w-96 place-self-center">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

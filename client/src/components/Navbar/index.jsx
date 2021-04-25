@@ -63,7 +63,7 @@ function Navbar() {
                     <div className="flex items-start lg:items-center w-full">
                         <Link to={localStorage.getItem('token') === 'null' ? '/' : '/dashboard'}
                               className="hover:bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">MovieDig</Link>
-                        {location.pathname !== '/' && location.pathname !== '/tutorial' && location.pathname !== '/login' && location.pathname !== '/register' ?
+                        {location.pathname !== '/' && (location.pathname !== '/tutorial' || localStorage.getItem('token') !== "null") && location.pathname !== '/login' && location.pathname !== '/register' ?
                             <div className="w-full">
                                 <div
                                     className="w-1/2 md:w-2/3 lg:w-1/3 2xl:1/2 absolute left-0 right-0 ml-auto mr-auto">

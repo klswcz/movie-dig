@@ -30,7 +30,7 @@ function BatchMovieRating(props) {
 
 
     return (
-        <div className="h-screen-minus-navbar pb-4 px-4 mt-16">
+        <div className="h-screen-minus-navbar pb-14 sm:pb-20 px-4 mt-16">
             {loadingFinished ?
                 (<>
                     <h1 className="text-3xl font-extrabold text-gray-900 pt-5 sm:mb-3">Let's rate some movies!</h1>
@@ -73,8 +73,8 @@ function BatchMovieRating(props) {
                             )
                         })}
                     </div>
-                    <div className="fixed bottom-10 sm:bottom-20 z-10 right-6">
-                        <Button label={'Go to Dashboard'} customClass={'text-xl'} widthAuto={true} to={'/dashboard'}/>
+                    <div className="fixed bottom-16 sm:bottom-20 z-10 left-14">
+                        <Button label={'Go to Dashboard'} customClass={''} customColor={'bg-pink-500 hover:bg-pink-600'} widthAuto={true} to={'/dashboard'}/>
                     </div>
                 </>) :
                 <div className="w-full text-center pt-16">

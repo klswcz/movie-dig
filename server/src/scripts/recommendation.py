@@ -3,7 +3,7 @@ import pandas as pd
 from pymongo import MongoClient
 from math import sqrt
 
-client = MongoClient('localhost:27017')
+client = MongoClient(sys.argv[3])
 
 db = client.movieRecommendationDB
 users = db.users

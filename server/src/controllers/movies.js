@@ -288,7 +288,7 @@ exports.search = (req, res, next) => {
 }
 
 const runRecommendationScript = async (userId, moviesCount = 20) => {
-    const child = spawn('python3', ['src/scripts/recommendation.py', userId, moviesCount]);
+    const child = spawn('python3', ['src/scripts/recommendation.py', userId, moviesCount, process.env.DB_HOST]);
 
     let data = "";
     for await (const chunk of child.stdout) {

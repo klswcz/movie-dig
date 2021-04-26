@@ -19,7 +19,7 @@ function FlashMessage() {
             role="alert">
             {flashMessage.messageBag.map((message, index) => {
                 return (
-                    <p key={index} className="mx-3 font-medium text-left text-white py-2 w-full ">
+                    <p key={index} className="mx-3 font-medium text-white py-2 w-full ">
                         {message.msg}
                     </p>
                 )

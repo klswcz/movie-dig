@@ -16,13 +16,13 @@ ratings_df = pd.DataFrame(list(ratings.find({
 })))
 
 movies_df = movies_df.drop(['imdb_id', '_id', '__v'], 1)
-ratings_df = ratings_df.drop(['_id', '__v'], 1)
+ratings_df = ratings_df.drop(['_id', 'timestamp'], 1)
 
 inputMovies = pd.DataFrame(list(ratings.find({
     'user_id': sys.argv[1]
 })))
 
-inputMovies = inputMovies.drop(['_id', '__v'], 1)
+inputMovies = inputMovies.drop(['_id', 'timestamp'], 1)
 
 # Filtering out the movies by title
 inputId = movies_df[movies_df['movie_id'].isin(inputMovies['movie_id'].tolist())]

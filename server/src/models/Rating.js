@@ -13,6 +13,10 @@ const RatingSchema = new Schema({
     rating: {
         type: String,
         required: true,
+    },
+    timestamp: {
+        type: String,
+        required: true
     }
 });
 

@@ -27,7 +27,6 @@ exports.create = (req, res, next) => {
                     user_id: user.id,
                     movie_id: movie.movie_id,
                     rating: req.body.rating,
-                    timestamp: Date.now()
                 })
 
                 ratingModel.save(() => {
@@ -71,7 +70,6 @@ exports.update = (req, res, next) => {
                     movie_id: movie.movie_id
                 }).then(rating => {
                     rating.rating = req.body.rating
-                    rating.timestamp = Date.now()
                     rating.save(() => {
                         Rating.find({user_id: user.id}).then(ratings => {
                             return res.send({

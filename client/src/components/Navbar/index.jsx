@@ -77,7 +77,7 @@ function Navbar() {
                                            placeholder="Search movies by title..."/>
                                     {searchResults.length > 0 &&
                                     <div
-                                        className="fixed left-0 w-screen md:w-full md:relative bg-white border border-gray-300 rounded-md mt-5 shadow-2xl">
+                                        className="fixed left-0 w-screen md:w-full md:relative bg-white border border-gray-300 rounded-md shadow-2xl">
                                         {searchResults.map((movie, index) => {
                                             return (
                                                 <Link to={{pathname: `/movies/${movie.id}`}}

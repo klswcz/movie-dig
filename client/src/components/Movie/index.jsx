@@ -108,7 +108,7 @@ function Movie(props) {
                         {movie.genres &&
                         movie.genres.map((genre, index) => {
                             return (
-                                <p className="inline-block mr-3 px-3 py-1 text-white rounded-md bg-green-500"
+                                <p className="inline-block mr-3 px-3 py-1 mb-2 text-white rounded-md bg-green-500"
                                    key={index}>{genre.name}</p>
                             )
                         })
@@ -170,7 +170,7 @@ function Movie(props) {
                                 {movie.genres &&
                                 movie.genres.map((genre, index) => {
                                     return (
-                                        <p className="inline-block mr-3 px-3 py-1 text-white rounded-md bg-green-500"
+                                        <p className="inline-block mr-3 px-3 py-1 mb-2 text-white rounded-md bg-green-500"
                                            key={index}>{genre.name}</p>
                                     )
                                 })

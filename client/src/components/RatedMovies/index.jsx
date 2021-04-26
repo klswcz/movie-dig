@@ -26,19 +26,21 @@ function RatedMovies() {
                 (<>
                     <div className="pt-5 mb-3">
                         <h1 className="text-3xl font-extrabold text-gray-900 pt-5 sm:mb-3">Rated movies</h1>
-                        <div className="grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
-                            {ratedMovies.length > 0 ?
-                                ratedMovies.map((movie, index) => {
+                        {ratedMovies.length > 0 ?
+                            <div className="grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-4 grid-cols-2">
+                                {ratedMovies.map((movie, index) => {
                                     return (
                                         <MovieCard title={movie.title ?? movie.name} voteAverage={movie.vote_average}
-                                                   posterPath={movie.poster_path} userRating={movie.user_rating} key={index}
+                                                   posterPath={movie.poster_path} userRating={movie.user_rating}
+                                                   key={index}
                                                    movieId={movie.id}/>
                                     )
-                                }) : (
-                                    <p>You have not rated any films yet.</p>
-                                )
-                            }
-                        </div>
+                                })}
+                            </div>
+                            : (
+                                <p>You have not rated any films yet.</p>
+                            )
+                        }
                     </div>
                 </>) :
                 <div className="w-full text-center pt-16">

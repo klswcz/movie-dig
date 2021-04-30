@@ -16,7 +16,7 @@ function BatchMovieRating(props) {
 
     useEffect(() => {
         if (localStorage.getItem('token') === 'null') {
-            history.push({pathname: "/login",});
+            history.push({pathname: "/"});
         } else {
             getRatingPropositionService().then(res => {
                 setPropositions(res.data.propositions)

@@ -32,7 +32,7 @@ function Dashboard() {
 
     useEffect(() => {
         if (localStorage.getItem('token') === 'null') {
-            history.push({pathname: "/login",});
+            history.push({pathname: "/"});
         } else {
             getTrendingMovies()
             getRecommendations()

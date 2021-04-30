@@ -30,7 +30,7 @@ function Movie(props) {
 
     useEffect(() => {
         if (localStorage.getItem('token') === 'null') {
-            history.push({pathname: "/login",});
+            history.push({pathname: "/"});
         } else {
             setIsWishlistRequestProcessed(true)
             getSimilarService({id: movieId}).then(res => {

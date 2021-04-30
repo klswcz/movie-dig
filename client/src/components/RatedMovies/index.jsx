@@ -11,7 +11,7 @@ function RatedMovies() {
     const [ratedMovies, setRatedMovies] = useState([])
     useEffect(() => {
         if (localStorage.getItem('token') === 'null') {
-            history.push({pathname: "/login",});
+            history.push({pathname: "/"});
         } else {
             allRatingsService().then(res => {
                 setRatedMovies(res.data.ratedMovies)

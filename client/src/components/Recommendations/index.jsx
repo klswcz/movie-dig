@@ -15,7 +15,7 @@ function Recommendations() {
 
     useEffect(() => {
         if (localStorage.getItem('token') === 'null') {
-            history.push({pathname: "/login",});
+            history.push({pathname: "/"});
         } else {
             getRecommendations()
         }

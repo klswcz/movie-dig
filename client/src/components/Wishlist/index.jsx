@@ -11,7 +11,7 @@ function Wishlist() {
     const [wishlistItems, setWishlistItems] = useState([])
     useEffect(() => {
         if (localStorage.getItem('token') === 'null') {
-            history.push({pathname: "/login",});
+            history.push({pathname: "/"});
         } else {
             getWishlistService().then(res => {
                 setWishlistItems(res.data.wishlistItems)

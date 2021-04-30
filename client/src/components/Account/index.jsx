@@ -114,7 +114,7 @@ function Account(props) {
                            onChange={event => setConfirmPassword(event.target.value)}/>
                     <Button onClick={updatePassword} label={'Update password'}/>
                 </form>
-                <Button onClick={destroy} label={'Remove account'} customClass={'mt-3'} customColor={'bg-red-600 hover:bg-red-700'}/>
+                <Button onClick={destroy} label={'Remove account and all activity'} customClass={'mt-3'} customColor={'bg-red-600 hover:bg-red-700'}/>
             </div>
         </div>
     )

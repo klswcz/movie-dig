@@ -4,8 +4,7 @@ from pymongo import MongoClient
 from math import sqrt
 
 client = MongoClient(sys.argv[3])
-
-db = client.MovieRecommendationDB
+db = client.movieRecommendationDB
 users = db.users
 movies = db.movies
 ratings = db.ratings

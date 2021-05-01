@@ -10,9 +10,6 @@ import {
 import React, {useEffect, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import MovieCard from "../UI/MovieCard";
-import ScrollMenu from "react-horizontal-scrolling-menu";
-import {faChevronLeft, faChevronRight, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import HorizontalScroll from "../UI/HorizontalScroll";
 import {BeatLoader} from "react-spinners";
 

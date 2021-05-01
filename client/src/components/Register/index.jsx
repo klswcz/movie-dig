@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {useDispatch} from "react-redux";
 import {register as registerService} from '../../services/AuthServices'
 import {useHistory} from "react-router-dom";
 import Input from "../UI/Form/Input";
@@ -12,7 +11,6 @@ function Register() {
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
-    const dispatch = useDispatch();
     let history = useHistory();
 
     useEffect(() => {

@@ -5,7 +5,6 @@ import {Link, useHistory} from "react-router-dom";
 import ReactStars from "react-stars";
 import {
     destroy as destroyRatingService,
-    update as setRatingService,
     update as updateRatingService,
     create as createRatingService
 } from "../../services/RatingServices";
@@ -53,7 +52,7 @@ function MovieCard(props) {
                 backgroundSize: "cover"
             }}>
             <div
-                className={"px-2 bg-white inset-x-0 bottom-0 absolute "}>
+                className={"px-2 bg-white inset-x-0 bottom-0 absolute"}>
                 <p className="text-center text-md font-medium">{props.title}</p>
                 {!props.hideRatings &&
                 <div className="grid grid-cols-2 text-center mb-2">

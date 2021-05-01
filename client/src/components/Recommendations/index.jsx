@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
-import {get as getWishlistService,} from "../../services/WishlistItemServices";
 import MovieCard from "../UI/MovieCard";
 import {recommendation as recommendationService} from "../../services/MovieServices";
 import {BeatLoader} from "react-spinners";

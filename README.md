@@ -1,3 +1,5 @@
+![Alt text](/images/github_header.png?raw=true "Optional Title")
+
 # MovieDig
 MovieDig is an online movie database with movie recommendation feature. See the live version [here](https://moviedig.tech/).
 ## Setup

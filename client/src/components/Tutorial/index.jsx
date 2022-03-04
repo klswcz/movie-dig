@@ -16,10 +16,10 @@ function Tutorial() {
             <div className="w-11/12 md:w-3/4 2xl:w-1/2 place-self-center">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 mb-5">
-                        Website tutorial
+                        How to use MovieDig?
                     </h2>
                     <div className="mb-10 border shadow-md px-3 py-5 rounded-md">
-                    <p className="mb-3 font-bold">1. Head to the Movie Rating page and rate film by giving them 1-5 stars.</p>
+                    <p className="mb-3 font-bold">1. Head to the Movie Rating page and rate movies by giving them 1-5 stars.</p>
                     <img src={ratingPage} alt="Application screenshot" className="rounded-t-md ml-auto mr-auto mb-3 xl:mb-0 w-full"/>
                     </div>
 

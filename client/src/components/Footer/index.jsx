@@ -6,7 +6,7 @@ function Footer() {
         <div id="footer" className="w-full h-14 bg-blue-600 text-center text-white pt-3 absolute bottom-0">
             <p>Damian Klisiewicz |
                 <a className="ml-2" href="https://klswcz.dev" rel="noopener">klswcz.dev </a>
-
+                |
                 <a className="ml-2" href="https://github.com/klswcz" rel="noopener"><FontAwesomeIcon
                     icon={faGithub}/> GitHub </a>
                 |

@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken")
 
 exports.generateToken = (user) => {
     return jwt.sign(
@@ -10,5 +10,5 @@ exports.generateToken = (user) => {
         {
             expiresIn: 60 * 60 * 24 // expires in 24 hours
         }
-    );
+    )
 }

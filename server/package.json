@@ -5,7 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "nodemon src/app.js",
-    "test": "mocha --exit"
+    "test": "mocha --exit",
+    "lint": "eslint './**/*.js'"
   },
   "author": "",
   "license": "ISC",
@@ -25,9 +26,15 @@
     "passport": "^0.4.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@babel/eslint-parser": "^7.17.0",
     "chai": "^4.3.4",
+    "eslint": "^8.15.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "mocha": "^8.3.2",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "prettier": "2.6.2"
   }
 }

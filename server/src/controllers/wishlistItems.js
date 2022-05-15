@@ -1,34 +1,34 @@
-const WishlistItem = require('../models/WishlistItem');
-const Movie = require("../models/Movie");
-const User = require("../models/User");
-const Rating = require("../models/Rating");
-const tmdb = require('../services/TmdbApi')
-const mongoose = require("mongoose");
-const Types = mongoose.Types;
+const WishlistItem = require("../models/WishlistItem")
+const Movie = require("../models/Movie")
+const User = require("../models/User")
+const Rating = require("../models/Rating")
+const tmdb = require("../services/TmdbApi")
+const mongoose = require("mongoose")
+const Types = mongoose.Types
 
 exports.store = (req, res) => {
-    User.findOne({email: req.params.token.email}).then(user => {
-        Movie.findOne({tmdb_id: req.body.movie_id}).then(movie => {
+    User.findOne({ email: req.params.token.email }).then((user) => {
+        Movie.findOne({ tmdb_id: req.body.movie_id }).then((movie) => {
             if (movie === null) {
                 let movieModel = new Movie({
-                    movie_id: (new Types.ObjectId).toString(),
+                    movie_id: new Types.ObjectId().toString(),
                     imdb_id: null,
                     tmdb_id: req.body.movie_id
                 })
 
                 movieModel.save().then(() => {
-                    movie = movieModel;
+                    movie = movieModel
                 })
             }
             WishlistItem.findOne({
-                movie: {imdb_id: movie.imdb_id, tmdb_id: movie.tmdb_id},
-                user: {id: user.id}
-            }).then(item => {
+                movie: { imdb_id: movie.imdb_id, tmdb_id: movie.tmdb_id },
+                user: { id: user.id }
+            }).then((item) => {
                 if (item) {
                     return res.send({
-                        flashMessageBag: [{msg: 'Movie already added to the wishlist.'}],
+                        flashMessageBag: [{ msg: "Movie already added to the wishlist." }],
                         isWishlistItem: true
-                    });
+                    })
                 } else {
                     let wishlistItemModel = new WishlistItem({
                         movie: {
@@ -41,11 +41,11 @@ exports.store = (req, res) => {
                         }
                     })
 
-                    wishlistItemModel.save(error => {
+                    wishlistItemModel.save((error) => {
                         return res.send({
-                            flashMessageBag: [{msg: 'Movie has been added to wish list.'}],
-                            isWishlistItem: true,
-                        });
+                            flashMessageBag: [{ msg: "Movie has been added to wish list." }],
+                            isWishlistItem: true
+                        })
                     })
                 }
             })
@@ -54,20 +54,20 @@ exports.store = (req, res) => {
 }
 
 exports.destroy = (req, res) => {
-    User.findOne({email: req.params.token.email}).then(user => {
-        Movie.findOne({tmdb_id: req.query.movie_id}).then(movie => {
+    User.findOne({ email: req.params.token.email }).then((user) => {
+        Movie.findOne({ tmdb_id: req.query.movie_id }).then((movie) => {
             WishlistItem.findOne({
                 movie: {
                     movie_id: movie.movie_id,
                     imdb_id: movie.imdb_id,
                     tmdb_id: movie.tmdb_id
                 }
-            }).then(wishlistItem => {
+            }).then((wishlistItem) => {
                 wishlistItem.remove().then(() => {
                     return res.send({
-                        flashMessageBag: [{msg: 'Movie has been removed from wish list.'}],
-                        isWishlistItem: false,
-                    });
+                        flashMessageBag: [{ msg: "Movie has been removed from wish list." }],
+                        isWishlistItem: false
+                    })
                 })
             })
         })
@@ -75,20 +75,23 @@ exports.destroy = (req, res) => {
 }
 
 exports.get = (req, res) => {
-    User.findOne({email: req.params.token.email}).then(user => {
-        WishlistItem.find({user: {id: user.id}}).then(wishlistItems => {
-
+    User.findOne({ email: req.params.token.email }).then((user) => {
+        WishlistItem.find({ user: { id: user.id } }).then((wishlistItems) => {
             let promises = []
             let apiMovies = []
 
-            wishlistItems.forEach(item => {
+            wishlistItems.forEach((item) => {
                 promises.push(
-                    tmdb.api.get(`/movie/${item.movie.tmdb_id}?api_key=` + process.env.TMDB_API_KEY).then(apiResponse => {
-                        return Rating.findOne({user_id: user.id, movie_id: item.movie.movie_id}).then(rating => {
-                            apiResponse.data.user_rating = rating ? rating.rating : null
-                            apiMovies.push(apiResponse.data)
+                    tmdb.api
+                        .get(`/movie/${item.movie.tmdb_id}?api_key=` + process.env.TMDB_API_KEY)
+                        .then((apiResponse) => {
+                            return Rating.findOne({ user_id: user.id, movie_id: item.movie.movie_id }).then(
+                                (rating) => {
+                                    apiResponse.data.user_rating = rating ? rating.rating : null
+                                    apiMovies.push(apiResponse.data)
+                                }
+                            )
                         })
-                    })
                 )
             })
 

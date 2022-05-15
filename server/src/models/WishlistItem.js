@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 
 const WishlistItemSchema = new Schema({
     movie: {
@@ -9,8 +9,8 @@ const WishlistItemSchema = new Schema({
     user: {
         type: Object,
         required: true
-    },
-});
+    }
+})
 
-const WishlistItem = mongoose.model("WishlistItem", WishlistItemSchema);
-module.exports = WishlistItem;
+const WishlistItem = mongoose.model("WishlistItem", WishlistItemSchema)
+module.exports = WishlistItem

@@ -1,24 +1,24 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 
 const RatingSchema = new Schema({
     user_id: {
         type: String,
-        required: true,
+        required: true
     },
     movie_id: {
         type: String,
-        required: true,
+        required: true
     },
     rating: {
         type: String,
-        required: true,
+        required: true
     },
     timestamp: {
         type: String,
         required: true
     }
-});
+})
 
-const Rating = mongoose.model("Rating", RatingSchema);
-module.exports = Rating;
+const Rating = mongoose.model("Rating", RatingSchema)
+module.exports = Rating

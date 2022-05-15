@@ -1,16 +1,16 @@
 const bcrypt = require("bcryptjs")
-let User = require("../src/models/User")
-let chai = require("chai")
-let chaiHttp = require("chai-http")
-let server = require("../src/app")
-let should = chai.should()
-let expect = chai.expect
+const User = require("../src/models/User")
+const chai = require("chai")
+const chaiHttp = require("chai-http")
+const server = require("../src/app")
+const should = chai.should()
+const expect = chai.expect
 const jwt = require("jsonwebtoken")
 
 chai.use(chaiHttp)
 
 let userModel = {}
-let tmdbResponseKeys = [
+const tmdbResponseKeys = [
     "adult",
     "backdrop_path",
     "id",
@@ -25,7 +25,7 @@ let tmdbResponseKeys = [
     "vote_average",
     "vote_count"
 ]
-let tmdbKeyWithUserRating = [...tmdbResponseKeys, "user_rating"]
+const tmdbKeyWithUserRating = [...tmdbResponseKeys, "user_rating"]
 
 describe("Rating propositions controller", () => {
     it("should return rating propositions array including user ratings", () => {

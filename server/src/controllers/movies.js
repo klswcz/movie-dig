@@ -8,8 +8,8 @@ const mongoose = require("mongoose")
 const Types = mongoose.Types
 
 exports.trending = (req, res, next) => {
-    let movies = []
-    let promises = []
+    const movies = []
+    const promises = []
 
     tmdb.api.get("/trending/movie/week?api_key=" + process.env.TMDB_API_KEY).then((apiResponse) => {
         User.findOne({ email: req.params.token.email }).then((user) => {
@@ -40,8 +40,8 @@ exports.trending = (req, res, next) => {
 }
 
 exports.topRated = (req, res, next) => {
-    let movies = []
-    let promises = []
+    const movies = []
+    const promises = []
 
     tmdb.api.get("/movie/top_rated?api_key=" + process.env.TMDB_API_KEY).then((apiResponse) => {
         User.findOne({ email: req.params.token.email }).then((user) => {
@@ -72,8 +72,8 @@ exports.topRated = (req, res, next) => {
 }
 
 exports.popular = (req, res, next) => {
-    let movies = []
-    let promises = []
+    const movies = []
+    const promises = []
 
     tmdb.api.get("/movie/popular?api_key=" + process.env.TMDB_API_KEY).then((apiResponse) => {
         User.findOne({ email: req.params.token.email }).then((user) => {
@@ -104,8 +104,8 @@ exports.popular = (req, res, next) => {
 }
 
 exports.topMovies = (req, res, next) => {
-    let movies = []
-    let promises = []
+    const movies = []
+    const promises = []
 
     tmdb.api
         .get(
@@ -145,11 +145,11 @@ exports.recommendations = (req, res, next) => {
             if (ratings.length >= 20) {
                 runRecommendationScript(user.id, req.query.count).then(
                     (recommendations) => {
-                        let apiPromises = []
-                        let mongoPromises = []
-                        let recommendedMovies = []
+                        const apiPromises = []
+                        const mongoPromises = []
+                        const recommendedMovies = []
                         recommendations = JSON.parse(recommendations)
-                        let recommendationJson = []
+                        const recommendationJson = []
 
                         for (let i = 0; i < Object.keys(recommendations.movie_id).length; i++) {
                             recommendationJson.push({
@@ -217,7 +217,7 @@ exports.get = (req, res, next) => {
         User.findOne({ email: req.params.token.email }).then((user) => {
             Movie.findOne({ tmdb_id: req.params.id }).then((movie) => {
                 if (movie === null) {
-                    let movieModel = new Movie({
+                    const movieModel = new Movie({
                         movie_id: new Types.ObjectId().toString(),
                         imdb_id: null,
                         tmdb_id: req.params.id
@@ -260,8 +260,8 @@ exports.get = (req, res, next) => {
 }
 
 exports.getSimilar = (req, res, next) => {
-    let movies = []
-    let promises = []
+    const movies = []
+    const promises = []
 
     tmdb.api.get(`/movie/${req.params.id}/recommendations?api_key=` + process.env.TMDB_API_KEY).then((apiResponse) => {
         User.findOne({ email: req.params.token.email }).then((user) => {

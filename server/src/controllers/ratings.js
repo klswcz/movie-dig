@@ -6,7 +6,7 @@ const tmdb = require("../services/TmdbApi")
 const Types = mongoose.Types
 
 exports.create = (req, res, next) => {
-    let promises = []
+    const promises = []
     User.findOne({ email: req.params.token.email }).then((user) => {
         Movie.findOne({ tmdb_id: req.body.movie_id }).then((movie) => {
             if (movie === null) {
@@ -25,7 +25,7 @@ exports.create = (req, res, next) => {
             }
 
             Promise.all(promises).then(() => {
-                let ratingModel = new Rating({
+                const ratingModel = new Rating({
                     user_id: user.id,
                     movie_id: movie.movie_id,
                     rating: req.body.rating,
@@ -47,12 +47,12 @@ exports.create = (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
-    let promises = []
+    const promises = []
 
     User.findOne({ email: req.params.token.email }).then((user) => {
         Movie.findOne({ tmdb_id: req.body.movie_id }).then((movie) => {
             if (movie === null) {
-                let movieModel = new Movie({
+                const movieModel = new Movie({
                     movie_id: new Types.ObjectId().toString(),
                     imdb_id: null,
                     tmdb_id: req.body.movie_id
@@ -114,8 +114,8 @@ exports.get = (req, res, next) => {
 exports.accountRatings = (req, res, next) => {
     User.findOne({ email: req.params.token.email }).then((user) => {
         Rating.find({ user_id: user.id }).then((ratings) => {
-            let promises = []
-            let apiMovies = []
+            const promises = []
+            const apiMovies = []
             ratings.forEach((rating) => {
                 promises.push(
                     new Promise((resolve) => {

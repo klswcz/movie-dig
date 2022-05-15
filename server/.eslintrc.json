@@ -7,6 +7,7 @@
     "extends": ["prettier"],
     "plugins": ["prettier"],
     "rules": {
+      "prefer-const": "error",
       "prettier/prettier": [
         "error",
         {

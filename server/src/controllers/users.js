@@ -23,7 +23,7 @@ exports.store = (req, res, next) => {
             })
         }
         return bcrypt.hash(req.body.password, 12).then((hashedPassword) => {
-            let userModel = new User({
+            const userModel = new User({
                 email: req.body.email,
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
@@ -59,7 +59,7 @@ exports.update = (req, res, next) => {
             user.first_name = req.body.first_name
             user.last_name = req.body.last_name
             user.save((error) => {
-                let token = generateToken(user)
+                const token = generateToken(user)
                 return res.status(200).send({
                     flashMessageBag: [{ msg: "Account has been updated." }],
                     email: user.email,
@@ -73,7 +73,7 @@ exports.update = (req, res, next) => {
 }
 
 exports.destroy = (req, res, next) => {
-    let promises = []
+    const promises = []
 
     User.findOne({ email: req.params.token.email }, (err, user) => {
         promises.push(WishlistItem.deleteMany({ user: { id: user.id } }))

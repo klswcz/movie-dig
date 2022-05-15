@@ -4,9 +4,9 @@ const User = require("../models/User")
 const Movie = require("../models/Movie")
 
 exports.get = (req, res) => {
-    let propositionsResponse = []
-    let apiPromises = []
-    let mongoPromises = []
+    const propositionsResponse = []
+    const apiPromises = []
+    const mongoPromises = []
 
     const movieGenres = [
         { id: 878, name: "Science Fiction" },

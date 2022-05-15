@@ -1,18 +1,18 @@
 const bcrypt = require("bcryptjs")
-let User = require("../src/models/User")
-let WishlistItem = require("../src/models/WishlistItem")
-let chai = require("chai")
-let chaiHttp = require("chai-http")
-let server = require("../src/app")
+const User = require("../src/models/User")
+const WishlistItem = require("../src/models/WishlistItem")
+const chai = require("chai")
+const chaiHttp = require("chai-http")
+const server = require("../src/app")
 const Rating = require("../src/models/Rating")
-let should = chai.should()
-let expect = chai.expect
+const should = chai.should()
+const expect = chai.expect
 const jwt = require("jsonwebtoken")
 
 chai.use(chaiHttp)
 
 let userModel = {}
-let tmdbResponseKeys = [
+const tmdbResponseKeys = [
     "adult",
     "backdrop_path",
     "id",
@@ -27,7 +27,7 @@ let tmdbResponseKeys = [
     "vote_average",
     "vote_count"
 ]
-let tmdbKeyWithUserRating = [...tmdbResponseKeys, "user_rating"]
+const tmdbKeyWithUserRating = [...tmdbResponseKeys, "user_rating"]
 
 describe("Wishlit items controller", () => {
     it("should create new wishlist item", () => {

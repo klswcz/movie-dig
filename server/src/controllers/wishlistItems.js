@@ -10,7 +10,7 @@ exports.store = (req, res) => {
     User.findOne({ email: req.params.token.email }).then((user) => {
         Movie.findOne({ tmdb_id: req.body.movie_id }).then((movie) => {
             if (movie === null) {
-                let movieModel = new Movie({
+                const movieModel = new Movie({
                     movie_id: new Types.ObjectId().toString(),
                     imdb_id: null,
                     tmdb_id: req.body.movie_id
@@ -30,7 +30,7 @@ exports.store = (req, res) => {
                         isWishlistItem: true
                     })
                 } else {
-                    let wishlistItemModel = new WishlistItem({
+                    const wishlistItemModel = new WishlistItem({
                         movie: {
                             movie_id: movie.movie_id,
                             imdb_id: movie.imdb_id,
@@ -77,8 +77,8 @@ exports.destroy = (req, res) => {
 exports.get = (req, res) => {
     User.findOne({ email: req.params.token.email }).then((user) => {
         WishlistItem.find({ user: { id: user.id } }).then((wishlistItems) => {
-            let promises = []
-            let apiMovies = []
+            const promises = []
+            const apiMovies = []
 
             wishlistItems.forEach((item) => {
                 promises.push(

@@ -2,7 +2,7 @@
     "env": {
       "node": true,
       "commonjs": true,
-      "es6": true
+      "es2021": true
     },
     "extends": ["prettier"],
     "plugins": ["prettier"],
@@ -17,9 +17,5 @@
         }
       ],
         "no-console": 2
-    },
-    "parser": "@babel/eslint-parser",
-    "parserOptions": {
-      "requireConfigFile": false
     }
   }

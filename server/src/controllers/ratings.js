@@ -5,7 +5,7 @@ const mongoose = require("mongoose")
 const tmdb = require("../services/TmdbApi")
 const Types = mongoose.Types
 
-exports.create = (req, res, next) => {
+exports.create = (req, res) => {
     const promises = []
     User.findOne({ email: req.params.token.email }).then((user) => {
         Movie.findOne({ tmdb_id: req.body.movie_id }).then((movie) => {
@@ -16,7 +16,7 @@ exports.create = (req, res, next) => {
                     tmdb_id: req.body.movie_id
                 })
                 promises.push(
-                    new Promise((resolve, reject) => {
+                    new Promise((resolve) => {
                         movie.save().then(() => {
                             resolve()
                         })
@@ -46,7 +46,7 @@ exports.create = (req, res, next) => {
     })
 }
 
-exports.update = (req, res, next) => {
+exports.update = (req, res) => {
     const promises = []
 
     User.findOne({ email: req.params.token.email }).then((user) => {
@@ -59,7 +59,7 @@ exports.update = (req, res, next) => {
                 })
 
                 promises.push(
-                    new Promise((resolve, reject) => {
+                    new Promise((resolve) => {
                         movieModel.save().then(() => {
                             movie = movieModel
                             resolve()
@@ -90,7 +90,7 @@ exports.update = (req, res, next) => {
     })
 }
 
-exports.get = (req, res, next) => {
+exports.get = (req, res) => {
     User.findOne({ email: req.params.token.email }).then((user) => {
         Movie.findOne({ tmdb_id: req.params.movie_id })
             .then((movie) => {
@@ -103,7 +103,7 @@ exports.get = (req, res, next) => {
                     })
                 })
             })
-            .catch((err) => {
+            .catch(() => {
                 return res.status(400).json({
                     messageBag: [{ msg: "Rating was not found." }]
                 })
@@ -111,7 +111,7 @@ exports.get = (req, res, next) => {
     })
 }
 
-exports.accountRatings = (req, res, next) => {
+exports.accountRatings = (req, res) => {
     User.findOne({ email: req.params.token.email }).then((user) => {
         Rating.find({ user_id: user.id }).then((ratings) => {
             const promises = []
@@ -140,7 +140,7 @@ exports.accountRatings = (req, res, next) => {
     })
 }
 
-exports.destroy = (req, res, next) => {
+exports.destroy = (req, res) => {
     User.findOne({ email: req.params.token.email }).then((user) => {
         Movie.findOne({ tmdb_id: req.query.movie_id })
             .then((movie) => {
@@ -157,7 +157,7 @@ exports.destroy = (req, res, next) => {
                     })
                 })
             })
-            .catch((err) => {
+            .catch(() => {
                 return res.status(400).json({
                     messageBag: [{ msg: "Rating was not found." }]
                 })
@@ -165,7 +165,7 @@ exports.destroy = (req, res, next) => {
     })
 }
 
-exports.count = (req, res, next) => {
+exports.count = (req, res) => {
     User.findOne({ email: req.params.token.email }).then((user) => {
         Rating.find({ user_id: user.id }).then((ratings) => {
             return res.send({

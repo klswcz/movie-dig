@@ -5,8 +5,7 @@ const expressJwt = require("express-jwt")
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const apiRoutes = require("./routes/api")
-const dotenv = require("dotenv").config()
-const passport = require("passport")
+require("dotenv").config()
 
 const app = express()
 app.use((req, res, next) => {
@@ -22,7 +21,7 @@ app.use(
     })
 )
 
-const jwtMiddleware = expressJwt({
+expressJwt({
     secret: process.env.JWT_SECRET,
     algorithms: ["RS256"]
 })

@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { check, query, param } = require("express-validator")
+const { check, query } = require("express-validator")
 const moviesController = require("../controllers/movies")
 const usersController = require("../controllers/users")
 const wishlistItemsController = require("../controllers/wishlistItems")

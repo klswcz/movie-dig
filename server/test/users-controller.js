@@ -1,32 +1,11 @@
 const bcrypt = require("bcryptjs")
 const User = require("../src/models/User")
-const chai = require("chai")
+const { use, request } = require("chai")
 const chaiHttp = require("chai-http")
 const server = require("../src/app")
-const Rating = require("../src/models/Rating")
-const should = chai.should()
-const expect = chai.expect
-const jwt = require("jsonwebtoken")
 
-chai.use(chaiHttp)
-
-const userModel = {}
-const tmdbResponseKeys = [
-    "adult",
-    "backdrop_path",
-    "id",
-    "original_language",
-    "original_title",
-    "overview",
-    "popularity",
-    "poster_path",
-    "release_date",
-    "title",
-    "video",
-    "vote_average",
-    "vote_count"
-]
-const tmdbKeyWithUserRating = [...tmdbResponseKeys, "user_rating"]
+use(chaiHttp)
+require("chai").should()
 
 describe("Users controller", () => {
     it("should return account's details", () => {
@@ -39,14 +18,12 @@ describe("Users controller", () => {
                     password: hashedPassword
                 })
             ).then(() => {
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/account/login")
                     .type("form")
                     .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
                     .then((loginRes) => {
-                        return chai
-                            .request(server)
+                        return request(server)
                             .get("/account")
                             .set("Authorization", `Bearer ${loginRes.body.token}`)
                             .then((res) => {
@@ -63,8 +40,7 @@ describe("Users controller", () => {
     })
 
     it("should create new account", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account")
             .type("form")
             .send({ email: "api_testing@moviedig.com", first_name: "Test", last_name: "User", password: "Pa$$w0rd!" })
@@ -80,8 +56,7 @@ describe("Users controller", () => {
     })
 
     it("should throw a validation error when trying to create new account with invalid parameters", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account")
             .type("form")
             .send({ email: "api_testing", first_name: "", last_name: "", password: "1234" })
@@ -128,8 +103,7 @@ describe("Users controller", () => {
                     password: hashedPassword
                 })
             ).then(() => {
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/account")
                     .type("form")
                     .send({
@@ -156,14 +130,12 @@ describe("Users controller", () => {
                     password: hashedPassword
                 })
             ).then(() => {
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/account/login")
                     .type("form")
                     .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
                     .then((loginRes) => {
-                        return chai
-                            .request(server)
+                        return request(server)
                             .patch("/account")
                             .type("form")
                             .set("Authorization", `Bearer ${loginRes.body.token}`)
@@ -196,14 +168,12 @@ describe("Users controller", () => {
                     password: hashedPassword
                 })
             ).then(() => {
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/account/login")
                     .type("form")
                     .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
                     .then((loginRes) => {
-                        return chai
-                            .request(server)
+                        return request(server)
                             .patch("/account")
                             .type("form")
                             .set("Authorization", `Bearer ${loginRes.body.token}`)
@@ -252,28 +222,24 @@ describe("Users controller", () => {
                     password: hashedPassword
                 })
             ).then(() => {
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/account/login")
                     .type("form")
                     .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
                     .then((loginRes) => {
-                        return chai
-                            .request(server)
+                        return request(server)
                             .post("/wishlist")
                             .type("form")
                             .set("Authorization", `Bearer ${loginRes.body.token}`)
                             .send({ movie_id: 862 })
-                            .then((res) => {
-                                return chai
-                                    .request(server)
+                            .then(() => {
+                                return request(server)
                                     .post("/ratings")
                                     .type("form")
                                     .set("Authorization", `Bearer ${loginRes.body.token}`)
                                     .send({ rating: 4.5, movie_id: 862 })
-                                    .then((res) => {
-                                        return chai
-                                            .request(server)
+                                    .then(() => {
+                                        return request(server)
                                             .delete("/account")
                                             .set("Authorization", `Bearer ${loginRes.body.token}`)
                                             .send()
@@ -300,8 +266,7 @@ describe("Users controller", () => {
                     password: hashedPassword
                 })
             ).then(() => {
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/account/login")
                     .type("form")
                     .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
@@ -323,8 +288,7 @@ describe("Users controller", () => {
                     password: hashedPassword
                 })
             ).then(() => {
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/account/login")
                     .type("form")
                     .send({ email: "api_testing@moviedig.com", password: "zaq1@WSX" })
@@ -348,8 +312,7 @@ describe("Users controller", () => {
                     password: hashedPassword
                 })
             ).then(() => {
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/account/login")
                     .type("form")
                     .send({ email: "wrong_email@domain.com", password: "Pa$$w0rd!" })
@@ -373,14 +336,12 @@ describe("Users controller", () => {
                     password: hashedPassword
                 })
             ).then(() => {
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/account/login")
                     .type("form")
                     .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
                     .then((loginRes) => {
-                        return chai
-                            .request(server)
+                        return request(server)
                             .post("/account/password")
                             .type("form")
                             .set("Authorization", `Bearer ${loginRes.body.token}`)
@@ -407,14 +368,12 @@ describe("Users controller", () => {
                     password: hashedPassword
                 })
             ).then(() => {
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/account/login")
                     .type("form")
                     .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
                     .then((loginRes) => {
-                        return chai
-                            .request(server)
+                        return request(server)
                             .post("/account/password")
                             .type("form")
                             .set("Authorization", `Bearer ${loginRes.body.token}`)

@@ -52,7 +52,7 @@ exports.get = (req, res) => {
             propositionsResponse.forEach((genre, genreIndex) => {
                 genre.movies.forEach((movie, movieIndex) => {
                     mongoPromises.push(
-                        new Promise((resolve, reject) => {
+                        new Promise((resolve) => {
                             Movie.findOne({ tmdb_id: movie.id }).then((movieModel) => {
                                 Rating.findOne({
                                     user_id: user.id,

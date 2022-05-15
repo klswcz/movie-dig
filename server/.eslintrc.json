@@ -1,13 +1,26 @@
 {
     "env": {
       "node": true,
-      "commonjs": true,
-      "es2021": true
+      "es2021": true,
+      "mocha": true
     },
-    "extends": ["prettier"],
-    "plugins": ["prettier"],
+    "extends": [
+		"eslint:recommended",
+		"plugin:node/recommended",
+		"prettier"
+	],
+    "plugins": [
+		"node",
+		"prettier"
+	],
     "rules": {
+      // "node/no-unpublished-require": "warn",
+      "node/no-unpublished-require": ["error", {
+        "allowModules": ["chai", "morgan"]
+    }],
       "prefer-const": "error",
+      "prefer-arrow-callback": "error",
+      "no-var": "error",
       "prettier/prettier": [
         "error",
         {

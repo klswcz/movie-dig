@@ -1,11 +1,10 @@
 const bcrypt = require("bcryptjs")
 const User = require("../models/User")
-const jwt = require("jsonwebtoken")
 const WishlistItem = require("../models/WishlistItem")
 const Rating = require("../models/Rating")
 const { generateToken } = require("../generateToken")
 
-exports.get = (req, res, next) => {
+exports.get = (req, res) => {
     User.findOne({ email: req.params.token.email }, (err, model) => {
         return res.status(200).json({
             email: model.email,
@@ -15,7 +14,7 @@ exports.get = (req, res, next) => {
     })
 }
 
-exports.store = (req, res, next) => {
+exports.store = (req, res) => {
     User.findOne({ email: req.body.email }).then((user) => {
         if (user) {
             return res.status(400).json({
@@ -30,7 +29,7 @@ exports.store = (req, res, next) => {
                 password: hashedPassword,
                 last_login: null
             })
-            userModel.save((error) => {
+            userModel.save(() => {
                 return res.send({
                     messageBag: [{ msg: "Account has been created, please move to the login page now." }],
                     email: "api_testing@moviedig.com",
@@ -42,7 +41,7 @@ exports.store = (req, res, next) => {
     })
 }
 
-exports.update = (req, res, next) => {
+exports.update = (req, res) => {
     User.findOne({ email: req.params.token.email }, (err, user) => {
         if (!user) {
             return res.status(400).json({
@@ -58,7 +57,7 @@ exports.update = (req, res, next) => {
             user.email = req.body.email
             user.first_name = req.body.first_name
             user.last_name = req.body.last_name
-            user.save((error) => {
+            user.save(() => {
                 const token = generateToken(user)
                 return res.status(200).send({
                     flashMessageBag: [{ msg: "Account has been updated." }],
@@ -72,7 +71,7 @@ exports.update = (req, res, next) => {
     })
 }
 
-exports.destroy = (req, res, next) => {
+exports.destroy = (req, res) => {
     const promises = []
 
     User.findOne({ email: req.params.token.email }, (err, user) => {
@@ -89,7 +88,7 @@ exports.destroy = (req, res, next) => {
     })
 }
 
-exports.login = (req, res, next) => {
+exports.login = (req, res) => {
     User.findOne({ email: req.body.email }).then((user) => {
         if (!user) {
             return res.status(400).json({
@@ -117,7 +116,7 @@ exports.login = (req, res, next) => {
     })
 }
 
-exports.updatePassword = (req, res, next) => {
+exports.updatePassword = (req, res) => {
     User.findOne({ email: req.params.token.email }, (err, user) => {
         if (!user) {
             return res.status(400).json({

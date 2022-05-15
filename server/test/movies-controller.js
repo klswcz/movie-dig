@@ -1,15 +1,12 @@
 const bcrypt = require("bcryptjs")
 const User = require("../src/models/User")
-const chai = require("chai")
+const { expect, use, request } = require("chai")
 const chaiHttp = require("chai-http")
 const server = require("../src/app")
-const should = chai.should()
-const expect = chai.expect
-const jwt = require("jsonwebtoken")
 
-chai.use(chaiHttp)
+use(chaiHttp)
+require("chai").should()
 
-let userModel = {}
 const tmdbResponseKeys = [
     "adult",
     "backdrop_path",
@@ -28,16 +25,14 @@ const tmdbResponseKeys = [
 
 describe("Movies controller", () => {
     it("should return trending movies from TMDb", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account/login")
             .type("form")
             .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
             .then((res) => {
                 res.body.flashMessageBag.should.be.eql([{ msg: "Logged in." }])
                 res.should.have.status(200)
-                return chai
-                    .request(server)
+                return request(server)
                     .get("/movies/trending")
                     .set("Authorization", `Bearer ${res.body.token}`)
                     .then((res) => {
@@ -52,16 +47,14 @@ describe("Movies controller", () => {
     })
 
     it("should return no recommended movies from Python script if user has not rated at least 20 movies", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account/login")
             .type("form")
             .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
             .then((res) => {
                 res.body.flashMessageBag.should.be.eql([{ msg: "Logged in." }])
                 res.should.have.status(200)
-                return chai
-                    .request(server)
+                return request(server)
                     .get("/movies/recommendations")
                     .set("Authorization", `Bearer ${res.body.token}`)
                     .then((res) => {
@@ -72,15 +65,13 @@ describe("Movies controller", () => {
     })
 
     it("should return TMDb object for a movie with a given TMDb ID that is not added to a wish list", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account/login")
             .type("form")
             .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
             .then((res) => {
                 res.should.have.status(200)
-                return chai
-                    .request(server)
+                return request(server)
                     .get("/movies/129")
                     .set("Authorization", `Bearer ${res.body.token}`)
                     .then((res) => {
@@ -93,23 +84,20 @@ describe("Movies controller", () => {
     })
 
     it("should return TMDb object for a movie with a given TMDb ID that is added to a wish list", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account/login")
             .type("form")
             .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
             .then((loginRes) => {
                 loginRes.should.have.status(200)
 
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/wishlist")
                     .type("form")
                     .set("Authorization", `Bearer ${loginRes.body.token}`)
                     .send({ movie_id: 129 })
-                    .then((res) => {
-                        return chai
-                            .request(server)
+                    .then(() => {
+                        return request(server)
                             .get("/movies/129")
                             .set("Authorization", `Bearer ${loginRes.body.token}`)
                             .then((res) => {
@@ -123,15 +111,13 @@ describe("Movies controller", () => {
     })
 
     it("should return an error when wrong ID is sent to /movies endpoint", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account/login")
             .type("form")
             .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
             .then((loginRes) => {
                 loginRes.should.have.status(200)
-                return chai
-                    .request(server)
+                return request(server)
                     .get("/movies/0")
                     .set("Authorization", `Bearer ${loginRes.body.token}`)
                     .then((res) => {
@@ -141,15 +127,13 @@ describe("Movies controller", () => {
     })
 
     it("should return an array of movies based on search query", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account/login")
             .type("form")
             .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
             .then((loginRes) => {
                 loginRes.should.have.status(200)
-                return chai
-                    .request(server)
+                return request(server)
                     .get("/movies/search")
                     .set("Authorization", `Bearer ${loginRes.body.token}`)
                     .query({ query: "Spider-man" })
@@ -164,15 +148,13 @@ describe("Movies controller", () => {
     })
 
     it("should return a validation error for empty search query", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account/login")
             .type("form")
             .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
             .then((loginRes) => {
                 loginRes.should.have.status(200)
-                return chai
-                    .request(server)
+                return request(server)
                     .get("/movies/search")
                     .set("Authorization", `Bearer ${loginRes.body.token}`)
                     .query({ query: "" })
@@ -193,15 +175,13 @@ describe("Movies controller", () => {
     })
 
     it("should return a validation error for no search query", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account/login")
             .type("form")
             .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
             .then((loginRes) => {
                 loginRes.should.have.status(200)
-                return chai
-                    .request(server)
+                return request(server)
                     .get("/movies/search")
                     .set("Authorization", `Bearer ${loginRes.body.token}`)
                     .then((res) => {
@@ -221,8 +201,7 @@ describe("Movies controller", () => {
                         email: "api_testing@moviedig.com",
                         password: hashedPassword
                     })
-                ).then((user) => {
-                    userModel = user
+                ).then(() => {
                     resolve()
                 })
             })

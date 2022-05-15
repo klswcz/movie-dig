@@ -1,15 +1,12 @@
 const bcrypt = require("bcryptjs")
 const User = require("../src/models/User")
 const WishlistItem = require("../src/models/WishlistItem")
-const chai = require("chai")
+const { expect, use, request } = require("chai")
 const chaiHttp = require("chai-http")
 const server = require("../src/app")
-const Rating = require("../src/models/Rating")
-const should = chai.should()
-const expect = chai.expect
-const jwt = require("jsonwebtoken")
 
-chai.use(chaiHttp)
+use(chaiHttp)
+require("chai").should()
 
 let userModel = {}
 const tmdbResponseKeys = [
@@ -31,15 +28,13 @@ const tmdbKeyWithUserRating = [...tmdbResponseKeys, "user_rating"]
 
 describe("Wishlit items controller", () => {
     it("should create new wishlist item", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account/login")
             .type("form")
             .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
             .then((loginRes) => {
                 loginRes.should.have.status(200)
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/wishlist")
                     .type("form")
                     .set("Authorization", `Bearer ${loginRes.body.token}`)
@@ -60,15 +55,13 @@ describe("Wishlit items controller", () => {
     })
 
     it("should throw an error when trying to create wishlist item without adding movie id to request", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account/login")
             .type("form")
             .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
             .then((loginRes) => {
                 loginRes.should.have.status(200)
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/wishlist")
                     .type("form")
                     .set("Authorization", `Bearer ${loginRes.body.token}`)
@@ -82,21 +75,18 @@ describe("Wishlit items controller", () => {
     })
 
     it("should return all wishlist items assigned to the user", () => {
-        return chai
-            .request(server)
+        return request(server)
             .post("/account/login")
             .type("form")
             .send({ email: "api_testing@moviedig.com", password: "Pa$$w0rd!" })
             .then((loginRes) => {
                 loginRes.should.have.status(200)
-                return chai
-                    .request(server)
+                return request(server)
                     .post("/wishlist")
                     .set("Authorization", `Bearer ${loginRes.body.token}`)
                     .send({ movie_id: 862 })
-                    .then((res) => {
-                        return chai
-                            .request(server)
+                    .then(() => {
+                        return request(server)
                             .get("/wishlist")
                             .set("Authorization", `Bearer ${loginRes.body.token}`)
                             .then((res) => {

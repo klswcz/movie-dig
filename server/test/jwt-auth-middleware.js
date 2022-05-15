@@ -3,15 +3,14 @@ const User = require("../src/models/User")
 const chai = require("chai")
 const chaiHttp = require("chai-http")
 const server = require("../src/app")
-const should = chai.should()
 const jwt = require("jsonwebtoken")
 
 chai.use(chaiHttp)
-
+chai.should()
 let userModel = {}
 
 describe("jwtAuth", () => {
-    it("should throw validation error when Authorization token is missing", function () {
+    it("should throw validation error when Authorization token is missing", () => {
         return chai
             .request(server)
             .get("/account") // route accessible to every logged in user
@@ -21,7 +20,7 @@ describe("jwtAuth", () => {
             })
     })
 
-    it("should throw validation error when Authorization token is not valid", function () {
+    it("should throw validation error when Authorization token is not valid", () => {
         return chai
             .request(server)
             .get("/account") // route accessible to every logged in user
@@ -32,7 +31,7 @@ describe("jwtAuth", () => {
             })
     })
 
-    it("should throw validation error when Authorization token is expired", function () {
+    it("should throw validation error when Authorization token is expired", () => {
         const expiredToken = jwt.sign(
             {
                 id: userModel._id,
@@ -52,7 +51,7 @@ describe("jwtAuth", () => {
             })
     })
 
-    it("should let logged in user access the protected route", function () {
+    it("should let logged in user access the protected route", () => {
         return chai
             .request(server)
             .post("/account/login")

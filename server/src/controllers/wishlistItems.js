@@ -41,7 +41,7 @@ exports.store = (req, res) => {
                         }
                     })
 
-                    wishlistItemModel.save((error) => {
+                    wishlistItemModel.save(() => {
                         return res.send({
                             flashMessageBag: [{ msg: "Movie has been added to wish list." }],
                             isWishlistItem: true
@@ -54,7 +54,7 @@ exports.store = (req, res) => {
 }
 
 exports.destroy = (req, res) => {
-    User.findOne({ email: req.params.token.email }).then((user) => {
+    User.findOne({ email: req.params.token.email }).then(() => {
         Movie.findOne({ tmdb_id: req.query.movie_id }).then((movie) => {
             WishlistItem.findOne({
                 movie: {

@@ -1,15 +1,15 @@
-import {api} from './Api'
+import { api } from "./Api"
 
-const get = params => {
-    return api.get('/wishlist')
+const get = () => {
+    return api.get("/wishlist")
 }
 
-const create = params => {
-    return api.post('/wishlist', params)
+const create = (params) => {
+    return api.post("/wishlist", params)
 }
 
-const destroy = params => {
-    return api.delete('/wishlist', {params})
+const destroy = (params) => {
+    return api.delete("/wishlist", { params })
 }
 
-export {create, destroy, get}
+export { create, destroy, get }

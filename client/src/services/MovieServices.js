@@ -1,43 +1,43 @@
-import {api} from './Api'
+import { api } from "./Api"
 
-const get = params => {
+const get = (params) => {
     return api.get(`/movies/${params.id}`)
 }
 
-const trending = params => {
-    return api.get('/movies/trending')
+const trending = () => {
+    return api.get("/movies/trending")
 }
 
-const topRated = params => {
-    return api.get('/movies/top-rated')
+const topRated = () => {
+    return api.get("/movies/top-rated")
 }
 
-const popular = params => {
-    return api.get('/movies/popular')
+const popular = () => {
+    return api.get("/movies/popular")
 }
 
-const topThrillers = params => {
-    return api.get('/movies/top/53')
+const topThrillers = () => {
+    return api.get("/movies/top/53")
 }
 
-const topComedies = params => {
-    return api.get('/movies/top/35')
+const topComedies = () => {
+    return api.get("/movies/top/35")
 }
 
-const topRomances = params => {
-    return api.get('movies/top/10749')
+const topRomances = () => {
+    return api.get("movies/top/10749")
 }
 
-const recommendation = params => {
-    return api.get('/movies/recommendations', {params})
+const recommendation = (params) => {
+    return api.get("/movies/recommendations", { params })
 }
 
-const getSimilar = params => {
+const getSimilar = (params) => {
     return api.get(`/movies/${params.id}/similar`)
 }
 
-const search = params => {
-    return api.get('movies/search', {params})
+const search = (params) => {
+    return api.get("movies/search", { params })
 }
 
-export {trending, topRated, popular, get, recommendation, search, topThrillers, topRomances, topComedies, getSimilar}
+export { trending, topRated, popular, get, recommendation, search, topThrillers, topRomances, topComedies, getSimilar }

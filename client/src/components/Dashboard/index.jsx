@@ -6,12 +6,12 @@ import {
     topThrillers as topThrillersService,
     topComedies as topComediesService,
     topRomances as topRomancesService
-} from "../../services/MovieServices";
-import React, {useEffect, useState} from 'react';
-import {Link, useHistory} from "react-router-dom";
-import MovieCard from "../UI/MovieCard";
-import HorizontalScroll from "../UI/HorizontalScroll";
-import {BeatLoader} from "react-spinners";
+} from "../../services/MovieServices"
+import React, { useEffect, useState } from "react"
+import { Link, useHistory } from "react-router-dom"
+import MovieCard from "../UI/MovieCard"
+import HorizontalScroll from "../UI/HorizontalScroll"
+import { BeatLoader } from "react-spinners"
 
 function Dashboard() {
     const [trendingMovies, setTrendingMovies] = useState([])
@@ -25,11 +25,11 @@ function Dashboard() {
     const [requiredMovies, setRequiredMovies] = useState(0)
     const [loadingRecommendationsFinished, setLoadingRecommendationsFinished] = useState(false)
     const [loadingFinished, setLoadingFinished] = useState(false)
-    const history = useHistory();
+    const history = useHistory()
 
     useEffect(() => {
-        if (localStorage.getItem('token') === 'null') {
-            history.push({pathname: "/"});
+        if (localStorage.getItem("token") === "null") {
+            history.push({ pathname: "/" })
         } else {
             getTrendingMovies()
             getRecommendations()
@@ -39,214 +39,222 @@ function Dashboard() {
             getTopComedies()
             getTopRomances()
         }
-    }, [history]);
+    }, [history])
 
     const getTrendingMovies = () => {
-        trendingService().then(res => {
+        trendingService().then((res) => {
             setTrendingMovies(res.data.movies)
             setLoadingFinished(true)
         })
-    };
+    }
 
     const getTopRatedMovies = () => {
-        topRatedService().then(res => {
+        topRatedService().then((res) => {
             setTopRatedMovies(res.data.movies)
             setLoadingFinished(true)
         })
-    };
+    }
 
     const getPopularMovies = () => {
-        popularService().then(res => {
+        popularService().then((res) => {
             setPopularMovies(res.data.movies)
             setLoadingFinished(true)
         })
-    };
+    }
 
     const getTopThrillers = () => {
-        topThrillersService().then(res => {
+        topThrillersService().then((res) => {
             setTopThrillers(res.data.movies)
             setLoadingFinished(true)
         })
-    };
+    }
 
     const getTopComedies = () => {
-        topComediesService().then(res => {
+        topComediesService().then((res) => {
             setTopComedies(res.data.movies)
             setLoadingFinished(true)
         })
-    };
+    }
 
     const getTopRomances = () => {
-        topRomancesService().then(res => {
+        topRomancesService().then((res) => {
             setTopRomances(res.data.movies)
             setLoadingFinished(true)
         })
-    };
+    }
 
     const getRecommendations = () => {
-        recommendationService({count: 20}).then(res => {
+        recommendationService({ count: 20 }).then((res) => {
             setRecommendedMovies(res.data.movies)
             setRatedMovies(res.data.ratings_given)
             setRequiredMovies(res.data.ratings_required)
             setLoadingRecommendationsFinished(true)
         })
-    };
+    }
 
     return (
         <div className=" pb-14 px-4 mt-16">
-            {loadingFinished ?
-                (<>
+            {loadingFinished ? (
+                <>
                     <div className="pt-5 mb-3">
-                        <h1 className="text-3xl font-extrabold text-gray-900">Recommended for
-                            you {recommendedMovies !== null &&
-                            <Link to={'/recommendations/more'}
-                                  className="text-lg font-bold text-indigo-600 ml-2 hover:bg-indigo-200 p-2 rounded-md">See
-                                more</Link>}</h1>
-                        {loadingRecommendationsFinished ?
-                            recommendedMovies !== null ?
+                        <h1 className="text-3xl font-extrabold text-gray-900">
+                            Recommended for you{" "}
+                            {recommendedMovies !== null && (
+                                <Link
+                                    to={"/recommendations/more"}
+                                    className="text-lg font-bold text-indigo-600 ml-2 hover:bg-indigo-200 p-2 rounded-md"
+                                >
+                                    See more
+                                </Link>
+                            )}
+                        </h1>
+                        {loadingRecommendationsFinished ? (
+                            recommendedMovies !== null ? (
                                 <HorizontalScroll>
-                                    {
-                                        recommendedMovies.map((movie, index) => {
-                                            return (
-                                                <MovieCard title={movie.title ?? movie.name}
-                                                           voteAverage={movie.vote_average}
-                                                           posterPath={movie.poster_path}
-                                                           userRating={movie.user_rating}
-                                                           key={index}
-                                                           movieId={movie.id}
-                                                           customClass={'w-52 mx-2 my-3'}
-                                                />
-                                            )
-                                        })
-                                    }
+                                    {recommendedMovies.map((movie, index) => {
+                                        return (
+                                            <MovieCard
+                                                title={movie.title ?? movie.name}
+                                                voteAverage={movie.vote_average}
+                                                posterPath={movie.poster_path}
+                                                userRating={movie.user_rating}
+                                                key={index}
+                                                movieId={movie.id}
+                                                customClass={"w-52 mx-2 my-3"}
+                                            />
+                                        )
+                                    })}
                                 </HorizontalScroll>
-                                :
-                                <p className="mt-2">You have rated {ratedMovies} movies. Please
-                                    rate {requiredMovies - ratedMovies} more
-                                    movie(s) to see your personalised recommendations.</p>
-                            :
+                            ) : (
+                                <p className="mt-2">
+                                    You have rated {ratedMovies} movies. Please rate {requiredMovies - ratedMovies} more
+                                    movie(s) to see your personalised recommendations.
+                                </p>
+                            )
+                        ) : (
                             <div className="w-full text-center py-4">
-                                <BeatLoader size={30} color={'#3830a3'}/>
+                                <BeatLoader size={30} color={"#3830a3"} />
                             </div>
-                        }
-
+                        )}
                     </div>
                     <div className="my-3">
                         <h1 className="text-3xl font-extrabold text-gray-900">Trending today</h1>
                         <HorizontalScroll>
-                            {
-                                trendingMovies.map((movie, index) => {
-                                    return (
-                                        <MovieCard title={movie.title ?? movie.name}
-                                                   voteAverage={movie.vote_average}
-                                                   posterPath={movie.poster_path} userRating={movie.user_rating}
-                                                   key={index}
-                                                   movieId={movie.id}
-                                                   customClass={'w-52 mx-2 my-3'}
-                                        />
-                                    )
-                                })
-                            }
+                            {trendingMovies.map((movie, index) => {
+                                return (
+                                    <MovieCard
+                                        title={movie.title ?? movie.name}
+                                        voteAverage={movie.vote_average}
+                                        posterPath={movie.poster_path}
+                                        userRating={movie.user_rating}
+                                        key={index}
+                                        movieId={movie.id}
+                                        customClass={"w-52 mx-2 my-3"}
+                                    />
+                                )
+                            })}
                         </HorizontalScroll>
                     </div>
                     <div className="my-3">
                         <h1 className="text-3xl font-extrabold text-gray-900">All-time classics</h1>
                         <HorizontalScroll>
-                            {
-                                topRatedMovies.map((movie, index) => {
-                                    return (
-                                        <MovieCard title={movie.title ?? movie.name}
-                                                   voteAverage={movie.vote_average}
-                                                   posterPath={movie.poster_path} userRating={movie.user_rating}
-                                                   key={index}
-                                                   movieId={movie.id}
-                                                   customClass={'w-52 mx-2 my-3'}
-                                        />
-                                    )
-                                })
-                            }
+                            {topRatedMovies.map((movie, index) => {
+                                return (
+                                    <MovieCard
+                                        title={movie.title ?? movie.name}
+                                        voteAverage={movie.vote_average}
+                                        posterPath={movie.poster_path}
+                                        userRating={movie.user_rating}
+                                        key={index}
+                                        movieId={movie.id}
+                                        customClass={"w-52 mx-2 my-3"}
+                                    />
+                                )
+                            })}
                         </HorizontalScroll>
                     </div>
                     <div className="my-3">
                         <h1 className="text-3xl font-extrabold text-gray-900">Popular</h1>
                         <HorizontalScroll>
-                            {
-                                popularMovies.map((movie, index) => {
-                                    return (
-                                        <MovieCard title={movie.title ?? movie.name}
-                                                   voteAverage={movie.vote_average}
-                                                   posterPath={movie.poster_path} userRating={movie.user_rating}
-                                                   key={index}
-                                                   movieId={movie.id}
-                                                   customClass={'w-52 mx-2 my-3'}
-                                        />
-                                    )
-                                })
-                            }
+                            {popularMovies.map((movie, index) => {
+                                return (
+                                    <MovieCard
+                                        title={movie.title ?? movie.name}
+                                        voteAverage={movie.vote_average}
+                                        posterPath={movie.poster_path}
+                                        userRating={movie.user_rating}
+                                        key={index}
+                                        movieId={movie.id}
+                                        customClass={"w-52 mx-2 my-3"}
+                                    />
+                                )
+                            })}
                         </HorizontalScroll>
                     </div>
                     <div className="my-3">
-                        <h1 className="text-3xl font-extrabold text-gray-900">Thrillers that will blow your
-                            mind</h1>
+                        <h1 className="text-3xl font-extrabold text-gray-900">Thrillers that will blow your mind</h1>
                         <HorizontalScroll>
-                            {
-                                topThrillers.map((movie, index) => {
-                                    return (
-                                        <MovieCard title={movie.title ?? movie.name}
-                                                   voteAverage={movie.vote_average}
-                                                   posterPath={movie.poster_path} userRating={movie.user_rating}
-                                                   key={index}
-                                                   movieId={movie.id}
-                                                   customClass={'w-52 mx-2 my-3'}
-                                        />
-                                    )
-                                })
-                            }
+                            {topThrillers.map((movie, index) => {
+                                return (
+                                    <MovieCard
+                                        title={movie.title ?? movie.name}
+                                        voteAverage={movie.vote_average}
+                                        posterPath={movie.poster_path}
+                                        userRating={movie.user_rating}
+                                        key={index}
+                                        movieId={movie.id}
+                                        customClass={"w-52 mx-2 my-3"}
+                                    />
+                                )
+                            })}
                         </HorizontalScroll>
                     </div>
                     <div className="my-3">
-                        <h1 className="text-3xl font-extrabold text-gray-900">Laugh out loud comedies to lift your
-                            spirits</h1>
+                        <h1 className="text-3xl font-extrabold text-gray-900">
+                            Laugh out loud comedies to lift your spirits
+                        </h1>
                         <HorizontalScroll>
-                            {
-                                topComedies.map((movie, index) => {
-                                    return (
-                                        <MovieCard title={movie.title ?? movie.name}
-                                                   voteAverage={movie.vote_average}
-                                                   posterPath={movie.poster_path} userRating={movie.user_rating}
-                                                   key={index}
-                                                   movieId={movie.id}
-                                                   customClass={'w-52 mx-2 my-3'}
-                                        />
-                                    )
-                                })
-                            }
+                            {topComedies.map((movie, index) => {
+                                return (
+                                    <MovieCard
+                                        title={movie.title ?? movie.name}
+                                        voteAverage={movie.vote_average}
+                                        posterPath={movie.poster_path}
+                                        userRating={movie.user_rating}
+                                        key={index}
+                                        movieId={movie.id}
+                                        customClass={"w-52 mx-2 my-3"}
+                                    />
+                                )
+                            })}
                         </HorizontalScroll>
                     </div>
                     <div className="my-3">
                         <h1 className="text-3xl font-extrabold text-gray-900">Best date night films</h1>
                         <HorizontalScroll>
-                            {
-                                topRomances.map((movie, index) => {
-                                    return (
-                                        <MovieCard title={movie.title ?? movie.name}
-                                                   voteAverage={movie.vote_average}
-                                                   posterPath={movie.poster_path} userRating={movie.user_rating}
-                                                   key={index}
-                                                   movieId={movie.id}
-                                                   customClass={'w-52 mx-2 my-3'}
-                                        />
-                                    )
-                                })
-                            }
+                            {topRomances.map((movie, index) => {
+                                return (
+                                    <MovieCard
+                                        title={movie.title ?? movie.name}
+                                        voteAverage={movie.vote_average}
+                                        posterPath={movie.poster_path}
+                                        userRating={movie.user_rating}
+                                        key={index}
+                                        movieId={movie.id}
+                                        customClass={"w-52 mx-2 my-3"}
+                                    />
+                                )
+                            })}
                         </HorizontalScroll>
                     </div>
-                </>) :
+                </>
+            ) : (
                 <div className="w-full text-center pt-16">
-                    <BeatLoader size={30} color={'#3830a3'}/>
-                </div>}
+                    <BeatLoader size={30} color={"#3830a3"} />
+                </div>
+            )}
         </div>
     )
 }
 
-export default Dashboard;
+export default Dashboard

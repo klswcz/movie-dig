@@ -1,4 +1,4 @@
-import {createStore} from 'redux'
+import { createStore } from "redux"
 
 const initialState = {
     alert: {
@@ -9,12 +9,12 @@ const initialState = {
         isVisible: false,
         messageBag: []
     },
-    userEmail: '',
+    userEmail: "",
     ratingCount: 0
 }
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'HIDE_ALERT':
+        case "HIDE_ALERT":
             return {
                 ...state,
                 alert: {
@@ -22,7 +22,7 @@ const rootReducer = (state = initialState, action) => {
                     messageBag: []
                 }
             }
-        case 'SHOW_ALERT':
+        case "SHOW_ALERT":
             return {
                 ...state,
                 alert: {
@@ -30,7 +30,7 @@ const rootReducer = (state = initialState, action) => {
                     messageBag: action.payload
                 }
             }
-        case 'HIDE_FLASH_MESSAGE':
+        case "HIDE_FLASH_MESSAGE":
             return {
                 ...state,
                 flashMessage: {
@@ -38,7 +38,7 @@ const rootReducer = (state = initialState, action) => {
                     messageBag: []
                 }
             }
-        case 'SHOW_FLASH_MESSAGE':
+        case "SHOW_FLASH_MESSAGE":
             return {
                 ...state,
                 flashMessage: {
@@ -46,7 +46,7 @@ const rootReducer = (state = initialState, action) => {
                     messageBag: action.payload
                 }
             }
-        case 'SET_RATING_COUNT':
+        case "SET_RATING_COUNT":
             return {
                 ...state,
                 ratingCount: action.payload
@@ -58,4 +58,4 @@ const rootReducer = (state = initialState, action) => {
     }
 }
 
-export default createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+export default createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
